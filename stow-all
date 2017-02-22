@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -e
+
+PROGRAMS=(autostart globaltime i3 mpd nano ranger xfce4 bash gtk-2.0 gtk-3.0 mpdnotify sublime3 zsh compton livestreamer mps-youtube ncmpcpp tmux htop mpv neofetch xdefaults)
+
+for program in ${PROGRAMS[@]}; do
+  stow $program
+  echo "Configuring $program"
+done
+
+echo "Done!"
