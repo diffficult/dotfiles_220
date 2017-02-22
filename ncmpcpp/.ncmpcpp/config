@@ -1,0 +1,127 @@
+##### connection settings #####
+mpd_host = "localhost"
+mpd_port = "6600"
+mpd_music_dir = "~/Music/"
+
+##### timeouts and delays #####
+mpd_crossfade_time = "2"
+playlist_disable_highlight_delay = "3"
+message_delay_time = "2"
+
+##### visualizer settins #####
+visualizer_fifo_path = "/tmp/mpd.fifo"
+visualizer_output_name = "visualizer"
+#visualizer_sync_interval = "1"
+visualizer_type = "ellipse" (spectrum/wave/ellipse)
+visualizer_look = "▪▫"
+#visualizer_look = "▋∙"
+#visualizer_look = "●▮"
+visualizer_color = "red,yellow,green,cyan,blue,red,yellow,green,cyan,blue,red,yellow,green,cyan,blue,red"
+
+song_status_format = "$2%a $7• $4%t $7• $3%b {}$7• $5%y$7"
+now_playing_prefix = "$b$8»$2»$4»$3» "
+now_playing_suffix = "$/b"
+playlist_display_mode = "columns" (classic/columns)
+autocenter_mode = "yes"
+progressbar_look = "─╼·"
+#progressbar_look = "▀▀ "
+#progressbar_look = "━■"
+#progressbar_look = "=>"
+#progressbar_look = "─- "
+#progressbar_look = "▒▒░"
+#progressbar_look = "┅┅┄"
+#progressbar_look = "─⊙┄"
+#progressbar_look = "─➞─"
+#progressbar_look = "─┅─"
+#progressbar_look = "▪▪▪"
+#progressbar_look = "▪▪▫"
+#progressbar_look = "───"
+#progressbar_look = "▁▁▁"
+#progressbar_look = "‒‒‒"
+#progressbar_look = "■◣ "
+#progressbar_look = "◈◆◇"
+header_visibility = "no"
+statusbar_visibility = "yes"
+titles_visibility = "no"
+cyclic_scrolling = "yes"
+
+jump_to_now_playing_song_at_start = "yes"
+display_bitrate = "no"
+ignore_leading_the = "yes"
+mouse_support = "yes"
+enable_window_title = "yes"
+external_editor = "nano"
+use_console_editor = "yes"
+
+##### colors definitions #####
+## empty_tag_color = "red"
+## header_window_color = "cyan"
+## volume_color = "red"
+## state_line_color = "cyan"
+## color1 = "default"
+## color2 = "green"
+#progressbar_color = "cyan"
+#statusbar_color = "cyan"
+#alternative_ui_separator_color = "cyan"
+
+
+##### colors definitions #####
+colors_enabled = "yes"
+empty_tag_color = "white"
+header_window_color = "white"
+volume_color = "blue"
+state_line_color = "white"
+state_flags_color = "white"
+main_window_color = "blue"
+#color1 = "red"
+#color2 = "blue"
+main_window_highlight_color = "white"
+progressbar_color = "black"
+progressbar_elapsed_color = "cyan"
+statusbar_color = "red"
+alternative_ui_separator_color = "white"
+active_column_color = "white"
+## visualizer_color = "white"
+## window_border_color = "green"
+active_window_border = "red"
+
+
+###Execute external commands
+execute_on_song_change = ~/.ncmpcpp/mpdnotify
+
+
+###●▋▒ ▋▋
+
+##### song format #####
+##
+## for song format you can use:
+##
+## %l - length 
+## %f - filename
+## %D - directory
+## %a - artist
+## %A - album artist
+## %t - title
+## %b - album
+## %y - date
+## %n - track number (01/12 -> 01)
+## %N - full track info (01/12 -> 01/12)
+## %g - genre
+## %c - composer
+## %p - performer
+## %d - disc
+## %C - comment
+## %P - priority
+## $R - begin right alignment
+
+## - 0 - default window color (discards all other colors)
+## - 1 - black
+## - 2 - red
+## - 3 - green
+## - 4 - yellow
+## - 5 - blue
+## - 6 - magenta
+## - 7 - cyan
+## - 8 - white
+## - 9 - end of current color
+##
