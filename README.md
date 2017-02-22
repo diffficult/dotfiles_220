@@ -1,43 +1,34 @@
-# dotfiles_220
+# dotfiles-x220
 
-Basic dotfiles from some x220 machine.
+Current dotfiles on my x220 laptop 
 
-This repo contains config files for
+### Info
 
-* bash
+wm: i3-gaps-git
 
-* i3
+bar: i3bar w/ i3blocks-gaps-git
 
-* mpdnotify
+shell: zsh
 
-* oh-my-zsh (custom files)
+editor: sublime3
 
-* synaptic config
+terminal: xfce4-terminal+urxvt
 
-* Xresources, Xdefaults
+music player: ncmpcpp / cava
 
-* gtk-2.0 & 3.0
+compositor: compton
 
-* livestreamer
+### Scrots
+![scrot1] (scrot1.jpg)
+![scrot2] (scrot2.jpg)
 
-* mps-youtube
-
-* ncmpcpp
-
-* ranger
-
-* tmux
-
-* zsh
-
-* compton
-
-* mpd
-
-* mpv
-
-* neofetch
-
-* sublime3 packages
-
-* xfce4 configs
+##### In the scrots
+* Scrot 1
+   * ncmpcpp
+   
+   * xfce4-terminal + zsh + pure prompt
+   
+   * tmux
+   
+* Scrot 2
+   * clean
