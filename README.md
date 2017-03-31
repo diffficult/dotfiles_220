@@ -19,8 +19,8 @@ music player: ncmpcpp / cava
 compositor: compton
 
 ### Scrots
-![scrot1] (scrot1.jpg)
-![scrot2] (scrot2.jpg)
+![scrot1](scrot1.jpg)
+![scrot2](scrot2.jpg)
 
 ##### In the scrots
 * Scrot 1
