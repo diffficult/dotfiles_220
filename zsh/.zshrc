@@ -99,7 +99,7 @@ alias neowin='neofetch --ascii --ascii_distro windows'
 alias disks='echo "╓───── m o u n t . p o i n t s"; echo "╙────────────────────────────────────── ─ ─ "; lsblk -a; echo ""; echo "╓───── d i s k . u s a g e"; echo "╙────────────────────────────────────── ─ ─ "; df -h;'
 alias cp="cp -iv"
 alias mv="mv -iv"
-
+alias reload_zsh=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 
 
 
@@ -345,3 +345,4 @@ function weather()
     w=`curl --silent http://wttr.in/$1 | head $s`
     echo "${w}"
 }
+source /etc/bash_completion.d/climate_completion

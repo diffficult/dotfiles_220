@@ -3,6 +3,7 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
+set $editor subl3
 
 #Color Variables
 set $base00 #101218
@@ -176,12 +177,23 @@ bindsym $mod+d exec --no-startup-id rofi -show run -lines 3 -font "PragmataPro 1
 
 
 # Screenshot
-bindsym $mod+Shift+Print exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && scrot -q 100 ~/Pictures/Screenshots/scrot-$(date +%Y-%m-%d_%H-%M-%S).jpg"
+#bindsym $mod+Shift+Print exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && scrot -q 100 ~/Pictures/Screenshots/scrot-$(date +%Y-%m-%d_%H-%M-%S).jpg"
+
+set $maimode "[S]crot . scrot&[U]pload . scrot2[C]lipboard . scrot[A]rea"
+bindsym $mod+Shift+Print      mode $maimode
+mode $maimode {
+    bindsym s         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim -m 10 ~/Pictures/Screenshots/scrot-$(date +%Y-%m-%d_%H-%M-%S).png", mode "default"
+    bindsym u         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim -m 10 -s ~/Pictures/Screenshots/upload.png && imgur ~/Pictures/Screenshots/upload.png", mode "default"
+    bindsym c         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim -m 10 -s | xclip -selection clipboard -t", mode "default"
+    bindsym a         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim | feh - -x & maim -m 10 -s ~/Pictures/Screenshots/cropped-$(date +%Y-%m-%d_%H-%M-%S).png", mode "default"
+    bindsym Return    mode "default"
+    bindsym Escape    mode "default"
+}
 
 
 # Wallpaper Random Change
 #bindsym $mod+Shift+w exec "~/.config/i3/myblocks/wallpaper.sh"
-bindsym $mod+Shift+w exec --no-startup-id feh --bg-scale "$(find /usr/share/backgrounds/ -type f |sort -R |tail -1)"
+bindsym $mod+Shift+w exec --no-startup-id feh --bg-fill "$(find /usr/share/backgrounds/ -type f |sort -R |tail -1)"
 
 # Change focus
 bindsym $mod+j focus left
@@ -298,6 +310,7 @@ bindsym $mod+8 workspace $workspace8
 bindsym $mod+9 workspace $workspace9
 bindsym $mod+0 workspace $workspace10
 
+bindsym $mod+Tab workspace back_and_forth
 
 # Move focused container to workspace -----------------------------------------------------------------------------------------
 
@@ -315,9 +328,7 @@ bindsym $mod+Shift+0 move container to workspace $workspace10
 
 # Assign workspaces -----------------------------------------------------------------------------------------------------------
 assign [class="Subl3"] $workspace4
-#assign [class="Pantheon-terminal"] $workspace2
 assign [class="^chromium$"] $workspace1
-#assign [class="chromium"] $workspace1
 assign [class="Firefox"] $workspace5
 # Xfce Related
 assign [class="Nautilus"] $workspace3
@@ -332,12 +343,15 @@ assign [class="mpv"] $workspace7
 assign [class="Gpicview"] $workspace6
 
 # Shutdown, Reboot, Lock Screen, and Logout #657b83 ---------------------------------------------------------------------------
-set $sysmenu "system:  [P]oweroff  [H]ibernate re[B]oot  [L]ock  logou[T] "
+set $sysmenu "[P]oweroff . [H]ibernate . [S]uspend . re[B]oot . [L]ock . logou[T]"
 bindsym $mod+Shift+e      mode $sysmenu
 mode $sysmenu {
     bindsym h         exec --no-startup-id systemctl hibernate, mode "default"
-    bindsym p         exec --no-startup-id shutdown -P now
-    bindsym b         exec --no-startup-id shutdown -r now
+    bindsym s         exec --no-startup-id systemctl suspend 
+ #    bindsym p         exec --no-startup-id shutdown -P now
+    bindsym p         exec --no-startup-id systemctl poweroff 
+ #    bindsym b         exec --no-startup-id shutdown -r now
+    bindsym b         exec --no-startup-id systemctl reboot
     bindsym l         exec --no-startup-id "~/.config/i3/myblocks/lock2 -p -f Pragmata-Pro-Regular", mode "default"
     #bindsym l         exec --no-startup-id "~/.config/i3/myblocks/lock", mode "default"
     #bindsym l         exec --no-startup-id sh ~/.config/i3/i3lock.sh, mode "default"
@@ -460,6 +474,15 @@ bindsym XF86AudioNext exec --no-startup-id mpc --host=0.0.0.0 --port=6600 next
 
 # Window Instances  --------------------------------------------------------------------------------------------------------
 
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="Preferences"] floating enable
+for_window [window_type="dialog"] floating enable
+for_window [window_type="menu"] floating enable
+
+for_window [class="(?i)gsimplecal"] floating enable, move position mouse, move down 34 px
+
 for_window [class="Pavucontrol"] floating enable, border none
 #for_window [class="Sublime_text"] border none
 for_window [class="Subl3"] border none
@@ -475,7 +498,7 @@ for_window [class="File-roller"] floating enable
 for_window [class="URxvt"] border none
 for_window [class="Steam"] floating enable, border normal
 for_window [class="mpv"] floating enable, border none
-for_window [class="Virt-manager"] floating enable
+for_window [class="Virt-manager"] floating stacked
 for_window [class="Nautilus"] floating enable, border none
 for_window [class="^Chromium$"] border none
 for_window [class="^discord$"] border none
@@ -503,7 +526,7 @@ exec --no-startup-id mpd .mpd/mpd.conf
 exec --no-startup-id compton --config ~/.config/compton.conf -CGb
 
 #Set random wallpaper
-exec --no-startup-id feh --bg-scale "$(find /usr/share/backgrounds/ -type f |sort -R |tail -1)"
+exec --no-startup-id feh --bg-fill "$(find /usr/share/backgrounds/ -type f |sort -R |tail -1)"
 
 #Dropbox tray icon
 #optional command only dropbox start -i yo ucan also check dropbox status with dropbox status
