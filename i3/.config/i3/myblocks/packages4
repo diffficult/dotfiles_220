@@ -1,6 +1,8 @@
 #!/usr/bin/bash
 
-PACKAGES=$(pacman -Qu | wc -l)
+#PACKAGES=$(pacman -Qu | wc -l)
+#counts lines and ignores lines with [ignored] packages
+PACKAGES=$(pacman -Qu | grep -v -c ignored)
 #PACKAGES=4
 URGENT_VALUE=10
 FULLICON=
