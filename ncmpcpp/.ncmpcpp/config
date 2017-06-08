@@ -75,12 +75,20 @@ state_flags_color = "white"
 main_window_color = "blue"
 #color1 = "red"
 #color2 = "blue"
-main_window_highlight_color = "white"
+#deprecated main_window_highlight_color
+#main_window_highlight_color = "white"
+#fix
+current_item_prefix = "$(white)$r"
+current_item_suffix = "$/r$(end)"
+#
 progressbar_color = "black"
 progressbar_elapsed_color = "cyan"
 statusbar_color = "red"
 alternative_ui_separator_color = "white"
-active_column_color = "white"
+#deprecated active_column_color = "white"
+#fix
+current_item_inactive_column_prefix = "$(white)$r"
+current_item_inactive_column_suffix = "$/r$(end)"
 ## visualizer_color = "white"
 ## window_border_color = "green"
 active_window_border = "red"
