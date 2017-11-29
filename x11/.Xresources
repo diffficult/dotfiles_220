@@ -21,43 +21,43 @@ Xcursor.theme:				Paper
 
 URxvt*depth:                32
 URxvt*geometry:             90x30
-! URxvt.transparent:          true
-! URxvt.fading:               85
 URxvt*background:				#030508
-! URxvt.background:			rgba:0000/0000/0000/aaaa
-! URxvt.background:			rgba:0000/0000/0200/c800
-! URxvt.urgentOnBell:         true
-! URxvt.visualBell:           true
 URxvt*loginShell:           true
 URxvt*saveLines:            1000
 URxvt*internalBorder:       3
 URxvt*lineSpace:            0
 
+URxvt.font: xft:bitbuntufull:size=8
+URxvt.boldFont:
+URxvt.scrollBar: false
+URxvt.cursorBlink: true
+URxvt.internalBorder: 30
+!URxvt.perl-ext: default,matcher
+!URxvt.matcher.button: 1
+!URxvt.url-launcher: /usr/bin/inox
+URxvt.visualBell: false
+URxvt.depth: 32
+URxvt.iso14755: false
+URxvt.iso14755_52: false
+
+URxvt*secondaryScroll: True
+URxvt*cursorUnderline: False
+URxvt*cursorColor: #D3D3D3
+URxvt*cursorBlink: True
+URxvt*underlineColor: #181818
+
 
 ! Fonts
-URxvt*allow_bold:           false
-URxvt*font:     xft:Tewi:medium:size=8
-URxvt*boldFont: xft:Tewi:bold:size=8
+!URxvt*allow_bold:           false
+!URxvt*font:     xft:Tewi:medium:size=8
+!URxvt*boldFont: xft:Tewi:bold:size=8
 
-! URxvt.font:                 -*-terminess-medium-r-normal-*-12-120-72-72-c-60-iso8859-1
 
-! URxvt*font: xft:PragmataPro:pixelsize=12 
-
-! URxvt*font:     xft:Terminus:medium:size=10 
-! URxvt*boldFont: xft:Terminus:medium:size=10 
-
-! xterm*faceName: xft:Terminus:medium:size=10 
-
-! Fix font space
-! URxvt*letterSpace: -1.1 
-! URxvt*letterSpace: -1 
 URxvt*letterSpace: 1
 
 ! Scrollbar
 URxvt*scrollStyle:          rxvt
 URxvt*scrollBar:            false
-
-! scroll in relation to buffer (with mouse scroll or Shift+Page Up)
 URxvt*scrollWithBuffer: true
 
 ! Perl extensions
@@ -121,33 +121,32 @@ URxvt*pointerBlank:         true
 ! URxvt.color0  : #979797
 ! URxvt.color1  : #000000
 
-! SETTINGS
-! URxvt*scrollBar: False
-! URxvt*scrollColor: #8FF528
-! URxvt*troughColor: #222222
-URxvt*secondaryScroll: True
-! URxvt*saveLines: 1000
-! URxvt*geometry: 78x24
-URxvt*cursorUnderline: False
-URxvt*cursorColor: #D3D3D3
-URxvt*cursorBlink: True
-URxvt*underlineColor: #181818
-! URxvt*depth: 32
-! URxvt*transparent: True
-! URxvt*borderColor: #C2FFA0
 
 
-! TABS SETTINGS
-! URxvt.tabbed.tabbar-fg: 1
-! URxvt.tabbed.tabbar-bg: 0
-! URxvt.tabbed.tab-fg:    1
-! URxvt.tabbed.tab-bg:    0
+! ------------------------------------------------------------------------------
+! ROFI
+! ------------------------------------------------------------------------------
+!rofi.modi: run
+!rofi.font: PragmataPro 16
+!rofi.width: 100
+!rofi.padding: 120
+!rofi.lines: 3
+!rofi.columns: 1
+!rofi.opacity: 80
 
 ! ------------------------------------------------------------------------------
 ! ROFI Color theme
 ! ------------------------------------------------------------------------------
-rofi.color-enabled: true
-rofi.color-window: #1f222d, #1f222d, #000000
-rofi.color-normal: #1f222d, #a6d1fa, #383c4a, #7780a1, #d1d4e0
-rofi.color-active: #1f222d, #268bd2, #383c4a, #268bd2, #d1d4e0
-rofi.color-urgent: #1f222d, #dc322f, #383c4a, #dc322f, #d1d4e0
+rofi.color-enabled:				true
+rofi.separator-style:			solid
+rofi.hide-scrollbar: 			true
+!rofi.color-normal:				argb:BF383c4a, #c4cbd4, argb:BF404552, #4084d6, #d1d4e0
+!rofi.color-urgent:				argb:BF2d303b, #cc6666, argb:BF2d303b, #a54242, #d1d4e0
+!rofi.color-active:				argb:BF2d303b, #b5bd68, argb:BF2d303b, #8c9440, #d1d4e0
+!rofi.color-window:				argb:BF2d303b, #7c8389, #1d1f21
+
+rofi.color-window: argb:BF383c4a, #383c4a, #000000
+rofi.color-normal: argb:BF383c4a, #a6d1fa, argb:BF383c4a, #7780a1, #d1d4e0
+rofi.color-active: argb:BF383c4a, #5294e2, argb:BF383c4a, #5294e2, #d1d4e0
+rofi.color-urgent: argb:BF383c4a, #dc322f, argb:BF383c4a, #dc322f, #d1d4e0
+

@@ -167,7 +167,9 @@ bindsym $mod+Shift+q kill
 #bindsym $mod+d exec --no-startup-id rofi -eh 2
 
 
-bindsym $mod+d exec --no-startup-id rofi -show run -lines 3 -font "PragmataPro 16" -eh 2 -width 100 -padding 120 -opacity "80"
+bindsym $mod+d exec --no-startup-id rofi -show drun -lines 3 -font "PragmataPro 16" -eh 2 -width 100 -padding 90 -show-icons true
+
+#-opacity "80"
 
 #bindsym $mod+d exec rofi -show run -lines 3 -font "PragmataPro 16" -eh 2 -bc "$base01" -bg "$base01" -fg "$base07" -hlbg "$base03" -hlfg "$base05" -width 100 -padding 335 -opacity "85" 
 #bindsym $mod+d exec rofi -show run -lines 3 -font "PragmataPro 16" -eh 2 -color-window "#1f222d, #1f222d, #000000" -color-normal "#1f222d, #ffffff, #101218, #7780a1, #d1d4e0" -color-active "#1f222d, #268bd2, #ffffff, #268bd2, #d1d4e0" -color-urgent "#1f222d, #dc322f, #ffffff, #dc322f, #d1d4e0" -width 100 -padding 335 -opacity "85"
@@ -185,7 +187,7 @@ mode $maimode {
     bindsym s         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim -m 10 ~/Pictures/Screenshots/scrot-$(date +%Y-%m-%d_%H-%M-%S).png", mode "default"
     bindsym u         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim -m 10 -s ~/Pictures/Screenshots/upload.png && imgur ~/Pictures/Screenshots/upload.png", mode "default"
     bindsym c         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim -m 10 -s | xclip -selection clipboard -t", mode "default"
-    bindsym a         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim | feh - -x & maim -m 10 -s ~/Pictures/Screenshots/cropped-$(date +%Y-%m-%d_%H-%M-%S).png", mode "default"
+    bindsym a         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim | maim -m 10 -s ~/Pictures/Screenshots/cropped-$(date +%Y-%m-%d_%H-%M-%S).png", mode "default"
     bindsym Return    mode "default"
     bindsym Escape    mode "default"
 }
@@ -311,6 +313,9 @@ bindsym $mod+9 workspace $workspace9
 bindsym $mod+0 workspace $workspace10
 
 bindsym $mod+Tab workspace back_and_forth
+bindsym $mod+Shift+Tab workspace next
+
+
 
 # Move focused container to workspace -----------------------------------------------------------------------------------------
 
@@ -327,8 +332,8 @@ bindsym $mod+Shift+0 move container to workspace $workspace10
 
 
 # Assign workspaces -----------------------------------------------------------------------------------------------------------
-assign [class="Subl3"] $workspace4
-assign [class="^chromium$"] $workspace1
+assign [class="Sublime_text"] $workspace4
+assign [class="Chromium"] $workspace1
 assign [class="Firefox"] $workspace5
 # Xfce Related
 assign [class="Nautilus"] $workspace3
@@ -410,9 +415,10 @@ bindsym $mod+r mode "resize"
 bar {
         status_command i3blocks -c ~/.config/i3/conf/myblocks.conf
         #i3bar_command i3bar -t
+        verbose yes
         id bar-1
-        tray_output LVDS1
-        output LVDS1
+#        tray_output LVDS1
+#        output LVDS1
         height 16
         strip_workspace_numbers yes
         #mode dock
@@ -484,13 +490,14 @@ for_window [window_type="menu"] floating enable
 for_window [class="(?i)gsimplecal"] floating enable, move position mouse, move down 34 px
 
 for_window [class="Pavucontrol"] floating enable, border none
-#for_window [class="Sublime_text"] border none
+for_window [class="Sublime_text"] border none
 for_window [class="Subl3"] border none
 for_window [class="Files"] border none
 for_window [class="Firefox"] border none
 for_window [class="gnome-power-statistics"] floating enable, border none
 for_window [class="Switchboard"] floating enable, border none
 for_window [class="file_progress"] floatin enable, border none
+for_window [class="feh"] floating enable, border none
 # XFCE specific
 for_window [class="Xfce4-terminal"] border none
 for_window [class="Thunar"] border none
@@ -500,7 +507,7 @@ for_window [class="Steam"] floating enable, border normal
 for_window [class="mpv"] floating enable, border none
 for_window [class="Virt-manager"] floating stacked
 for_window [class="Nautilus"] floating enable, border none
-for_window [class="^Chromium$"] border none
+for_window [class="Chromium"] border none
 for_window [class="^discord$"] border none
 #for_window [class="^Chrome$" title=" - Chromium$"] border none
 #for_window [class="^chrom$"] border 1pixel
@@ -509,12 +516,24 @@ for_window [class="Gpicview"] border none
 # Arch specific
 for_window [class="Pamac-manager"] floating enable, border none
 for_window [class="Pamac-updater"] floating enable, border none
-for_window [class="keepassx2"] floating enable
+for_window [class="(?i)keepassx2"] floating enable, border normal
+#for_window [class="(?i)keepass"] floating enable, border normal
+for_window [class="Gnome-disks"] floating enable, border none
+
+#Graphic glitch fix 
+new_window none
 
 #Execute on startup --------------------------------------------------------------------------------------------------------
 
 # Workspaces test
 #exec --no-startup-id /home/rook/.config/i3/workspace/workspaces_daemon.sh LVDS1
+
+# Set keyboard to US-INTL with accents and deadkey
+
+exec --no-startup-id setxkbmap -layout us -variant intl -option deadkeys
+
+#Autostart gnome-keyring
+exec --no-startup-id gnome-keyring-daemon --start --components=pkcs11,secrets,ssh
 
 #xscreensaver
 exec --no-startup-id xscreensaver -no-splash

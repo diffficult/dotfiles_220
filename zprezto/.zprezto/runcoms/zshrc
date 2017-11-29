@@ -13,6 +13,8 @@ fi
 # Customize to your needs...
 prompt pure
 
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+
 #alias weatherm='curl wttr.in/mendoza'
 #alias weather='curl http://wttr.in/$LOCATION'
 alias neocrux='neofetch --ascii --ascii_distro crux_small'
@@ -21,7 +23,7 @@ alias disks='echo "╓───── m o u n t . p o i n t s"; echo "╙──�
 alias cp="cp -iv"
 alias mv="mv -iv"
 alias reload_zsh=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
-
+alias file2xclip="xclip -sel b <"
 
 
 # ----------- Functions
@@ -266,4 +268,5 @@ function weather()
     w=`curl --silent http://wttr.in/$1 | head $s`
     echo "${w}"
 }
-source /etc/bash_completion.d/climate_completion
+#source /etc/bash_completion.d/climate_completion
+
