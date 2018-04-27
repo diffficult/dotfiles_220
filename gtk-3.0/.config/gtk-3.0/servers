@@ -3,12 +3,22 @@
       xmlns:bookmark="http://www.freedesktop.org/standards/desktop-bookmarks"
       xmlns:mime="http://www.freedesktop.org/standards/shared-mime-info"
 >
-  <bookmark href="smb://192.168.1.100/xbox/" added="2017-05-04T05:37:04Z" modified="2017-05-04T05:37:04Z" visited="2017-05-04T05:37:04Z">
+  <bookmark href="smb://192.168.1.100/xbox/" added="2017-05-04T05:37:04Z" modified="2018-04-26T23:15:28Z" visited="2018-04-26T23:15:28Z">
     <title>xbox on 192.168.1.100</title>
     <info>
       <metadata owner="http://freedesktop.org">
         <bookmark:applications>
-          <bookmark:application name="nautilus" exec="&apos;nautilus %u&apos;" modified="2017-05-04T05:37:04Z" count="1"/>
+          <bookmark:application name="nautilus" exec="&apos;nautilus %u&apos;" modified="2018-04-26T23:15:28Z" count="10"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="smb://192.168.1.100/mp3/" added="2018-04-26T23:53:47Z" modified="2018-04-26T23:53:47Z" visited="2018-04-26T23:53:47Z">
+    <title>mp3 on 192.168.1.100</title>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <bookmark:applications>
+          <bookmark:application name="nautilus" exec="&apos;nautilus %u&apos;" modified="2018-04-26T23:53:47Z" count="1"/>
         </bookmark:applications>
       </metadata>
     </info>

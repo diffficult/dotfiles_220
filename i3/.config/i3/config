@@ -5,26 +5,35 @@
 set $mod Mod4
 set $editor subl3
 
-#Color Variables
+#Color Variables - Original Arc Theme
 set $base00 #101218
 set $base01 #1f222d
 set $base02 #252936
 set $base03 #7780a1
-set $base04 #C0C5CE
+set $base04 #ffffff
 set $base05 #d1d4e0
-set $base06 #C9CCDB
-set $base07 #ffffff
-set $base08 #ee829f
-set $base08 #f4265d
-#set $base08 #26A98B
-#set $base09 #f99170
-set $base0A #ffefcc
-set $base0B #a5ffe1
-set $base0C #97e0ff
-set $base0D #97bbf7
-set $base0E #c0b7f9
-set $base0F #1f222d
-#set $base0F #fcc09e
+set $base06 #FF1B6D
+set $base07 #1f222d
+
+#Color Variables - Gotham Theme
+#???
+#set $base00 #101218   
+#Background 1
+#set $base01 #10151B   
+#Background 2
+#set $base02 #0A0F14   
+#Text Normal
+#set $base03 #599CAA   
+#Text Highlight 1
+#set $base04 #EDB54B   
+#set $base04 #FFFFFF   
+#Text Highlight 2
+#set $base05 #98D1CE
+#Text Urgent
+#set $base06 #C33027
+#Alternative BG 1
+#set $base07 #10151B
+
 
 #Airblader colors
 
@@ -57,7 +66,8 @@ set $base0F #1f222d
 # chose a FreeType font, such as:
 # font pango:DejaVu Sans Mono 10
 #  font pango:glisp 8
-font pango:yuki 8
+font pango:scientifica 8
+#font pango:yuki 8
 #  pango=true
 #  floating_modifier $mod
 #  hide_edge_borders both
@@ -134,7 +144,7 @@ floating_modifier $mod
 
 
 # Lock screen with i3lock
-bindsym $mod+Shift+x exec --no-startup-id  "~/.config/i3/myblocks/lock2 -p -f Pragmata-Pro-Regular"
+bindsym $mod+Shift+x exec --no-startup-id  "~/.config/i3/myblocks/lock2 -p -f PragmataProMono"
 #bindsym $mod+Shift+x exec --no-startup-id "~/.config/i3/myblocks/lock"
 #bindsym $mod+Shift+x exec --no-startup-id i3lock --color "$base01"
 #bindsym $mod+Shift+x exec --no-startup-id "~/.config/i3/myblocks/lock2.sh ~/.i3/myblocks/lock.png"
@@ -167,7 +177,8 @@ bindsym $mod+Shift+q kill
 #bindsym $mod+d exec --no-startup-id rofi -eh 2
 
 
-bindsym $mod+d exec --no-startup-id rofi -show drun -lines 3 -font "PragmataPro 16" -eh 2 -width 100 -padding 90 -show-icons true
+bindsym $mod+d exec --no-startup-id rofi -show drun -lines 4 -font "PragmataPro 14" -eh 2 -width 60 -show-icons true
+
 
 #-opacity "80"
 
@@ -192,6 +203,43 @@ mode $maimode {
     bindsym Escape    mode "default"
 }
 
+# Transparency mode 
+
+bindsym $mod+Shift+t mode "transparency"
+mode "transparency" {
+    bindsym $tld              exec --no-startup-id transset-df -a 0
+    bindsym Shift+$tld        exec --no-startup-id transset-df -a 0.05
+    bindsym 1                 exec --no-startup-id transset-df -a 0.10
+    bindsym Shift+1           exec --no-startup-id transset-df -a 0.15
+    bindsym 2                 exec --no-startup-id transset-df -a 0.20
+    bindsym Shift+2           exec --no-startup-id transset-df -a 0.25
+    bindsym 3                 exec --no-startup-id transset-df -a 0.30
+    bindsym Shift+3           exec --no-startup-id transset-df -a 0.35
+    bindsym 4                 exec --no-startup-id transset-df -a 0.40
+    bindsym Shift+4           exec --no-startup-id transset-df -a 0.45
+    bindsym 5                 exec --no-startup-id transset-df -a 0.50
+    bindsym Shift+5           exec --no-startup-id transset-df -a 0.55
+    bindsym 6                 exec --no-startup-id transset-df -a 0.60
+    bindsym Shift+6           exec --no-startup-id transset-df -a 0.65
+    bindsym 7                 exec --no-startup-id transset-df -a 0.70
+    bindsym Shift+7           exec --no-startup-id transset-df -a 0.75
+    bindsym 8                 exec --no-startup-id transset-df -a 0.80
+    bindsym Shift+8           exec --no-startup-id transset-df -a 0.85
+    bindsym 9                 exec --no-startup-id transset-df -a 0.90
+    bindsym Shift+9           exec --no-startup-id transset-df -a 0.95
+    bindsym 0                 exec --no-startup-id transset-df -a 1.00
+    bindsym Shift+Up          exec --no-startup-id transset-df -a --inc 0.05
+    bindsym Shift+k           exec --no-startup-id transset-df -a --inc 0.05
+    bindsym Up                exec --no-startup-id transset-df -a --inc 0.01
+    bindsym k                 exec --no-startup-id transset-df -a --inc 0.01
+    bindsym Down              exec --no-startup-id transset-df -a --dec 0.01
+    bindsym j                 exec --no-startup-id transset-df -a --dec 0.01
+    bindsym Shift+Down        exec --no-startup-id transset-df -a --dec 0.05
+    bindsym Shift+j           exec --no-startup-id transset-df -a --dec 0.05
+    bindsym q                 mode "default"
+    bindsym Return            mode "default"
+    bindsym Escape            mode "default"
+}
 
 # Wallpaper Random Change
 #bindsym $mod+Shift+w exec "~/.config/i3/myblocks/wallpaper.sh"
@@ -277,6 +325,9 @@ bindsym $mod+Shift+s sticky toggle
 #--------- restart nm applet --------------------------
 bindsym $mod+Shift+n exec killall nm-applet; nohup nm-applet &
 
+#--------- Toggle draw terminalrs on background
+bindsym $mod+z exec --no-startup-id ~/bin/draw_area2
+
 
 # Set workspaces --------------------------------------------------------------------------------------------------------------
 set $workspace1 "1: "
@@ -294,9 +345,9 @@ set $workspace10 "10: "
 #set $workspace10 "10: "
 
 #gaps config
-workspace $workspace2 gaps inner 30
+workspace $workspace2 gaps inner 15
 workspace $workspace2 gaps outer 0
-workspace $workspace8 gaps inner 30
+workspace $workspace8 gaps inner 15
 workspace $workspace8 gaps outer 0
 
 # Switch to workspace ---------------------------------------------------------------------------------------------------------
@@ -333,6 +384,7 @@ bindsym $mod+Shift+0 move container to workspace $workspace10
 
 # Assign workspaces -----------------------------------------------------------------------------------------------------------
 assign [class="Sublime_text"] $workspace4
+assign [class="Subl3"] $workspace4
 assign [class="Chromium"] $workspace1
 assign [class="Firefox"] $workspace5
 # Xfce Related
@@ -341,11 +393,14 @@ assign [class="Thunar"] $workspace3
 assign [class="Xfce4-terminal"] $workspace2
 assign [class="libreoffice-writer"] $workspace6
 assign [class="libreoffice-calc"] $workspace6
+assign [class="libreoffice"] $workspace6
+assign [class="libreoffice-startcenter|Soffice"] $workspace6
 # assign [class="URxvt"] $workspace8
 assign [class="Steam"] $workspace10
 assign [class="Virt-manager"] $workspace10
 assign [class="mpv"] $workspace7
 assign [class="Gpicview"] $workspace6
+
 
 # Shutdown, Reboot, Lock Screen, and Logout #657b83 ---------------------------------------------------------------------------
 set $sysmenu "[P]oweroff . [H]ibernate . [S]uspend . re[B]oot . [L]ock . logou[T]"
@@ -398,10 +453,10 @@ bindsym $mod+r mode "resize"
 
 # Window Colours
 #                         border  background text    indicator
-  client.focused          $base01 $base01    $base07 $base0F
-  client.focused_inactive $base02 $base02    $base03 $base0F
-  client.unfocused        $base02 $base02    $base03 $base0F
-  client.urgent           $base02 $base08    $base00 $base0F
+  client.focused          $base01 $base01    $base04 $base07
+  client.focused_inactive $base02 $base02    $base03 $base07
+  client.unfocused        $base02 $base02    $base03 $base07
+  client.urgent           $base02 $base06    $base00 $base07
 
 # Airblader colors
 
@@ -430,10 +485,10 @@ bar {
               background $base01
               statusline $base05
 #                                border  background text
-              focused_workspace  $base01 $base01    $base07
+              focused_workspace  $base01 $base01    $base04
               active_workspace   $base01 $base02    $base03
               inactive_workspace $base01 $base01    $base03
-              urgent_workspace   $base01 $base01    $base08
+              urgent_workspace   $base01 $base01    $base06
 
 #           Airblader Colours
 #        statusline         $white
@@ -498,11 +553,13 @@ for_window [class="gnome-power-statistics"] floating enable, border none
 for_window [class="Switchboard"] floating enable, border none
 for_window [class="file_progress"] floatin enable, border none
 for_window [class="feh"] floating enable, border none
+for_window [class="(?i)nm-connection-editor"] floating enable, border none
 # XFCE specific
 for_window [class="Xfce4-terminal"] border none
 for_window [class="Thunar"] border none
 for_window [class="File-roller"] floating enable
-for_window [class="URxvt"] border none
+#for_window [class="URxvt"] floating enable, resize set 640 360, border none
+for_window [class="URxvt"] floating enable, border none
 for_window [class="Steam"] floating enable, border normal
 for_window [class="mpv"] floating enable, border none
 for_window [class="Virt-manager"] floating stacked
@@ -519,6 +576,9 @@ for_window [class="Pamac-updater"] floating enable, border none
 for_window [class="(?i)keepassx2"] floating enable, border normal
 #for_window [class="(?i)keepass"] floating enable, border normal
 for_window [class="Gnome-disks"] floating enable, border none
+for_window [class="Blueman-manager"] floating enable
+for_window [class="Terminator Preferences"] border 
+
 
 #Graphic glitch fix 
 new_window none

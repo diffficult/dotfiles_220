@@ -1,74 +1,88 @@
+!┌──────────────────────────────────────────────────────────────────────────┐
+!│▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒│
+!│▒▒┌─────┐░▒┌─────┐░▒┌──────────────┐░▒┌──────────────┐░▒┌──────────────┐░▒│
+!│▒▒│▓▒▒▒▒│░▒│▓▒▒▒▒│░▒│▓▒▒▒▒▒▒▒▒▒▒▒▒▒│░▒│▓▒▒▒▒▒▒▒▒▒▒▒▒▒│░▒│▓▒▒▒▒▒▒▒▒▒▒▒▒▒│░▒│
+!│▒▒│▓▒▒▒▒│░▒│▓▒▒▒▒│░▒│▓▒▒▒▒┌──┐▒▒▒▒▒│░▒│▓▒▒▒▒▒▒▒▒▒▒▒▒▒│░▒│▓▒┌───────────┘░▒│
+!│▒▒│▓▒▒▒▒│░▒│▓▒▒▒▒│░▒│▓▒▒▒▒│░▒│▒▒▒▒▒│░▒│▓▒▒▒▒▒▒▒▒▒▒▒▒▒│░▒│▓▒│░▒▒▒▒▒▒▒▒▒▒▒▒▒│
+!│▒▒│▓▒▒▒▒└──┘▓▒▒▒▒│░▒│▓▒▒▒▒│░▒│▒▒▒▒▒│░▒│▓▒┌───────────┘░▒│▓▒└───────────┐░▒│
+!│▒▒│▓▒▒▒▒▒▒▒▒▒▒▒▒▒│░▒│▓▒▒▒▒└──┘▒▒▒▒▒│░▒│▓▒│░▒▒▒▒▒▒▒▒▒▒▒▒▒│▓▒▒▒▒▒▒▒▒▒▒▒▒▒│░▒│
+!│▒▒│▓▒▒▒▒▒▒▒▒▒▒▒▒▒│░▒│▓▒▒▒▒▒▒▒▒▒▒▒▒┌┘░▒│▓▒└──────────┐░▒▒└───┐▓▒▒▒▒▒▒▒▒▒│░▒│
+!│▒▒└┐▒▒▒▒▒▒▒▒▒▒▒▒┌┘░▒│▓▒▒▒▒▒▒▒▒▒▒▒▒└┐░▒│▓▒▒▒▒▒▒▒▒▒▒▒▒│░▒▒▒▒▒▒│▓▒▒▒▒▒▒▒▒▒│░▒│
+!│▒▒▒│▒▒▒▒▒▒▒▒▒▒▒▒│░▒▒│▓▒▒▒▒┌──┐▓▒▒▒▒│░▒│▓▒┌──────────┘░▒▒┌─┐░│▓▒▒▒▒▒▒▒▒▒│░▒│
+!│▒▒┌┘▒▒▒▒▒▒▒▒▒▒▒▒└┐░▒│▓▒▒▒▒│░▒│▓▒▒▒▒│░▒│▓▒│░▒▒▒▒▒▒▒▒▒▒▒▒▒│▓│░│▓▒▒▒▒▒▒▒▒▒│░▒│
+!│▒▒│▓▒▒▒▒▒▒▒▒▒▒▒▒▒│░▒│▓▒▒▒▒│░▒│▓▒▒▒▒│░▒│▓▒│░▒▒▒▒▒▒▒▒▒▒▒▒▒│▓│░│▓▒▒▒▒▒▒▒▒▒│░▒│
+!│▒▒│▓▒▒▒▒┌──┐▓▒▒▒▒│░▒│▓▒▒▒▒│░▒│▓▒▒▒▒│░▒│▓▒└───────────┐░▒│▓└─┘▓▒▒▒▒▒▒▒▒▒│░▒│
+!│▒▒│▓▒▒▒▒│░▒│▓▒▒▒▒│░▒│▓▒▒▒▒│░▒│▓▒▒▒▒│░▒│▓▒▒▒▒▒▒▒▒▒▒▒▒▒│░▒│▓▒▒▒▒▒▒▒▒▒▒▒▒▒│░▒│
+!│▒▒└─────┘░▒└─────┘░▒└─────┘░▒└─────┘░▒└──────────────┘░▒└──────────────┘░▒│
+!│▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒│
+!└──┐┌──┐▒┌┐▓▒▒▒▒▒▒┌───┐┌┐┌┐▓▒▒▒▒▒▒▒▒┌──┐▓▒▒┌────┐┌┐▓▒▒┌───┐▓▒▒▒▒▒▒▒┌───────┘
+!   ││  │▒│└────┐▓▒│   ││││└────┐▓▒┌─┘  │▒▒▒│    │││▓▒▒│   │▓▒▒▒▒▒▒▒│▒▒▒▒
+!   ││  │▒│     │▓▒│   ││││ ▓▒▒▒│▓▒│    │▒▒▒│     │└┐▓▒│   │▓▒▒▒▒▒▒▒│▒
+!   ││  │▒│     │┌─┘   ││││ ▓   │▓▒│    │▒▒▒│     │ │▓▒│   │▓▒▒▒▒▒▒▒│▒
+!   ││  │▒│     ││▒    ││└┘     │▓▒│    │▒┌─┘       │▓┌┘   │▓▒▒▒▒▒▒▒│
+!   ││  │▓│     ││▒    ││       │▓▒│    │▒│         │▓│    │▓▒▒▒▒▒▒▒│
+!   ││  │▓│     ││     ││   ▓   │▓▒│    └┬┘         │▓│    │▓▒▒▒▒▒▒▒│
+!   ││  └─┘     ││     └┘       │▓▒│     │          │▓│    │▓▒▒▒▒▒▒▒│
+!   ││  ┌─┐     └┘▒      ┌┐     └┬┬┘                └─┘    └┬─┬┬─┬┬┬┘
+!   ││  │▒│              ││      ││                           ││▓│││
+!   └┘  │▓│       ▓      ││       │      │           ▒      │ ││  │
+!       └─┘              └┘                                   │   │
+!   ┌┐  ┌─┐            ┌┐         │                  ▒           │
+!   └┘  │▓│       ▓    ││                                     │
+!   ┌┐  └─┘            ││                                       ▓
+!   └┘                 └┘                                     │  │
+!                                                             │
+!
+!                                                           │
 !-------------------------------------------------------------------------------
 ! Xft settings
 !-------------------------------------------------------------------------------
 
-Xft.dpi:                    96
-Xft.antialias:              true
-! Xft.rgba:                   none
-Xft.rgba:					rgb
-Xft.hinting:                true
-! Xft.hintstyle:              hintslight
-Xft.hintstyle:              hintfull
-Xft.lcdfilter:				lcddefault
+Xft.dpi:					96
+Xft.antialias: 				true
+Xft.rgba: 					rgb
+Xft.hinting: 				true
+Xft.hintstyle: 				hintfull
+Xft.lcdfilter: 				lcddefault
 Xcursor.theme:				Paper
-
-!-------------------------------------------------------------------------------
-! URxvt settings
-! Colours lifted from Solarized (http://ethanschoonover.com/solarized)
-! More info at:
-! http://pod.tst.eu/http://cvs.schmorp.de/rxvt-unicode/doc/rxvt.1.pod
-!-------------------------------------------------------------------------------
 
 URxvt*depth:                32
 URxvt*geometry:             90x30
-URxvt*background:				#030508
+URxvt*background:			#030508
 URxvt*loginShell:           true
 URxvt*saveLines:            1000
 URxvt*internalBorder:       3
 URxvt*lineSpace:            0
 
-URxvt.font: xft:bitbuntufull:size=8
-URxvt.boldFont:
-URxvt.scrollBar: false
-URxvt.cursorBlink: true
-URxvt.internalBorder: 30
-!URxvt.perl-ext: default,matcher
-!URxvt.matcher.button: 1
-!URxvt.url-launcher: /usr/bin/inox
-URxvt.visualBell: false
-URxvt.depth: 32
-URxvt.iso14755: false
-URxvt.iso14755_52: false
-
-URxvt*secondaryScroll: True
-URxvt*cursorUnderline: False
-URxvt*cursorColor: #D3D3D3
-URxvt*cursorBlink: True
-URxvt*underlineColor: #181818
-
-
 ! Fonts
-!URxvt*allow_bold:           false
-!URxvt*font:     xft:Tewi:medium:size=8
-!URxvt*boldFont: xft:Tewi:bold:size=8
+URxvt*font:xft:scientifica:size=8
+URxvt*boldFont:xft:scientifica:bold:size=8
+URxvt*allow_bold:           true
 
-
+! Fix font space
 URxvt*letterSpace: 1
 
 ! Scrollbar
 URxvt*scrollStyle:          rxvt
 URxvt*scrollBar:            false
+
+! scroll in relation to buffer (with mouse scroll or Shift+Page Up)
 URxvt*scrollWithBuffer: true
 
 ! Perl extensions
 URxvt*perl-lib:         /usr/lib/urxvt/perl/
-URxvt.perl-ext-common:	default,clipboard,keyboard-select,matcher
+URxvt.perl-ext-common:	default,matcher,clipboard,keyboard-select
+
+! Clickable URLs
 URxvt.url-launcher: /usr/bin/chromium
 URxvt.matcher.button: 1
 URxvt.underlineURLs:  True
 URxvt.colorUL:	#86a2be
 
-
+! Use Control-Shift-V/C for X clipboard
+URxvt.iso14755: false
+URxvt.keysym.Shift-Control-V: eval:paste_clipboard
+URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
 
 ! Cursor
 ! URxvt.cursorBlink:          true
@@ -79,10 +93,9 @@ URxvt.colorUL:	#86a2be
 URxvt*pointerBlank:         true
 
 ! special
-*.foreground: 	#b3b8c4
-*.background:	#20242c
-*.cursorColor:	#FF8E31
-
+*.foreground:   #b3b8c4
+*.background:   #20242c
+*.cursorColor:  #b3b8c4
 
 ! black
 *.color0:       #213146
@@ -93,7 +106,7 @@ URxvt*pointerBlank:         true
 *.color9:       #ff1b6d
 
 ! green
-*.color2:       #c9f51c
+*.color2:       #32f51c
 *.color10:      #93ea00
 
 ! yellow
@@ -122,31 +135,18 @@ URxvt*pointerBlank:         true
 ! URxvt.color1  : #000000
 
 
-
-! ------------------------------------------------------------------------------
-! ROFI
-! ------------------------------------------------------------------------------
-!rofi.modi: run
-!rofi.font: PragmataPro 16
-!rofi.width: 100
-!rofi.padding: 120
-!rofi.lines: 3
-!rofi.columns: 1
-!rofi.opacity: 80
-
 ! ------------------------------------------------------------------------------
 ! ROFI Color theme
 ! ------------------------------------------------------------------------------
 rofi.color-enabled:				true
 rofi.separator-style:			solid
-rofi.hide-scrollbar: 			true
+!rofi.hide-scrollbar: 			true
 !rofi.color-normal:				argb:BF383c4a, #c4cbd4, argb:BF404552, #4084d6, #d1d4e0
 !rofi.color-urgent:				argb:BF2d303b, #cc6666, argb:BF2d303b, #a54242, #d1d4e0
 !rofi.color-active:				argb:BF2d303b, #b5bd68, argb:BF2d303b, #8c9440, #d1d4e0
 !rofi.color-window:				argb:BF2d303b, #7c8389, #1d1f21
 
-rofi.color-window: argb:BF383c4a, #383c4a, #000000
-rofi.color-normal: argb:BF383c4a, #a6d1fa, argb:BF383c4a, #7780a1, #d1d4e0
-rofi.color-active: argb:BF383c4a, #5294e2, argb:BF383c4a, #5294e2, #d1d4e0
-rofi.color-urgent: argb:BF383c4a, #dc322f, argb:BF383c4a, #dc322f, #d1d4e0
-
+rofi.color-window: argb:BF1f222d, #1f222d, #000000
+rofi.color-normal: argb:BF1f222d, #a6d1fa, argb:BF383c4a, #7780a1, #d1d4e0
+rofi.color-active: argb:BF1f222d, #268bd2, argb:BF383c4a, #268bd2, #d1d4e0
+rofi.color-urgent: argb:BF1f222d, #dc322f, argb:BF383c4a, #dc322f, #d1d4e0

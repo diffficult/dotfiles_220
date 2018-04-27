@@ -22,3 +22,9 @@ shopt -s autocd
 BROWSER=/usr/bin/chromium
 EDITOR=/usr/bin/nano
 # <<< END ADDED BY CNCHI INSTALLER
+# >>> Added by cnchi installer
+BROWSER=/usr/bin/chromium
+EDITOR=/usr/bin/nano
+# >>> Added by cnchi installer
+BROWSER=/usr/bin/chromium
+EDITOR=/usr/bin/nano

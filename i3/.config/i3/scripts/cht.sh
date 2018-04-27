@@ -15,7 +15,7 @@ list_cheatsheets()
 {
     # Initialise and read config
     sheets_dir=""
-    conf=$HOME/.config/i3/scripts/cht.conf
+    conf=$HOME/.config/cht.conf
 
     if [ -f $conf ]; then
         . $conf

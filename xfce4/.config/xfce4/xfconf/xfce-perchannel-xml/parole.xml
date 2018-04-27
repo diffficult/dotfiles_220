@@ -11,9 +11,9 @@
     <property name="font" type="string" value="Sans Bold 20"/>
   </property>
   <property name="window" type="empty">
-    <property name="maximized" type="bool" value="false"/>
+    <property name="maximized" type="bool" value="true"/>
     <property name="width" type="int" value="1366"/>
-    <property name="height" type="int" value="738"/>
+    <property name="height" type="int" value="715"/>
   </property>
   <property name="audio" type="empty">
     <property name="volume" type="int" value="100"/>
