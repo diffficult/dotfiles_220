@@ -321,6 +321,20 @@ killall-zombies() { kill -HUP $(ps -A -ostat,ppid | grep -e '[zZ]'| awk '{ print
 mkdircd() { mkdir -p -v $1; cd $1 ;}	          # create folder then cd into it
 nohup-command() { nohup "$@" >/dev/null 2>&1& }   # background a process w/o error msg filling screen
 open() { xdg-open "$@" > /dev/null 2>&1 ;}        # open with default GUI program
+# view markdown as manpages
+# http://blog.metamatt.com/blog/2013/01/09/previewing-markdown-files-from-the-terminal/
+mdless(){ pandoc -s -f markdown -t man "$*" | groff -T utf8 -man | less ;}
+# quickly cd out of directories using numbers, example: up 2
+up() { local x='';for i in $(seq ${1:-1});do x="$x../"; done;cd $x; }
+# show file access permission
+# http://unix.stackexchange.com/a/46921
+file-permission() { stat --format '%a %n' "$@" ;}
+# display mime of file application/zip, application/x-tar
+file-type() { file --mime-type -b "$@" ;}
+# call vim help page from shell prompt
+function :h { vim +":h $1" +'wincmd o' +'nnoremap q :q!<CR>' ;}
+# display one random command from commandlinefu.com
+cmdfu-random() { echo -e "`curl -sL http://www.commandlinefu.com/commands/random/json|sed -re 's/.*,"command":"(.*)","summary":"([^"]+).*/\\x1b[1;32m\2\\n\\n\\x1b[1;33m\1\\x1b[0m/g'`\n" ;}
 
 # }}}
 #-------- Functions (Good List) {{{
@@ -407,6 +421,23 @@ transfer() {
     rm -f $tmpfile
   done
 }
+
+# searches for manual locally or online
+manned() {
+  for arg in "$@"; do man $arg 2> /dev/null \
+  || $arg -H 2> /dev/null || $arg -h 2> /dev/null \
+  || $arg --help-all 2> /dev/null || $arg --help 2> /dev/null \
+  || help $arg 2> /dev/null \
+  || $BROWSERCLI "http://manned.org/browse/search?q=$@" 2> /dev/null \
+  || $BROWSER "http://manned.org/browse/search?q=$@" 2> /dev/null \
+  || open "http://manned.org/browse/search?q=$@" 2> /dev/null \
+  || xdg-open "http://manned.org/browse/search?q=$@"
+  done
+}
+
+# search commandlinefu.com
+cmdfu() { curl "http://www.commandlinefu.com/commands/matching/$(echo "$@" \
+	| sed 's/ /-/g')/$(echo -n $@ | base64)/plaintext" ;}
 
 # }}}
 
@@ -1081,4 +1112,85 @@ aria2c-webui() {
 
 # }}}
 
+#-------- Webcam {{{
+#------------------------------------------------------
+# DEMO: https://www.youtube.com/watch?v=oYTE3docGLA
+# DESC: using external player to display webcam
+
+# mplayer to display webcam
+# hit 's' to take screenshot, will save in current folder
+# hit 'S' to take series of screenshot, will save in current folder
+# hit 'f' to toggle fullscreen
+# hit 'T' to toggle stay-on-top
+# hit 'q' or 'Esc' to quit
+# https://wiki.archlinux.org/index.php/Webcam_Setup#MPlayer
+webcam-list() { v4l2-ctl --list-formats-ext && v4l2-ctl --list-devices ;}
+webcam-mplayer() { mplayer tv:// -tv driver=v4l2:width=640:height=360:device=/dev/video0 -fps 30 -vf screenshot -ontop -geometry "99%:95%" ;}
+webcam-mplayer-noborder() { mplayer tv:// -tv driver=v4l2:width=640:height=360:device=/dev/video0 -fps 30 -vf screenshot -geometry "98%:98%" -ontop -noborder ;}
+webcam-mplayer-screenshot() { mplayer tv:// -tv driver=v4l2:width=1920:height=1080:device=/dev/video0 -fps 30 -vf screenshot -ontop ;}
+
+# DESC: use webcam to scan for barcode/qrcode
+zbarcam-v4l() {
+  # barcode/qrcode reader using webcam
+  # this is for webcam that was not supported by default
+  # https://fitzcarraldoblog.wordpress.com/2012/10/05/installing-and-using-zbar-in-linux-to-scan-bar-codes-with-your-webcam/
+  # requires: v4l-utils
+  LD_PRELOAD=/usr/lib/libv4l/v4l1compat.so zbarcam /dev/video0
+}
+# }}}
+
+#-------- Detox Filename Cleanup {{{
+#------------------------------------------------------
+# DESC: cleanup filename to different styles
+
+# eg. FOO BAR LinuX.TAR.GZ --> foo_bar_linux.tar.gz
+detox-unix() {
+  myArray=( "$@" )
+  for arg in "${myArray[@]}"; do
+    filter_name=$(echo "$arg" | sed 's/%20/ /g' | sed 's/ /_/g' | tr '[:upper:]' '[:lower:]')
+    mv "$arg" "$filter_name"
+  done
+}
+
+# eg. FOO BAR LinuX.TAR.GZ --> Foo Bar Linux.tar.gz
+detox-human() {
+  myArray=( "$@" )
+  for arg in "${myArray[@]}"; do
+    filter_name=$(echo "$arg" | sed 's/%20/ /g' | sed 's/_/ /g' | tr '[:upper:]' '[:lower:]' | sed 's/\b\([[:alpha:]]\)\([[:alpha:]]*\)\b/\u\1\L\2/g' | sed -e "s/'\(.\)/'\l\1/g" | sed -e "s/\.\(.\)/\.\l\1/g" )
+    mv "$arg" "$filter_name"
+  done
+}
+
+# eg. FOO-BAR-LinuX.TAR.GZ --> Foo Bar Linux.tar.gz
+detox-human-dash() {
+  myArray=( "$@" )
+  for arg in "${myArray[@]}"; do
+    filter_name=$(echo "$arg" | sed 's/%20/ /g' | sed 's/_/ /g' | sed 's/-/ /g' | tr '[:upper:]' '[:lower:]' | sed 's/\b\([[:alpha:]]\)\([[:alpha:]]*\)\b/\u\1\L\2/g' | sed -e "s/'\(.\)/'\l\1/g" | sed -e "s/\.\(.\)/\.\l\1/g" )
+    mv "$arg" "$filter_name"
+  done
+}
+
+detox-video() {
+  if [ $# -lt 1 ]; then
+    echo -e "clean video filename then add [duration,filesize,resolution]"
+    echo -e "Usage: $0 <filename>"
+    echo -e "\nExample:\n$0 file.mp4"
+    echo -e "$0 file1.mp4 file2.mp4 file3.mp4"
+    echo -e "$0 *.mp4"
+    return 1
+  fi
+  myArray=( "$@" )
+  for arg in "${myArray[@]}"; do
+    # check if file is a valid video before continuing
+    get_mimetype=$(file --mime-type -b "$arg" | cut -d '/' -f1)
+    if [ "$get_mimetype"  = "video" ]; then
+      duration=$(ffmpeg -i "$arg" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,// | cut -d '.' -f1 | awk -F: '{print $1"h"$2"m"$3"s"}')
+      filesize=$(du -h "$arg" | awk '{print $1}')
+      resolution=$(ffprobe -v error -of flat=s=_ -select_streams v:0 -show_entries stream=height "$arg" | cut -d '=' -f2)
+      mv "$arg" "${arg%.*} [${duration},${filesize},${resolution}p].${arg##*.}"
+    fi
+  done
+}
+
+# }}}
 
