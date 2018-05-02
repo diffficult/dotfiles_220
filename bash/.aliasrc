@@ -288,6 +288,30 @@ alias disks='echo "╓───── m o u n t . p o i n t s"; echo "╙──�
 # wttr() { curl -H "Accept-Language: ${LANG%_*}" wttr.in/"${1:-Orange}" ;}
 # }}}
 
+#-------- Clipboard and Upload {{{
+#------------------------------------------------------
+# DEMO: http://www.youtube.com/watch?v=fKP0FLp3uW0 (xclip)
+# 	https://www.youtube.com/watch?v=Ww7Sl4d8F8A (pastebinit)
+# DESC: copy/paste for linux machines (Mac style)
+
+alias pbcopy='xclip -selection clipboard'	# copy to clipboard, ctrl+c, ctrl+shift+c
+alias pbpaste='xclip -selection clipboard -o'	# paste from clipboard, ctrl+v, ctrl+shitt+v
+alias pbselect='xclip -selection primary -o'	# paste from highlight, middle click, shift+insert
+alias pbnoformatting='xclip -selection clipboard -o | xclip -selection clipboard'
+
+
+# dump text from clipboard to pastebin server and copy link
+alias pbclipboard2slexy='pbpaste | pastebinit -b "slexy.org" | pbcopy && echo "URL has been copied to clipboard" && pbpaste'
+alias pbclipboard2sprungeus="pbpaste | curl -F 'sprunge=<-' http://sprunge.us | pbcopy && echo 'URL has been copied to clipboard' && pbpaste"
+alias pbclipboard2ixio="pbpaste | curl -F 'f:1=<-' ix.io | pbcopy && echo 'URL has been copied to clipboard' && pbpaste"
+alias pbclipboard2pastebindotcom='pbpaste | pastebinit -b "pastebin.com" | pbcopy && echo "URL has been copied to clipboard" && pbpaste'
+
+alias pbuploadslexy='pbpaste | pastebinit -b "slexy.org" | pbcopy && echo "URL has been copied to clipboard" && pbpaste'
+alias pbuploadsprungeus="cat "$@" | curl -F 'sprunge=<-' http://sprunge.us | pbcopy && echo 'URL has been copied to clipboard' && pbpaste"
+alias pbuploadixio="cat "$1" | curl -F 'f:1=<-' ix.io | pbcopy && echo 'URL has been copied to clipboard' && pbpaste"
+
+# }}}
+
 #-------- Functions (Oneliner) {{{
 #------------------------------------------------------
 
@@ -1013,4 +1037,48 @@ image-rotate() {
 }
 
 # }}}
+
+####################
+##### DOWNLOADS ####
+####################
+
+#-------- Aria2c WebUI {{{
+#------------------------------------------------------
+# downloader for torrents, magnet links, http, ftp, metalinks
+# tutorial video: https://www.youtube.com/watch?v=LCr_0zFcbaM
+alias magnet-to-torrent="aria2c -q --bt-metadata-only --bt-save-metadata"
+aria2c-quit() {
+   killall aria2c
+   kill $(ps -ef | grep '[h]ttp.server' | awk '{print $2}')
+   #kill $(ps -ef | grep '[S]impleHTTPServer' | awk '{print $2}')
+}
+
+aria2c-webui() {
+    # download location
+    DIR_DL=~/Downloads
+
+    # run as daemon
+    aria2c --enable-rpc --rpc-listen-all -D -d "$DIR_DL"
+
+
+    # use python simplehttpserver to host the webui
+    # this avoids download the index.html file on each computer
+    # https://github.com/ziahamza/webui-aria2
+
+    # path to the webui index.html
+    DIR_WEBUI=~/.scripts/webui-aria2/
+
+    # webui-aria2c uses port 6800 so we use 6801 for python_simple_http_server
+    PORT=6801
+    cd "$DIR_WEBUI"
+    nohup python3 -m http.server "$PORT" >/dev/null 2>&1&
+
+    # for older distro
+    # nohup python2 -m SimpleHTTPServer "$PORT" >/dev/null 2>&1&
+
+    echo "connect via http://localhost:$PORT or http://ip_address_of_server:$PORT"
+}
+
+# }}}
+
 
