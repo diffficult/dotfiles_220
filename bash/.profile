@@ -45,3 +45,5 @@ fi
 #done
 
 #export PATH
+
+export BROWSER=/usr/bin/chromium

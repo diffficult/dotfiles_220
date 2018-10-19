@@ -27,7 +27,8 @@ find_alt() { for i;do which "$i" >/dev/null && { echo "$i"; return 0;};done;retu
 # set the default program
 # the first program in the array that is detected on your system will be chosen as the default
 export OPENER=$(find_alt xdg-open exo-open gnome-open )
-export BROWSER=$(find_alt chromium chromium-browser qutebrowser google-chrome firefox $OPENER )
+#export BROWSER=$(find_alt chromium-browser chromium qutebrowser google-chrome firefox $OPENER )
+export BROWSER=/usr/bin/chromium
 # export BROWSER=$(find_alt qutebrowser chromium chromium-browser google-chrome firefox $OPENER )
 #export BROWSERCLI=$(find_alt w3m links2 links lynx elinks $OPENER )
 export BROWSERTOR=$(find_alt tor-browser-en)
@@ -79,6 +80,11 @@ fi
 # User Scripts
 if [ -d "$HOME/.scripts" ] ; then
     export PATH="$HOME/.scripts:$PATH"
+fi
+
+# Alison Desktop
+if [ -d "$HOME/bin/Alison_Desktop" ] ; then
+    export PATH="$HOME/bin/Alison_Desktop:$PATH"
 fi
 
 # if [ -d "$HOME/.scripts/command" ] ; then
@@ -334,7 +340,7 @@ file-type() { file --mime-type -b "$@" ;}
 # call vim help page from shell prompt
 function :h { vim +":h $1" +'wincmd o' +'nnoremap q :q!<CR>' ;}
 # display one random command from commandlinefu.com
-cmdfu-random() { echo -e "`curl -sL http://www.commandlinefu.com/commands/random/json|sed -re 's/.*,"command":"(.*)","summary":"([^"]+).*/\\x1b[1;32m\2\\n\\n\\x1b[1;33m\1\\x1b[0m/g'`\n" ;}
+cmdfu-random() { echo -e "`curl -sL https://www.commandlinefu.com/commands/random/json|sed -re 's/.*,"command":"(.*)","summary":"([^"]+).*/\\x1b[1;32m\2\\n\\n\\x1b[1;33m\1\\x1b[0m/g'`\n" ;}
 
 # }}}
 #-------- Functions (Good List) {{{
@@ -436,8 +442,15 @@ manned() {
 }
 
 # search commandlinefu.com
-cmdfu() { curl "http://www.commandlinefu.com/commands/matching/$(echo "$@" \
-	| sed 's/ /-/g')/$(echo -n $@ | base64)/plaintext" ;}
+cmdfu() { 
+	curl "https://www.commandlinefu.com/commands/matching/$(echo "$@" \ | sed 's/ /-/g')/$(echo -n $@ | base64)/plaintext" | sed "s/\(^#.*\)/\x1b[32m\1\x1b[0m/g" | less -R ;
+}
+
+#cmdfu() { curl "http://www.commandlinefu.com/commands/matching/$@/$(echo -n $@ | openssl base64)/plaintext"; }
+
+#cmdfu(){ 
+#	curl "https://www.commandlinefu.com/commands/matching/$@/$(echo -n $@ | openssl base64)/plaintext" --silent | sed "s/\(^#.*\)/\x1b[32m\1\x1b[0m/g" | less -R 
+#}
 
 # }}}
 
@@ -643,6 +656,7 @@ elif [ "$PKMGR" = "pacaur" ]; then
   pkm-search-local() { pacaur -Qs "$@" ;}
   pkm-upgrade() { pacaur -Syu ;}	# upgrade everything except aur package
   pkm-upgrade-aur() { pacaur --noconfirm -Sbua ;} # only upgrade aur package
+  pkm-list-upgraded() { cat /var/log/pacman.log | grep -i upgraded ;}
 # }}}
 # {{{ pacman
 elif [ "$PKMGR" = "pacman" ]; then
@@ -677,6 +691,7 @@ elif [ "$PKMGR" = "pacman" ]; then
   pkm-search() { pacman -Ss "$@" ;}
   pkm-search-local() { pacman -Qs "$@" ;}
   pkm-upgrade() { sudo pacman -Syu ;}
+  pkm-list-upgraded() { cat /var/log/pacman.log | grep -i upgraded ;}
 # }}}
 # {{{ rug
 elif [ "$PKMGR" = "rug" ]; then
@@ -721,6 +736,7 @@ elif [ "$PKMGR" = "yaourt" ]; then
   pkm-search-local() { yaourt -Qs "$@" ;}
   pkm-upgrade() { yaourt -Syu ;}	# upgrade everything except aur package
   pkm-upgrade-aur() { yaourt --noconfirm -Sbua ;} # only upgrade aur package
+  pkm-list-upgraded() { cat /var/log/pacman.log | grep -i upgraded ;}
 # }}}
 # {{{ yum
 elif [ "$PKMGR" = "yum" ]; then
@@ -1194,3 +1210,11 @@ detox-video() {
 
 # }}}
 
+####################
+##### INTERNET #####
+####################
+
+#-------- Youtube-dl (Stream|Download|RipAudio) {{{
+#------------------------------------------------------
+# DESC: download/stream media from many online sites
+#youtube-dl-stream() { youtube-dl -o - "$1" | $PLAYER - ;}

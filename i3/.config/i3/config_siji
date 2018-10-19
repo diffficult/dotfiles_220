@@ -47,8 +47,8 @@ smart_borders on
 
 # Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
 set $mode_gaps Gaps: (o) outer, (i) inner
-set $mode_gaps_outer Outer Gaps: +(8)|-(9)|0 (local), +(6)|-(7)|0(5) (global)
-set $mode_gaps_inner Inner Gaps: +(8)|-(9)|0 (local), +(6)|-(7)|0(5) (global)
+set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
 bindsym $mod+Shift+g mode "$mode_gaps"
 
 mode "$mode_gaps" {
@@ -59,25 +59,25 @@ mode "$mode_gaps" {
 }
 
 mode "$mode_gaps_inner" {
-        bindsym 8    gaps inner current plus 5
-        bindsym 9    gaps inner current minus 5
-        bindsym 0    gaps inner current set 0
+        bindsym plus  gaps inner current plus 5
+        bindsym minus gaps inner current minus 5
+        bindsym 0     gaps inner current set 0
 
-        bindsym 6    gaps inner all plus 5
-        bindsym 7    gaps inner all minus 5
-        bindsym 5    gaps inner all set 0
+        bindsym Shift+plus  gaps inner all plus 5
+        bindsym Shift+minus gaps inner all minus 5
+        bindsym Shift+0     gaps inner all set 0
 
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
 mode "$mode_gaps_outer" {
-        bindsym 8     gaps outer current plus 5
-        bindsym 9     gaps outer current minus 5
+        bindsym plus  gaps outer current plus 5
+        bindsym minus gaps outer current minus 5
         bindsym 0     gaps outer current set 0
 
-        bindsym 6     gaps outer all plus 5
-        bindsym 7     gaps outer all minus 5
-        bindsym 5     gaps outer all set 0
+        bindsym Shift+plus  gaps outer all plus 5
+        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+0     gaps outer all set 0
 
         bindsym Return mode "default"
         bindsym Escape mode "default"
@@ -281,16 +281,27 @@ bindsym $mod+z exec --no-startup-id ~/bin/draw_area2
 
 
 # Set workspaces --------------------------------------------------------------------------------------------------------------
-set $workspace1 "1: "
-set $workspace2 "2: "
-set $workspace3 "3: "
-set $workspace4 "4: "
-set $workspace5 "5: "
-set $workspace6 "6: "
-set $workspace7 "7: "
-set $workspace8 "8: "
-set $workspace9 "9: "
-set $workspace10 "10: "
+#set $workspace1 "1: "
+#set $workspace1 "1: "
+set $workspace1 "1: "
+#set $workspace2 "2: "
+set $workspace2 "2: "
+#set $workspace3 "3: "
+set $workspace3 "3: "
+#set $workspace4 "4: "
+set $workspace4 "4: "
+#set $workspace5 "5: "
+set $workspace5 "5: "
+#set $workspace6 "6: "
+set $workspace6 "6: "
+#set $workspace7 "7: "
+set $workspace7 "7: "
+#set $workspace8 "8: "
+set $workspace8 "8: "
+#set $workspace9 "9: "
+set $workspace9 "9: "
+#set $workspace10 "10: "
+set $workspace10 "10: "
 
 #gaps config
 workspace $workspace2 gaps inner 15
@@ -364,8 +375,7 @@ mode $sysmenu {
     bindsym l         exec --no-startup-id "~/.config/i3/myblocks/lock2 -p -f Pragmata-Pro-Regular", mode "default"
     #bindsym l         exec --no-startup-id "~/.config/i3/myblocks/lock", mode "default"
     #bindsym l         exec --no-startup-id sh ~/.config/i3/i3lock.sh, mode "default"
- #   bindsym t         exec --no-startup-id i3-msg exit, mode "default"
-    bindsym t         exec --no-startup-id "~/.config/i3/scripts/logout.sh"
+    bindsym t         exec --no-startup-id i3-msg exit, mode "default"
     bindsym Return    mode "default"
     bindsym Escape    mode "default"
 }
@@ -419,17 +429,16 @@ bindsym $mod+r mode "resize"
 
 bar {
         status_command i3blocks -c ~/.config/i3/conf/myblocks.conf
-        i3bar_command i3bar -t
+        #i3bar_command i3bar -t
         verbose yes
         id bar-1
 #        tray_output LVDS1
 #        output LVDS1
         height 16
-        tray_padding 0
         strip_workspace_numbers yes
         #mode dock
-        font pango: yuki, FontAwesome 8
-#        font pango: yuki, siji 8
+#        font pango: yuki, FontAwesome 8
+        font pango: yuki, siji 8
         #tray_output primary
         position top
         colors {
@@ -467,11 +476,11 @@ bar {
 #bindsym XF86AudioRaiseVolume exec --no-startup-id /usr/bin/pactl set-sink-volume 0 -- '+5%'
 
 # Mute volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle && pkill -RTMIN+10 i3blocks # mute sound
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 
 # Old non working bindings in thinkpad
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% && pkill -RTMIN+10 i3blocks 
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% && pkill -RTMIN+10 i3blocks
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% 
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% 
 
 # Media player controls
 #bindsym XF86AudioPlay exec --no-startup-id playerctl play
@@ -512,8 +521,7 @@ for_window [class="Xfce4-terminal"] border none
 for_window [class="Thunar"] border none
 for_window [class="File-roller"] floating enable
 #for_window [class="URxvt"] floating enable, resize set 640 360, border none
-for_window [class="URxvt"] floating enable, border none, resize set 640 320
-for_window [class="Whatsie"] floating enable, border normal, resize set 680 680
+for_window [class="URxvt"] floating enable, border none
 for_window [class="Steam"] floating enable, border normal
 for_window [class="mpv"] floating enable, border none
 for_window [class="Virt-manager"] floating stacked
@@ -572,7 +580,6 @@ exec --no-startup-id "nm-applet --sm-disable &"
 
 #bluetooth tray applet blueman-applet
 exec --no-startup-id blueman-applet
-#exec --no-startup-id 
 
 #Synaptic config, disable edge scrolling
 exec --no-startup-id "synclient VertEdgeScroll=0"
