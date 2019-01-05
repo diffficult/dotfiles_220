@@ -135,18 +135,28 @@ URxvt*pointerBlank:         true
 ! URxvt.color1  : #000000
 
 
+!! Transparency (0-255):
+
+*.alpha: 230
+
+!! Set a default font and font size for st below:
+
+*.font: tewi-8;
+
 ! ------------------------------------------------------------------------------
 ! ROFI Color theme
 ! ------------------------------------------------------------------------------
-rofi.color-enabled:				true
-rofi.separator-style:			solid
-!rofi.hide-scrollbar: 			true
+! rofi.color-enabled:				true
+! rofi.separator-style:				solid
+!rofi.hide-scrollbar:				true
 !rofi.color-normal:				argb:BF383c4a, #c4cbd4, argb:BF404552, #4084d6, #d1d4e0
 !rofi.color-urgent:				argb:BF2d303b, #cc6666, argb:BF2d303b, #a54242, #d1d4e0
 !rofi.color-active:				argb:BF2d303b, #b5bd68, argb:BF2d303b, #8c9440, #d1d4e0
 !rofi.color-window:				argb:BF2d303b, #7c8389, #1d1f21
 
-rofi.color-window: argb:BF1f222d, #1f222d, #000000
-rofi.color-normal: argb:BF1f222d, #a6d1fa, argb:BF383c4a, #7780a1, #d1d4e0
-rofi.color-active: argb:BF1f222d, #268bd2, argb:BF383c4a, #268bd2, #d1d4e0
-rofi.color-urgent: argb:BF1f222d, #dc322f, argb:BF383c4a, #dc322f, #d1d4e0
+! rofi.color-window: argb:BF1f222d, #1f222d, #000000
+! rofi.color-normal: argb:BF1f222d, #a6d1fa, argb:BF383c4a, #7780a1, #d1d4e0
+! rofi.color-active: argb:BF1f222d, #268bd2, argb:BF383c4a, #268bd2, #d1d4e0
+! rofi.color-urgent: argb:BF1f222d, #dc322f, argb:BF383c4a, #dc322f, #d1d4e0
+
+
