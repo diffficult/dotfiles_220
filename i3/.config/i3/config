@@ -17,13 +17,14 @@ set $base07 #1f222d
 
 # font pango:DejaVu Sans Mono 10
 #  font pango:glisp 8
-font pango:scientifica 8
+font pango:scientifica, FontAwesome 8
 #font pango:yuki 8
 #  pango=true
 #  floating_modifier $mod
 #  hide_edge_borders both
 #  new_window none
 
+#set $height 50
 
 # i3-gaps from https://github.com/Airblader/i3
 # Disable window titlebars entirely
@@ -127,15 +128,18 @@ bindsym $mod+Shift+q kill
 
 #bindsym $mod+d exec --no-startup-id rofi -eh 2
 
+bindsym $mod+d exec --no-startup-id rofi -show drun -lines 4 -eh 2
 
-bindsym $mod+d exec --no-startup-id rofi -show drun -lines 4 -font "PragmataPro 14" -eh 2 -width 60 -show-icons true
+#bindsym $mod+d exec --no-startup-id rofi -show drun -lines 4 -font "PragmataPro 12" -eh 2 -width 60 -show-icons true
+#bindsym $mod+Shift-e exec --no-startup-id rofimoji -lines 4 -font "PragmataPro 14" -eh 2 -width 60 -show-icons true
 
+#-modi 'drun,run,emoji:/usr/bin/rofimoji,window,ssh'
 
 #-opacity "80"
 
 #bindsym $mod+d exec rofi -show run -lines 3 -font "PragmataPro 16" -eh 2 -bc "$base01" -bg "$base01" -fg "$base07" -hlbg "$base03" -hlfg "$base05" -width 100 -padding 335 -opacity "85" 
-#bindsym $mod+d exec rofi -show run -lines 3 -font "PragmataPro 16" -eh 2 -color-window "#1f222d, #1f222d, #000000" -color-normal "#1f222d, #ffffff, #101218, #7780a1, #d1d4e0" -color-active "#1f222d, #268bd2, #ffffff, #268bd2, #d1d4e0" -color-urgent "#1f222d, #dc322f, #ffffff, #dc322f, #d1d4e0" -width 100 -padding 335 -opacity "85"
 
+#bindsym $mod+d exec rofi -show run -lines 3 -font "PragmataPro 16" -eh 2 -color-window "#1f222d, #1f222d, #000000" -color-normal "#1f222d, #ffffff, #101218, #7780a1, #d1d4e0" -color-active "#1f222d, #268bd2, #ffffff, #268bd2, #d1d4e0" -color-urgent "#1f222d, #dc322f, #ffffff, #dc322f, #d1d4e0" -width 100 -padding 335 -opacity "85"
 
 #bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 500 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "Pragmata Pro 18"
 
@@ -277,8 +281,9 @@ bindsym $mod+Shift+s sticky toggle
 bindsym $mod+Shift+n exec killall nm-applet; nohup nm-applet &
 
 #--------- Toggle draw terminalrs on background
-bindsym $mod+z exec --no-startup-id ~/bin/draw_area2
-
+bindsym $mod+z exec --no-startup-id ~/.config/i3/scripts/draw_area3
+#bindsym $mod+z exec --no-startup-id ~/.config/i3/scripts/draw_area2
+#bindsym $mod+z exec --no-startup-id ~/.config/i3/scripts/drawterm
 
 # Set workspaces --------------------------------------------------------------------------------------------------------------
 set $workspace1 "1: "
@@ -349,6 +354,7 @@ assign [class="Steam"] $workspace10
 assign [class="Virt-manager"] $workspace10
 assign [class="mpv"] $workspace7
 assign [class="Gpicview"] $workspace6
+assign [class="Zathura"] $workspace7
 
 
 # Shutdown, Reboot, Lock Screen, and Logout #657b83 ---------------------------------------------------------------------------
@@ -512,7 +518,9 @@ for_window [class="Xfce4-terminal"] border none
 for_window [class="Thunar"] border none
 for_window [class="File-roller"] floating enable
 #for_window [class="URxvt"] floating enable, resize set 640 360, border none
-for_window [class="URxvt"] floating enable, border none, resize set 640 320
+for_window [class="URxvt"] floating enable, border none
+#for_window [class="URxvt"] floating enable, border none, resize set 640 320
+for_window [class="St"] floating enable, border none
 for_window [class="Whatsie"] floating enable, border normal, resize set 680 680
 for_window [class="Steam"] floating enable, border normal
 for_window [class="mpv"] floating enable, border none
@@ -521,6 +529,7 @@ for_window [class="Nautilus"] floating enable, border none
 for_window [class="Chromium"] border none
 for_window [class="chromium"] border none
 for_window [class="^discord$"] border none
+for_window [class="zathura"] border none
 #for_window [class="^Chrome$" title=" - Chromium$"] border none
 #for_window [class="^chrom$"] border 1pixel
 #for_window [class="chromium-browser"] border non e
