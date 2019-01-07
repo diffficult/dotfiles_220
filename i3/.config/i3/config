@@ -150,10 +150,10 @@ bindsym $mod+d exec --no-startup-id rofi -show drun -lines 4 -eh 2
 set $maimode "[S]crot . scrot&[U]pload . scrot2[C]lipboard . scrot[A]rea"
 bindsym $mod+Shift+Print      mode $maimode
 mode $maimode {
-    bindsym s         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim -m 10 ~/Pictures/Screenshots/scrot-$(date +%Y-%m-%d_%H-%M-%S).png", mode "default"
-    bindsym u         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim -m 10 -s ~/Pictures/Screenshots/upload.png && imgur ~/Pictures/Screenshots/upload.png", mode "default"
-    bindsym c         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim -m 10 -s | xclip -selection clipboard -t", mode "default"
-    bindsym a         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim | maim -m 10 -s ~/Pictures/Screenshots/cropped-$(date +%Y-%m-%d_%H-%M-%S).png", mode "default"
+    bindsym s         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim -m 10 ~/Pictures/Screenshots/scrot-$(date +%Y-%m-%d_%H-%M-%S).png && notify-send -t 2500 'Screenshot Taken' --icon=/home/poole/.local/share/icons/notify/screenshot.svg", mode "default"
+    bindsym u         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim -m 10 -s ~/Pictures/Screenshots/upload.png && notify-send -t 30000 'Screenshot Uploaded' '$(imgur ~/Pictures/Screenshots/upload.png)' --icon=/home/poole/.local/share/icons/notify/upload-pictures.svg", mode "default"
+    bindsym c         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim -m 10 -s | xclip -selection clipboard -t && notify-send -t 2500 'Screenshot Taken' 'loaded on clipboard' --icon=/home/poole/.local/share/icons/notify/clipboard.svg", mode "default"
+    bindsym a         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim | maim -m 10 -s ~/Pictures/Screenshots/cropped-$(date +%Y-%m-%d_%H-%M-%S).png && notify-send -t 2500 'Screenshot Taken' --icon=/home/poole/.local/share/icons/notify/screenshot.svg", mode "default"
     bindsym Return    mode "default"
     bindsym Escape    mode "default"
 }
@@ -198,7 +198,7 @@ mode "transparency" {
 
 # Wallpaper Random Change
 #bindsym $mod+Shift+w exec "~/.config/i3/myblocks/wallpaper.sh"
-bindsym $mod+Shift+w exec --no-startup-id feh --bg-fill "$(find /usr/share/backgrounds/ -type f |sort -R |tail -1)"
+bindsym $mod+Shift+w exec --no-startup-id feh --bg-fill "$(find /usr/share/backgrounds/ -type f |sort -R |tail -1)" && notify-send -t 2500 "Wallpaper Updated" --icon=/home/poole/.local/share/icons/notify/wallpaper.svg
 
 # Change focus
 bindsym $mod+j focus left
