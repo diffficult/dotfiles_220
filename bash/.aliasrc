@@ -87,6 +87,11 @@ if [ -d "$HOME/bin/Alison_Desktop" ] ; then
     export PATH="$HOME/bin/Alison_Desktop:$PATH"
 fi
 
+# local/bin directory
+if [ -d "$HOME/.local/bin" ] ; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+
 # if [ -d "$HOME/.scripts/command" ] ; then
 #     export PATH="$HOME/.scripts/command:$PATH"
 # fi
@@ -107,6 +112,7 @@ cfg-aliasrc() { $EDITORCLI ~/.aliasrc ;}
 cfg-bashrc() { $EDITORCLI ~/.bashrc ;}
 #cfg-blocklist() { $EDITORCLI ~/.scripts/blocklist.sh ;}
 cfg-cava() { $EDITORCLI ~/.config/cava/config ;}
+cfg-compton() { $EDITORCLI ~/.config/compton.conf ;}
 #cfg-clonezilla() { sudo $EDITORCLI /etc/drbl/drbl.conf ;}
 # https://wiki.archlinux.org/index.php/Cursor_Themes#Choosing_and_Configuring_Cursor_Themes
 #cfg-cursor() { $EDITORCLI ~/.icons/default/index.theme ;}
@@ -1207,6 +1213,16 @@ detox-video() {
     fi
   done
 }
+
+# }}}
+
+####################
+##### CAMERAS #####
+####################
+
+alias showme_cam01="mpv rtsp://admin:admin1234admin@192.168.1.165:554/Channels/101"
+
+
 
 # }}}
 
