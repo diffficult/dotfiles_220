@@ -14,9 +14,9 @@ source /usr/share/doc/pkgfile/command-not-found.bash
 #---Auto CD 
 shopt -s autocd
 
-# >>> BEGIN ADDED BY CNCHI INSTALLER
+
 BROWSER=/usr/bin/chromium
 EDITOR=/usr/bin/nano
-# <<< END ADDED BY CNCHI INSTALLER
 
+#climate completion
 source /etc/bash_completion.d/climate_completion
