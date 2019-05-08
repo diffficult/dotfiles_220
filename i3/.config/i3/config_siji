@@ -17,14 +17,13 @@ set $base07 #1f222d
 
 # font pango:DejaVu Sans Mono 10
 #  font pango:glisp 8
-font pango:scientifica, FontAwesome 8
+font pango:scientifica 8
 #font pango:yuki 8
 #  pango=true
 #  floating_modifier $mod
 #  hide_edge_borders both
 #  new_window none
 
-#set $height 50
 
 # i3-gaps from https://github.com/Airblader/i3
 # Disable window titlebars entirely
@@ -48,8 +47,8 @@ smart_borders on
 
 # Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
 set $mode_gaps Gaps: (o) outer, (i) inner
-set $mode_gaps_outer Outer Gaps: +(8)|-(9)|0 (local), +(6)|-(7)|0(5) (global)
-set $mode_gaps_inner Inner Gaps: +(8)|-(9)|0 (local), +(6)|-(7)|0(5) (global)
+set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
 bindsym $mod+Shift+g mode "$mode_gaps"
 
 mode "$mode_gaps" {
@@ -60,25 +59,25 @@ mode "$mode_gaps" {
 }
 
 mode "$mode_gaps_inner" {
-        bindsym 8    gaps inner current plus 5
-        bindsym 9    gaps inner current minus 5
-        bindsym 0    gaps inner current set 0
+        bindsym plus  gaps inner current plus 5
+        bindsym minus gaps inner current minus 5
+        bindsym 0     gaps inner current set 0
 
-        bindsym 6    gaps inner all plus 5
-        bindsym 7    gaps inner all minus 5
-        bindsym 5    gaps inner all set 0
+        bindsym Shift+plus  gaps inner all plus 5
+        bindsym Shift+minus gaps inner all minus 5
+        bindsym Shift+0     gaps inner all set 0
 
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
 mode "$mode_gaps_outer" {
-        bindsym 8     gaps outer current plus 5
-        bindsym 9     gaps outer current minus 5
+        bindsym plus  gaps outer current plus 5
+        bindsym minus gaps outer current minus 5
         bindsym 0     gaps outer current set 0
 
-        bindsym 6     gaps outer all plus 5
-        bindsym 7     gaps outer all minus 5
-        bindsym 5     gaps outer all set 0
+        bindsym Shift+plus  gaps outer all plus 5
+        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+0     gaps outer all set 0
 
         bindsym Return mode "default"
         bindsym Escape mode "default"
@@ -128,18 +127,15 @@ bindsym $mod+Shift+q kill
 
 #bindsym $mod+d exec --no-startup-id rofi -eh 2
 
-bindsym $mod+d exec --no-startup-id rofi -show drun -lines 4 -eh 2
 
-#bindsym $mod+d exec --no-startup-id rofi -show drun -lines 4 -font "PragmataPro 12" -eh 2 -width 60 -show-icons true
-#bindsym $mod+Shift-e exec --no-startup-id rofimoji -lines 4 -font "PragmataPro 14" -eh 2 -width 60 -show-icons true
+bindsym $mod+d exec --no-startup-id rofi -show drun -lines 4 -font "PragmataPro 14" -eh 2 -width 60 -show-icons true
 
-#-modi 'drun,run,emoji:/usr/bin/rofimoji,window,ssh'
 
 #-opacity "80"
 
 #bindsym $mod+d exec rofi -show run -lines 3 -font "PragmataPro 16" -eh 2 -bc "$base01" -bg "$base01" -fg "$base07" -hlbg "$base03" -hlfg "$base05" -width 100 -padding 335 -opacity "85" 
-
 #bindsym $mod+d exec rofi -show run -lines 3 -font "PragmataPro 16" -eh 2 -color-window "#1f222d, #1f222d, #000000" -color-normal "#1f222d, #ffffff, #101218, #7780a1, #d1d4e0" -color-active "#1f222d, #268bd2, #ffffff, #268bd2, #d1d4e0" -color-urgent "#1f222d, #dc322f, #ffffff, #dc322f, #d1d4e0" -width 100 -padding 335 -opacity "85"
+
 
 #bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 500 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "Pragmata Pro 18"
 
@@ -150,10 +146,10 @@ bindsym $mod+d exec --no-startup-id rofi -show drun -lines 4 -eh 2
 set $maimode "[S]crot . scrot&[U]pload . scrot2[C]lipboard . scrot[A]rea"
 bindsym $mod+Shift+Print      mode $maimode
 mode $maimode {
-    bindsym s         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim -m 10 ~/Pictures/Screenshots/scrot-$(date +%Y-%m-%d_%H-%M-%S).png && notify-send -t 2500 'Screenshot Taken' --icon=/home/poole/.local/share/icons/notify/screenshot.svg", mode "default"
-    bindsym u         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim -m 10 -s ~/Pictures/Screenshots/upload.png && notify-send -t 30000 'Screenshot Uploaded' '$(imgur ~/Pictures/Screenshots/upload.png)' --icon=/home/poole/.local/share/icons/notify/upload-pictures.svg", mode "default"
-    bindsym c         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim -m 10 -s | xclip -selection clipboard -t && notify-send -t 2500 'Screenshot loaded on clipboard' --icon=/home/poole/.local/share/icons/notify/clipboard.svg", mode "default"
-    bindsym a         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim | maim -m 10 -s ~/Pictures/Screenshots/cropped-$(date +%Y-%m-%d_%H-%M-%S).png && notify-send -t 2500 'Screenshot Taken' --icon=/home/poole/.local/share/icons/notify/screenshot.svg", mode "default"
+    bindsym s         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim -m 10 ~/Pictures/Screenshots/scrot-$(date +%Y-%m-%d_%H-%M-%S).png", mode "default"
+    bindsym u         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim -m 10 -s ~/Pictures/Screenshots/upload.png && imgur ~/Pictures/Screenshots/upload.png", mode "default"
+    bindsym c         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim -m 10 -s | xclip -selection clipboard -t", mode "default"
+    bindsym a         exec --no-startup-id "mkdir -p ~/Pictures/Screenshots && maim | maim -m 10 -s ~/Pictures/Screenshots/cropped-$(date +%Y-%m-%d_%H-%M-%S).png", mode "default"
     bindsym Return    mode "default"
     bindsym Escape    mode "default"
 }
@@ -198,7 +194,7 @@ mode "transparency" {
 
 # Wallpaper Random Change
 #bindsym $mod+Shift+w exec "~/.config/i3/myblocks/wallpaper.sh"
-bindsym $mod+Shift+w exec --no-startup-id feh --bg-fill "$(find /usr/share/backgrounds/ -type f |sort -R |tail -1)" && notify-send -t 2500 "Wallpaper Updated" --icon=/home/poole/.local/share/icons/notify/wallpaper.svg
+bindsym $mod+Shift+w exec --no-startup-id feh --bg-fill "$(find /usr/share/backgrounds/ -type f |sort -R |tail -1)"
 
 # Change focus
 bindsym $mod+j focus left
@@ -281,22 +277,31 @@ bindsym $mod+Shift+s sticky toggle
 bindsym $mod+Shift+n exec killall nm-applet; nohup nm-applet &
 
 #--------- Toggle draw terminalrs on background
-bindsym $mod+z exec --no-startup-id ~/.config/i3/scripts/draw_area3
-#bindsym $mod+z exec --no-startup-id ~/.config/i3/scripts/draw_area2
-#bindsym $mod+z exec --no-startup-id ~/.config/i3/scripts/drawterm
+bindsym $mod+z exec --no-startup-id ~/bin/draw_area2
+
 
 # Set workspaces --------------------------------------------------------------------------------------------------------------
-set $workspace1 "1: "
-set $workspace2 "2: "
-set $workspace3 "3: "
-set $workspace4 "4: "
-set $workspace5 "5: "
-set $workspace6 "6: "
-set $workspace7 "7: "
-set $workspace8 "8: "
-set $workspace9 "9: "
-#set $workspace9 "9:  "
-set $workspace10 "10: "
+#set $workspace1 "1: "
+#set $workspace1 "1: "
+set $workspace1 "1: "
+#set $workspace2 "2: "
+set $workspace2 "2: "
+#set $workspace3 "3: "
+set $workspace3 "3: "
+#set $workspace4 "4: "
+set $workspace4 "4: "
+#set $workspace5 "5: "
+set $workspace5 "5: "
+#set $workspace6 "6: "
+set $workspace6 "6: "
+#set $workspace7 "7: "
+set $workspace7 "7: "
+#set $workspace8 "8: "
+set $workspace8 "8: "
+#set $workspace9 "9: "
+set $workspace9 "9: "
+#set $workspace10 "10: "
+set $workspace10 "10: "
 
 #gaps config
 workspace $workspace2 gaps inner 15
@@ -339,7 +344,6 @@ bindsym $mod+Shift+0 move container to workspace $workspace10
 # Assign workspaces -----------------------------------------------------------------------------------------------------------
 assign [class="Sublime_text"] $workspace4
 assign [class="Subl3"] $workspace4
-assign [class="Subl"] $workspace4
 assign [class="Chromium"] $workspace1
 assign [class="chromium"] $workspace1
 assign [class="Firefox"] $workspace5
@@ -356,8 +360,6 @@ assign [class="Steam"] $workspace10
 assign [class="Virt-manager"] $workspace10
 assign [class="mpv"] $workspace7
 assign [class="Gpicview"] $workspace6
-assign [class="Zathura"] $workspace7
-assign [class="TelegramDesktop"] $workspace9
 
 
 # Shutdown, Reboot, Lock Screen, and Logout #657b83 ---------------------------------------------------------------------------
@@ -373,8 +375,7 @@ mode $sysmenu {
     bindsym l         exec --no-startup-id "~/.config/i3/myblocks/lock2 -p -f Pragmata-Pro-Regular", mode "default"
     #bindsym l         exec --no-startup-id "~/.config/i3/myblocks/lock", mode "default"
     #bindsym l         exec --no-startup-id sh ~/.config/i3/i3lock.sh, mode "default"
- #   bindsym t         exec --no-startup-id i3-msg exit, mode "default"
-    bindsym t         exec --no-startup-id "~/.config/i3/scripts/logout.sh"
+    bindsym t         exec --no-startup-id i3-msg exit, mode "default"
     bindsym Return    mode "default"
     bindsym Escape    mode "default"
 }
@@ -428,17 +429,16 @@ bindsym $mod+r mode "resize"
 
 bar {
         status_command i3blocks -c ~/.config/i3/conf/myblocks.conf
-        i3bar_command i3bar -t
+        #i3bar_command i3bar -t
         verbose yes
         id bar-1
 #        tray_output LVDS1
 #        output LVDS1
         height 16
-        tray_padding 0
         strip_workspace_numbers yes
         #mode dock
-        font pango: yuki, FontAwesome 8
-#        font pango: yuki, siji 8
+#        font pango: yuki, FontAwesome 8
+        font pango: yuki, siji 8
         #tray_output primary
         position top
         colors {
@@ -476,11 +476,11 @@ bar {
 #bindsym XF86AudioRaiseVolume exec --no-startup-id /usr/bin/pactl set-sink-volume 0 -- '+5%'
 
 # Mute volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle && pkill -RTMIN+10 i3blocks # mute sound
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 
 # Old non working bindings in thinkpad
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% && pkill -RTMIN+10 i3blocks 
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% && pkill -RTMIN+10 i3blocks
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% 
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% 
 
 # Media player controls
 #bindsym XF86AudioPlay exec --no-startup-id playerctl play
@@ -522,9 +522,6 @@ for_window [class="Thunar"] border none
 for_window [class="File-roller"] floating enable
 #for_window [class="URxvt"] floating enable, resize set 640 360, border none
 for_window [class="URxvt"] floating enable, border none
-#for_window [class="URxvt"] floating enable, border none, resize set 640 320
-for_window [class="St"] floating enable, border none
-for_window [class="Whatsie"] floating enable, border normal, resize set 680 680
 for_window [class="Steam"] floating enable, border normal
 for_window [class="mpv"] floating enable, border none
 for_window [class="Virt-manager"] floating stacked
@@ -532,13 +529,10 @@ for_window [class="Nautilus"] floating enable, border none
 for_window [class="Chromium"] border none
 for_window [class="chromium"] border none
 for_window [class="^discord$"] border none
-for_window [class="zathura"] border none
 #for_window [class="^Chrome$" title=" - Chromium$"] border none
 #for_window [class="^chrom$"] border 1pixel
 #for_window [class="chromium-browser"] border non e
 for_window [class="Gpicview"] border none
-for_window [class="TelegramDesktop"] floating enable, border none
-
 # Arch specific
 for_window [class="Pamac-manager"] floating enable, border none
 for_window [class="Pamac-updater"] floating enable, border none
@@ -579,15 +573,13 @@ exec --no-startup-id feh --bg-fill "$(find /usr/share/backgrounds/ -type f |sort
 #Dropbox tray icon
 #optional command only dropbox start -i yo ucan also check dropbox status with dropbox status
 #exec --no-startup-id dropbox start -i
-#exec --no-startup-id /bin/bash -c "sleep 30 && dropbox stop && env DBUS_SESSION_BUS_ADDRESS="" dropbox start -i"
-exec --no-startup-id "dropbox stop && dbus-launch dropbox start -i"
+exec --no-startup-id /bin/bash -c "sleep 30 && dropbox stop && env DBUS_SESSION_BUS_ADDRESS="" dropbox start -i"
 
 #network tray applet nm-applet
 exec --no-startup-id "nm-applet --sm-disable &"
 
 #bluetooth tray applet blueman-applet
 exec --no-startup-id blueman-applet
-#exec --no-startup-id 
 
 #Synaptic config, disable edge scrolling
 exec --no-startup-id "synclient VertEdgeScroll=0"
@@ -601,18 +593,10 @@ exec --no-startup-id xrdb -load .Xresources
 #XFCE power-manager
 exec --no-startup-id xfce4-power-manager
 
-#XFCE Notify daemon
-#exec --no-startup-id kill xfce4-notifyd
-
-#Autostart DUNST
-#exec --no-startup-id dunst 
-
-
 #exec --no-startup-id "~/.config/i3/myblocks/wallpaper.sh &"
 #exec --no-startup-id "~/.config/i3/myblocks/wallpaper.sh"
 #exec xrandr --output <output> --primary
 #exec_always feh --bg-scale /usr/share/backgrounds/Nostromo_Blue.jpg
-
 #----------------------------------------------------------------------------------------------------------------------------
 
 # Lock screen timeout 

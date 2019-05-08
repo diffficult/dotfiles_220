@@ -300,6 +300,26 @@ alias disks='echo "╓───── m o u n t . p o i n t s"; echo "╙──�
 # wttr() { curl -H "Accept-Language: ${LANG%_*}" wttr.in/"${1:-Orange}" ;}
 # }}}
 
+######
+### Single Wallpapers
+######
+
+alias wall-skull='feh --bg-fill ~/Pictures/just-another-skull.jpg'
+
+
+### find  -name '*fanart.jpg' -exec mogrify -resize 1920x1080\> {} \;
+
+# easy-mount() {
+#  if [ $# -lt 2 ]; then
+#    echo -e "Easy mount to /mnt/tmp"
+#    echo -e "\nUsage:   $0 //IP-Address/Share local_credentials_location"
+#    echo -e "\nExample: easy-mount //192.168.1.1/directory /etc/smbcred"
+#    return 1
+#  fi
+#  sudo mount.cifs $1 /mnt/tmp -o credentidals=$2,rw 0 0
+#}
+
+
 #-------- Clipboard and Upload {{{
 #------------------------------------------------------
 # DEMO: http://www.youtube.com/watch?v=fKP0FLp3uW0 (xclip)
@@ -1220,11 +1240,38 @@ detox-video() {
 ##### CAMERAS #####
 ####################
 
-alias showme_cam01="mpv rtsp://admin:admin1234admin@192.168.1.165:554/Channels/101"
-
+alias showme_cam01="nohup mpv rtsp://admin:admin1234admin@192.168.1.165:554/Channels/101 &"
+alias showme_cam02="nohup mpv rtsp://admin:camaritas2018@192.168.1.164:554/Channels/101 &"
 
 
 # }}}
+
+
+####################
+##### LIFX COM #####
+####################
+
+alias lifx-night="lifx -B 51 -K 1"
+alias lifx-day="lifx -B 60 -K 40"
+alias lifx-on="lifx -1"
+alias lifx-off="lifx -0"
+
+# }}}
+
+
+####################
+#####  RANDOM  #####
+####################
+
+alias subl='subl3'
+alias teststartup2='echo "This is running: systemd-analyze blame | head -n15"; systemd-analyze blame | head -n15'
+alias teststartup='systemd-analyze'
+
+
+# }}}
+
+
+
 
 ####################
 ##### INTERNET #####

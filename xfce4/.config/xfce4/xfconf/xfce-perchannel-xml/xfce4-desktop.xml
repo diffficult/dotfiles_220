@@ -11,6 +11,7 @@
     </property>
     <property name="icon-size" type="empty"/>
     <property name="tooltip-size" type="empty"/>
+    <property name="center-text" type="bool" value="false"/>
   </property>
   <property name="backdrop" type="empty">
     <property name="screen0" type="empty">

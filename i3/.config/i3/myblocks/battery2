@@ -26,6 +26,9 @@ my $bat_number = $ENV{BLOCK_INSTANCE} || 0;
 
 #my $FA_LIGHTNING = "\uf0e7";
 #my $FA_PLUG = "\uf1e6";
+#FA_LIGHTNING = "<span font='FontAwesome'>\uf0e7</span>"
+#my $FA_PLUG = "<span font='FontAwesome'>\uf1e6</span>"
+
 
 # read the first line of the "acpi" command output
 open (ACPI, "acpi -b | grep 'Battery $bat_number' |") or die;
@@ -55,6 +58,7 @@ if ($status eq 'Discharging') {
 	}
 
 } elsif ($status eq 'Charging') {
+#	$full_text = $FA_PLUG . $full_text;
     $full_text = '  ' . $full_text;
 }
 

@@ -141,7 +141,7 @@ URxvt*pointerBlank:         true
 
 !! Set a default font and font size for st below:
 
-*.font: tewi-8;
+*.font: scientifica-8;
 
 ! ------------------------------------------------------------------------------
 ! ROFI Color theme

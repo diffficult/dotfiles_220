@@ -1,6 +1,6 @@
 [Configuration]
 TitleInitial=xfce-term
-FontName=Tewi 8
+FontName=tewi 8
 MiscAlwaysShowTabs=FALSE
 MiscBell=FALSE
 MiscBordersDefault=TRUE
@@ -30,7 +30,7 @@ BackgroundDarkness=0.850000
 ColorCursor=#b3b3b8b8c4c4
 ColorForeground=#b3b3b8b8c4c4
 ColorBackground=#202024242c2c
-ColorPalette=rgb(33,49,70);rgb(249,25,48);rgb(50,245,28);rgb(244,253,34);rgb(4,138,199);rgb(140,84,254);rgb(56,200,181);rgb(204,204,198);rgb(80,83,84);rgb(255,27,109);rgb(147,234,0);rgb(255,102,0);rgb(72,116,255);rgb(158,111,254);rgb(35,207,213);rgb(248,248,242)
+ColorPalette=#212131314646;#f9f919193030;#3232f5f51c1c;#f4f4fdfd2222;#27275757d6d6;#8c8c5454fefe;#3838c8c8b5b5;#ccccccccc6c6;#505053535454;#ffff1b1b6d6d;#9393eaea0000;#ffff66660000;#3f3f7878ffff;#9e9e6f6ffefe;#2323cfcfd5d5;#f8f8f8f8f2f2
 MiscBellUrgent=FALSE
 MiscMouseWheelZoom=TRUE
 MiscMiddleClickOpensUri=FALSE

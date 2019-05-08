@@ -49,3 +49,5 @@ fi
 #bindkey "^[OA" history-substring-search-up
 #bindkey "^[OB" history-substring-search-down
 eval $(thefuck --alias)
+
+source /etc/bash_completion.d/climate_completion

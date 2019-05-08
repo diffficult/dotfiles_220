@@ -45,7 +45,7 @@
     </property>
     <property name="plugin-4" type="string" value="systray">
       <property name="show-frame" type="bool" value="false"/>
-      <property name="size-max" type="uint" value="20"/>
+      <property name="size-max" type="uint" value="16"/>
       <property name="names-visible" type="array">
         <value type="string" value="thunar"/>
         <value type="string" value="firewall-applet"/>
@@ -55,6 +55,7 @@
         <value type="string" value="pragha music player"/>
         <value type="string" value="pamac-tray"/>
         <value type="string" value="blueman-applet"/>
+        <value type="string" value="chromium"/>
         <value type="string" value="solaar"/>
         <value type="string" value="xfce4-power-manager"/>
         <value type="string" value="javaembeddedframe"/>

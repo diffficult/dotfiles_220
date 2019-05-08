@@ -17,8 +17,8 @@
       <property name="Device_Enabled" type="int" value="1"/>
     </property>
     <property name="RightHanded" type="bool" value="true"/>
-    <property name="Threshold" type="int" value="15"/>
-    <property name="Acceleration" type="double" value="2.000000"/>
+    <property name="Threshold" type="int" value="1"/>
+    <property name="Acceleration" type="double" value="5.500000"/>
   </property>
   <property name="TPPS2_IBM_TrackPoint" type="empty">
     <property name="RightHanded" type="bool" value="true"/>

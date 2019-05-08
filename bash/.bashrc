@@ -18,3 +18,5 @@ shopt -s autocd
 BROWSER=/usr/bin/chromium
 EDITOR=/usr/bin/nano
 # <<< END ADDED BY CNCHI INSTALLER
+
+source /etc/bash_completion.d/climate_completion
