@@ -12,6 +12,12 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+
+# Source SETOPT from ~/.config/zsh/setopt.zsh
+if [[ -s "${ZDOTDIR:-$HOME}/.config/zsh/setopt.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.config/zsh/setopt.zsh"
+fi
+
 # Customize to your needs...
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
@@ -51,3 +57,12 @@ fi
 eval $(thefuck --alias)
 
 source /etc/bash_completion.d/climate_completion
+
+# enhancd for prezto
+#source ~/.enhancd/init.sh
+#ENHANCD_FILTER=fzy:fzf; export ENHANCD_FILTER
+#ENHANCD_HOOK_AFTER_CD='ls -A';export ENHANCD_HOOK_AFTER_CD
+
+# History settings
+export HISTSIZE=20000                   # The maximum number of events to save in the internal history.
+export SAVEHIST=20000                   # The maximum number of events to save in the history file.

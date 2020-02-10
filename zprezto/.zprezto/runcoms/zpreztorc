@@ -26,15 +26,16 @@ zstyle ':prezto:*:*' color 'yes'
 zstyle ':prezto:load' pmodule \
   'environment' \
   'terminal' \
+  'command-not-found' \
   'editor' \
   'history' \
   'directory' \
   'spectrum' \
   'utility' \
   'ssh' \
-  'git' \
   'completion' \
   'docker' \
+  'git' \
   'autosuggestions' \
   'syntax-highlighting' \
   'history-substring-search' \
@@ -130,7 +131,7 @@ zstyle ':prezto:module:prompt' theme 'pure'
 #
 
 # Set the SSH identities to load into the agent.
-#zstyle ':prezto:module:ssh:load' identities 'id_rsa'
+zstyle ':prezto:module:ssh:load' identities 'id_rsa' 'work' 'home' 'raccoonesque'
 
 #
 # Syntax Highlighting
@@ -201,3 +202,16 @@ fi
 #if [ -f /etc/bash_completion.d/climate_completion ]; then
 #	source /etc/bash_completion.d/climate_completion
 #fi
+
+
+# Alias Tips
+# Alias-tips is a plugin to help remembering aliases you once defined. It works by trying to find an alias for the command you are currently trying to execute and printing a help line reminding you about the alias. https://www.github.com/djui/alias-tips
+#zstyle ":prezto:module:alias-tips" text "Alias tip: "
+
+
+# enhancd
+#  
+
+#zstyle ":prezto:module:enhancd" command "fzf:fzy:peco"
+#zstyle ":prezto:module:enhancd" command "cd"
+#zstyle ":prezto:module:enhancd" show-fullpath "ENHANCD_DOT_SHOW_FULLPATH"
