@@ -16,9 +16,9 @@ set $base06 #FF1B6D
 set $base07 #1f222d
 
 # font pango:DejaVu Sans Mono 10
-#  font pango:glisp 8
+#  font pango:glisp, FontAwesome 8
 font pango:scientifica, FontAwesome 8
-#font pango:yuki 8
+#  font pango:yuki 8
 #  pango=true
 #  floating_modifier $mod
 #  hide_edge_borders both
@@ -543,6 +543,7 @@ for_window [class="TelegramDesktop"] floating enable, border none
 for_window [class="Pamac-manager"] floating enable, border none
 for_window [class="Pamac-updater"] floating enable, border none
 for_window [class="(?i)keepassx2"] floating enable, border normal
+for_window [class="(?i)keepassxc"] floating enable, border normal
 #for_window [class="(?i)keepass"] floating enable, border normal
 for_window [class="Gnome-disks"] floating enable, border none
 for_window [class="Blueman-manager"] floating enable
@@ -571,7 +572,10 @@ exec --no-startup-id xscreensaver -no-splash
 exec --no-startup-id mpd .mpd/mpd.conf
 
 #compton compositor
-exec --no-startup-id compton --config ~/.config/compton.conf -CGb
+#exec --no-startup-id compton --config ~/.config/compton.conf -CGb
+
+#pico compositor (picom)
+exec --no-startup-id picom --config ~/.config/picom.conf -CGb
 
 #Set random wallpaper
 exec --no-startup-id feh --bg-fill "$(find /usr/share/backgrounds/ -type f |sort -R |tail -1)"

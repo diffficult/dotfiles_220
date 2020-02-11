@@ -286,6 +286,7 @@ alias ......="cd ../../../../.."
 alias neocrux='neofetch --ascii --ascii_distro crux_small'
 alias neowin='neofetch --ascii --ascii_distro windows'
 alias disks='echo "╓───── m o u n t . p o i n t s"; echo "╙────────────────────────────────────── ─ ─ "; lsblk -a; echo ""; echo "╓───── d i s k . u s a g e"; echo "╙────────────────────────────────────── ─ ─ "; df -h;'
+#alias pip-upgradepkg='pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip3 install -U --user'
 
 #alias weatherm='curl wttr.in/mendoza'
 #alias weather='curl http://wttr.in/$LOCATION'
@@ -1240,9 +1241,12 @@ detox-video() {
 ##### CAMERAS #####
 ####################
 
-alias showme_cam01="nohup mpv rtsp://admin:admin1234admin@192.168.1.165:554/Channels/101 &"
-alias showme_cam02="nohup mpv rtsp://admin:camaritas2018@192.168.1.164:554/Channels/101 &"
-
+alias showme_cam01="nohup mpv rtsp://admin:admin1234admin@192.168.1.165:554/Channels/101 </dev/null >/dev/null 2>&1 &"
+alias showme_cam02="nohup mpv rtsp://admin:camaritas2018@192.168.1.164:554/Channels/101 </dev/null >/dev/null 2>&1 &"
+alias colegio_cam01='nohup mpv "rtsp://admin:888888@192.168.1.108:554/cam/realmonitor?channel=01&subtype=0" </dev/null >/dev/null 2>&1 &'
+alias colegio_cam02='nohup mpv "rtsp://admin:888888@192.168.1.108:554/cam/realmonitor?channel=02&subtype=0" </dev/null >/dev/null 2>&1 &'
+alias colegio_cam07='nohup mpv "rtsp://admin:888888@192.168.1.108:554/cam/realmonitor?channel=07&subtype=0" </dev/null >/dev/null 2>&1 &'
+alias colegio_cam10='nohup mpv "rtsp://admin:888888@192.168.1.108:554/cam/realmonitor?channel=10&subtype=0" </dev/null >/dev/null 2>&1 &'
 
 # }}}
 
@@ -1268,9 +1272,36 @@ alias teststartup2='echo "This is running: systemd-analyze blame | head -n15"; s
 alias teststartup='systemd-analyze'
 
 
+
 # }}}
 
 
+
+####################
+#####  LOLZ    #####
+####################
+
+
+alias wtf='dmesg'
+alias onoz='cat /var/log/errors.log'
+alias rtfm='man'
+alias visible='echo'
+alias invisible='cat'
+alias moar='more'
+alias icanhas='mkdir'
+alias donotwant='rm'
+alias dowant='cp'
+alias gtfo='mv'
+alias hai='cd'
+alias plz='pwd'
+alias inur='locate'
+alias nomz='ps aux | less'
+alias nomnom='killall'
+alias cya='reboot'
+alias kthxbai='halt'
+
+
+# }}}
 
 
 ####################

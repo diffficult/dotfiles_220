@@ -20,3 +20,5 @@ EDITOR=/usr/bin/nano
 
 #climate completion
 source /etc/bash_completion.d/climate_completion
+
+source /home/poole/.config/broot/launcher/bash/br
