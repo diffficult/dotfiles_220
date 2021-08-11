@@ -18,9 +18,6 @@ zstyle ':prezto:*:*' color 'yes'
 # Add additional directories to load prezto modules from
 zstyle ':prezto:load' pmodule-dirs $HOME/.zprezto/contrib
 
-# Allow module overrides when pmodule-dirs causes module name collisions
-# zstyle ':prezto:load' pmodule-allow-overrides 'yes'
-
 # Set the Zsh modules to load (man zshmodules).
 # zstyle ':prezto:load' zmodule 'attr' 'stat'
 
@@ -49,7 +46,6 @@ zstyle ':prezto:load' pmodule \
   'fzf' \
   'prompt'
 
-
 #
 # Autosuggestions
 #
@@ -57,14 +53,6 @@ zstyle ':prezto:load' pmodule \
 # Set the query found color.
 zstyle ':prezto:module:autosuggestions:color' found ''
 zstyle ':prezto:module:autosuggestions' color 'yes'
-
-#
-# Completions
-#
-
-# Set the entries to ignore in static */etc/hosts* for host completion.
-# zstyle ':prezto:module:completion:*:hosts' etc-host-ignores \
-#   '0.0.0.0' '127.0.0.1'
 
 #
 # Editor
@@ -107,22 +95,26 @@ zstyle ':prezto:module:editor' key-bindings 'emacs'
 # zstyle ':prezto:module:history-substring-search' globbing-flags ''
 
 #
-# macOS
-#
-
-# Set the keyword used by `mand` to open man pages in Dash.app
-# zstyle ':prezto:module:osx:man' dash-keyword 'manpages'
-
-#
 # Pacman
 #
 
 # Set the Pacman frontend.
- zstyle ':prezto:module:pacman' frontend 'yay'
+zstyle ':prezto:module:pacman' frontend 'yay'
 
 #
 # Prompt
 #
+
+# Set the prompt theme to load.
+# Setting it to 'random' loads a random theme.
+# Auto set to 'off' on dumb terminals.
+zstyle ':prezto:module:prompt' theme 'pure'
+#zstyle ':prezto:module:prompt' theme 'typewritten'
+
+# Set how themes that use promptpwd function display the pwd, can be 'short', 'long', or 'full'
+# zstyle ':prezto:module:prompt' pwd-length 'short'
+
+
 # Pure Prompt Styling and Options
 # new  updated config to follow new pure.zsh formatting
 
@@ -153,16 +145,6 @@ PURE_PROMPT_SYMBOL='%(?.%F{red}❯%F{yellow}❯%F{green}.%F{$prompt_pure_colors[
 # zstyle :prompt:pure:prompt:success color green
 # zstyle :prompt:pure:prompt:continuation color 242
 zstyle :prompt:pure:prompt:error color red 
-
-
-# Set the prompt theme to load.
-# Setting it to 'random' loads a random theme.
-# Auto set to 'off' on dumb terminals.
-zstyle ':prezto:module:prompt' theme 'pure'
-
-
-# Set how themes that use promptpwd function display the pwd, can be 'short', 'long', or 'full'
-# zstyle ':prezto:module:prompt' pwd-length 'short'
 
 
 #
@@ -197,7 +179,7 @@ zstyle ':prezto:module:prompt' theme 'pure'
 #
 
 # Set the SSH identities to load into the agent.
-zstyle ':prezto:module:ssh:load' identities 'id_rsa' 'work' 'home' 'raccoonesque'
+zstyle ':prezto:module:ssh:load' identities 'id_rsa' 'home' 'work' 'raccoonesque' 'gitlab'
 
 #
 # Syntax Highlighting
@@ -205,7 +187,7 @@ zstyle ':prezto:module:ssh:load' identities 'id_rsa' 'work' 'home' 'raccoonesque
 
 # Set syntax highlighters.
 # By default, only the main highlighter is enabled.
- zstyle ':prezto:module:syntax-highlighting' highlighters \
+zstyle ':prezto:module:syntax-highlighting' highlighters \
    'main' \
    'brackets' \
    'pattern' \
@@ -228,16 +210,16 @@ zstyle ':prezto:module:ssh:load' identities 'id_rsa' 'work' 'home' 'raccoonesque
 #
 
 # Auto set the tab and window titles.
- zstyle ':prezto:module:terminal' auto-title 'yes'
+zstyle ':prezto:module:terminal' auto-title 'yes'
 
 # Set the window title format.
-# zstyle ':prezto:module:terminal:window-title' format '%n@%m: %s'
+#zstyle ':prezto:module:terminal:window-title' format '%n@%m: %s'
 
 # Set the tab title format.
 # zstyle ':prezto:module:terminal:tab-title' format '%m: %s'
 
 # Set the terminal multiplexer title format.
-# zstyle ':prezto:module:terminal:multiplexer-title' format '%s'
+#zstyle ':prezto:module:terminal:multiplexer-title' format '%s'
 
 #
 # Tmux
@@ -256,28 +238,16 @@ zstyle ':prezto:module:ssh:load' identities 'id_rsa' 'work' 'home' 'raccoonesque
 # zstyle ':prezto:module:tmux:session' name 'YOUR DEFAULT SESSION NAME'
 
 #
-# Utility
+# command-not-found
 #
-
-# Enabled safe options. This aliases cp, ln, mv and rm so that they prompt
-# before deleting or overwriting files. Set to 'no' to disable this safer
-# behavior.
-# zstyle ':prezto:module:utility' safe-ops 'yes'
+#zstyle ':prezto:module:command-not-found'
 
 
 #Aliases
 
-if [ -f $HOME/.aliasrc ]; then
-    . $HOME/.aliasrc
-fi
-
-
-#Climate Completion
-#not working, added to .zshrc
-#if [ -f /etc/bash_completion.d/climate_completion ]; then
-#       source /etc/bash_completion.d/climate_completion
+#if [ -f $HOME/.zsh_aliases ]; then
+#    . $HOME/.zsh_aliases
 #fi
-
 
 # Alias Tips
 # Alias-tips is a plugin to help remembering aliases you once defined. It works by trying to find>
@@ -287,13 +257,14 @@ zstyle ":prezto:module:alias-tips" text "Alias tip: "
 # enhancd
 #
 
-zstyle ':prezto:module:enhancd' command 'fzf:fzy:peco'
+zstyle ':prezto:module:enhancd' command 'fzy'
 zstyle ':prezto:module:enhancd' command 'cd'
 zstyle ':prezto:module:enhancd' show-fullpath "ENHANCD_DOT_SHOW_FULLPATH"
 
 # fzf
 # 
-# https://github.com/gpanders/fzf-prezto
+# https://github.com/gpanders/fzf-prezto >> old unmaitained in use @x220
+# https://github.com/lildude/fzf-prezto >> newest currently in use @Desktop 
 
 # Use keybindings
 zstyle ':prezto:module:fzf' key-bindings 'yes'
@@ -312,4 +283,4 @@ zstyle ':prezto:module:fzf' tmux 'yes'
 # To add more color schemes of your own, consult
 # https://github.com/junegunn/fzf/wiki/Color-schemes and add values to the
 # color.zsh file accordingly
-zstyle ':prezto:module:fzf' colorscheme 'Solarized Light'
+zstyle ':prezto:module:fzf' colorscheme 'JellyX'

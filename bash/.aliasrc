@@ -13,8 +13,6 @@
 #export TERM="screen-256color"
 # export TERM="xterm-256color"
 
-# fix vlc no video issue
-#export VDPAU_DRIVER=va_gl
 
 #}}}
 #-------- Set Default Programs {{{
@@ -28,19 +26,17 @@ find_alt() { for i;do which "$i" >/dev/null && { echo "$i"; return 0;};done;retu
 # the first program in the array that is detected on your system will be chosen as the default
 export OPENER=$(find_alt xdg-open exo-open gnome-open )
 #export BROWSER=$(find_alt chromium-browser chromium qutebrowser google-chrome firefox $OPENER )
-export BROWSER=/usr/bin/chromium
+#export BROWSER=/usr/bin/chromium
+export BROWSER=/usr/bin/google-chrome-stable
 # export BROWSER=$(find_alt qutebrowser chromium chromium-browser google-chrome firefox $OPENER )
 #export BROWSERCLI=$(find_alt w3m links2 links lynx elinks $OPENER )
 export BROWSERTOR=$(find_alt tor-browser-en)
-#export COMICER=$(find_alt mcomix comix zathura $OPENER )
 export EBOOKER=$(find_alt ebook-viewer $OPENER )
 export EDITOR=$(find_alt vim vi emacs nano leafpad gedit pluma $OPENER )
 export EDITORCLI=$(find_alt nano pico vim vi gedit pluma $OPENER )
 export EDITORGUI=$(find_alt mousepad leafpad gedit pluma $OPENER )
-#export WORDPROCESSOR=$(find_alt wordgrinder $OPENER )
-#export FILEMANAGER=$(find_alt pcmanfm thunar nautilus dolphin spacefm enlightenment_filemanager $OPENER )
+export FILEMANAGER=$(find_alt nautilus dolphin spacefm thunar enlightenment_filemanager $OPENER )
 export FILEMANAGERCLI=$(find_alt ranger vifm mc $OPENER )
-#export MUSICER=$(find_alt mpv mplayer mpg123 cvlc $OPENER )
 export PAGER=$(find_alt less more most)
 export PLAYER=$(find_alt mpv mplayer ffplay cvlc $OPENER )
 export READER=$(find_alt mupdf zathura evince $OPENER )
@@ -55,17 +51,9 @@ export QUEUER=$(find_alt tsp fq ts )
 #------------------------------------------------------
 # http://askubuntu.com/questions/49784/how-is-bin-added-to-my-path
 # Local installed package
-#if [ -d "$HOME/.local/bin" ] ; then
-#    PATH="$HOME/.local/bin:$PATH"
-#fi
-#if [ -d "$HOME/bin" ] ; then
-#    PATH="$HOME/bin:$PATH"
-#fi
-#if [ -d "$HOME/.screenlayout" ] ; then
-#	PATH="$HOME/.screenlayout:$PATH"
-#fi
+
 # if [ -d "$HOME/.config/vifm/scripts" ] ; then
-# 	PATH="$HOME/.config/vifm/scripts:$PATH"
+#   PATH="$HOME/.config/vifm/scripts:$PATH"
 # fi
 
 # Go Packages (Golang)
@@ -73,8 +61,13 @@ export QUEUER=$(find_alt tsp fq ts )
 #export PATH="$PATH:$GOPATH/bin"
 
 # NPM NodeJS Packages
-if [ -d "$HOME/node_modules/.bin" ] ; then
-    export PATH="$HOME/node_modules/.bin:$PATH"
+if [ -d "$HOME/node_modules/bin" ] ; then
+    export PATH="$HOME/node_modules/bin:$PATH"
+fi
+
+#NPM config
+if [ -d "$HOME/.config/npm" ] ; then
+    export PATH="$HOME/.config/npm:$PATH"
 fi
 
 # User Scripts
@@ -83,13 +76,28 @@ if [ -d "$HOME/.scripts" ] ; then
 fi
 
 # Alison Desktop
-if [ -d "$HOME/bin/Alison_Desktop" ] ; then
-    export PATH="$HOME/bin/Alison_Desktop:$PATH"
+if [ -d "$HOME/.local/bin/Alison_Desktop" ] ; then
+    export PATH="$HOME/.local/bin/Alison_Desktop:$PATH"
 fi
 
-# local/bin directory
-if [ -d "$HOME/.local/bin" ] ; then
-    export PATH="$HOME/.local/bin:$PATH"
+# User Scripts on local/bin user
+if [ -d "$HOME/.local/bin/scripts" ] ; then
+    export PATH="$HOME/.local/bin/scripts:$PATH"
+fi
+
+# tools directory inside local/bin
+if [ -d "$HOME/.local/bin/scripts/tools" ] ; then
+    export PATH="$HOME/.local/bin/scripts/tools:$PATH"
+fi
+
+# cron directory inside local/bin
+if [ -d "$HOME/.local/bin/scripts/tools" ] ; then
+    export PATH="$HOME/.local/bin/scripts/tools:$PATH"
+fi
+
+# i3cmds directory
+if [ -d "$HOME/.local/bin/scripts/i3cmds" ] ; then
+    export PATH="$HOME/.local/bin/scripts/i3cmds:$PATH"
 fi
 
 # if [ -d "$HOME/.scripts/command" ] ; then
@@ -106,78 +114,34 @@ fi
 #-------- Configurations {{{
 #------------------------------------------------------
 cfg-aliasrc() { $EDITORCLI ~/.aliasrc ;}
-#cfg-abookrc() { $EDITORCLI ~/.abook/abookrc ;}
-#cfg-addressbook() { $EDITORCLI ~/.abook/addressbook ;}
-#cfg-autostartrc() { $EDITORCLI ~/.autostartrc ;}
 cfg-bashrc() { $EDITORCLI ~/.bashrc ;}
-#cfg-blocklist() { $EDITORCLI ~/.scripts/blocklist.sh ;}
 cfg-cava() { $EDITORCLI ~/.config/cava/config ;}
-cfg-compton() { $EDITORCLI ~/.config/compton.conf ;}
-#cfg-clonezilla() { sudo $EDITORCLI /etc/drbl/drbl.conf ;}
-# https://wiki.archlinux.org/index.php/Cursor_Themes#Choosing_and_Configuring_Cursor_Themes
-#cfg-cursor() { $EDITORCLI ~/.icons/default/index.theme ;}
-#cfg-cursor-list() { ls ~/.icons ;}
-#cfg-emacs() { $EDITORCLI ~/.emacs ;}
-#cfg-emulationstation() { $EDITORCLI ~/.emulationstation/es_systems.cfg ;}
-#cfg-emulationstation-input() { $EDITORCLI ~/.emulationstation/es_input.cfg ;}
-#cfg-flexget() { $EDITORCLI ~/.flexget/config.yml ;}
+cfg-compton() { $EDITORCLI ~/.config/picom.conf ;}
 cfg-fstab() { sudo $EDITORCLI /etc/fstab ;}
-#cfg-gitignore() { $EDITORCLI ~/Public/dotfiles/.gitignore ;}
-#cfg-greenclip() { killall greenclip ; $EDITORCLI ~/.config/greenclip.cfg && nohup greenclip daemon > /dev/null 2>&1 & }
 cfg-group() { sudo $EDITORCLI /etc/group ;}
 cfg-grub() { sudo $EDITORCLI /etc/default/grub ;}
 cfg-hintrc() { $EDITORCLI ~/.hintrc ;}
 cfg-hosts() { sudo $EDITORCLI /etc/hosts ;}
-#cfg-hyperterminal() { $EDITORCLI ~/.hyper.js ;}
 cfg-i3wm() { $EDITORCLI ~/.i3/config ;}
 cfg-inputrc() { $EDITORCLI ~/.inputrc ;}
-#cfg-internetarchive() { $EDITORCLI ~/.config/ia.ini ;} # archive.org downloader https://internetarchive.readthedocs.io/en/latest/
-#cfg-keynavrc() { $EDITORCLI ~/.keynavrc ;}
-#cfg-kodi-keyboard() { $EDITORCLI ~/.kodi/userdata/keymaps/keyboard.xml ;}
-#cfg-kodi-confluencethumbnailview() { sudo $EDITORCLI /usr/share/kodi/addons/skin.confluence/720p/MyVideoNav.xml ;}
-#cfg-lgogdownloader() { $EDITORCLI ~/.config/lgogdownloader/config.cfg ;}
 cfg-livestreamer() { $EDITORCLI ~/.livestreamerrc ;}
-#cfg-mailcap() { $EDITORCLI ~/.mailcap ;}
-#cfg-mbsyncrc() { $EDITORCLI ~/.mbsyncrc ;}
-#cfg-mc() { $EDITORCLI ~/.config/mc/ini ;}
-#cfg-mc-keymap() { $EDITORCLI ~/.config/mc/mc.keymap ;}
-#cfg-mcomix() { $EDITORCLI ~/.config/mcomix/keybindings.conf ;}
 cfg-megarc() { $EDITORCLI ~/.megarc ;}
 cfg-mpd() { $EDITORCLI ~/.mpd/mpd.conf ;}
-#cfg-mplayer() { $EDITORCLI ~/.mplayer/config ;}
 cfg-mpv() { $EDITORCLI ~/.config/mpv/mpv.conf ;}
 cfg-mpv-input() { $EDITORCLI ~/.config/mpv/input.conf ;}
-#cfg-mocp() { $EDITORCLI ~/.moc/config ;}
-#cfg-muttrc() { $EDITORCLI ~/.muttrc ;}
 cfg-nanorc() { $EDITORCLI ~/.nanorc ;}
-#cfg-nap() { $EDITORCLI ~/.nap/napconf ;}
 cfg-ncmpcpp() { $EDITORCLI ~/.ncmpcpp/config ;}
 cfg-ncmpcpp-bindings() { $EDITORCLI ~/.ncmpcpp/bindings ;}
-#cfg-netrc() { $EDITORCLI ~/.netrc;}
-#cfg-newsbeuter() { $EDITORCLI ~/.newsbeuter/config ;}
-#cfg-newsbeuter-queue() { $EDITORCLI ~/.newsbeuter/queue ;}
-#cfg-newsbeuter-urls() { $EDITORCLI ~/.newsbeuter/urls ;}
 cfg-newsboat() { $EDITORCLI ~/.newsboat/config ;}
 cfg-newsboat-queue() { $EDITORCLI ~/.newsboat/queue ;}
 cfg-newsboat-urls() { $EDITORCLI ~/.newsboat/urls ;}
-#cfg-nvim() { $EDITORCLI ~/.config/nvim/init.vim ;}
-#cfg-pastebinit() { $EDITORCLI ~/.pastebinit.xml ;}
-#cfg-pianobar() { $EDITORCLI ~/.config/pianobar/config ;}
-#cfg-pianobar-libao() { sudo $EDITORCLI /etc/libao.conf ;}
 cfg-profile() { $EDITORCLI ~/.profile ;}
 cfg-pulseaudio() { sudo $EDITORCLI /etc/pulse/default.pa ;}
-#cfg-pyload() { $EDITORCLI ~/.pyload/pyload.conf ;}
-#cfg-pyradio() { $EDITORCLI ~/.pyradio/stations.csv ;}
-#cfg-quicktile() { $EDITORCLI ~/.config/quicktile.cfg ;}
-#cfg-rofibangs() { $EDITORCLI ~/.scripts/rofi-scripts-collection/rofi-bangs.sh ;}
+cfg-quicktile() { $EDITORCLI ~/.config/quicktile.cfg ;}
 cfg-ranger() { $EDITORCLI ~/.config/ranger/rc.conf ;}
-#cfg-ranger-rifle() { $EDITORCLI ~/.config/ranger/rifle.conf ;}
-#cfg-ranger-commands() { $EDITORCLI ~/.config/ranger/commands.py ;}
-#cfg-retroarch() { $EDITORCLI ~/.config/retroarch/retroarch.cfg ;}
-#cfg-rtv() { $EDITORCLI ~/.config/rtv/rtv.cfg ;}
+cfg-ranger-rifle() { $EDITORCLI ~/.config/ranger/rifle.conf ;}
+cfg-ranger-commands() { $EDITORCLI ~/.config/ranger/commands.py ;}
 cfg-samba() { sudo $EDITORCLI /etc/samba/smb.conf ;}
-#cfg-skippyxd() { $EDITORCLI ~/.skippy-xd.rc ;}
-#cfg-slrnrc() { $EDITORCLI ~/.slrnrc ;}
 cfg-ssh-client() { sudo $EDITORCLI /etc/ssh/ssh_config ;}
 cfg-ssh-daemon() { sudo $EDITORCLI /etc/ssh/sshd_config ;}
 cfg-sudoers() { sudo $EDITORCLI /etc/sudoers ;}
@@ -188,13 +152,6 @@ cfg-tmuxrc() { $EDITORCLI ~/.tmux.conf ;}
 cfg-tor() { sudo $EDITORCLI /etc/tor/torrc ;}
 cfg-tor-user() { $EDITORCLI ~/.torrc ;}
 cfg-torrentflix() { torrentflix --config=$EDITORCLI ;}
-#cfg-torrench() { $EDITORCLI ~/.config/torrench/config.ini ;}
-#cfg-tpb() { $EDITORCLI ~/.scripts/tpb.sh ;}
-#cfg-transmission-daemon() { $EDITORCLI ~/.config/transmission-daemon/settings.json ;}
-#cfg-transmission-ncurse() { $EDITORCLI ~/.config/transmission-remote-cli/settings.cfg ;}
-#cfg-trz() { $EDITORCLI ~/.scripts/trz.sh ;}
-#cfg-turses() { $EDITORCLI ~/.turses/config ;}
-#cfg-urlview() { $EDITORCLI ~/.urlview ;}
 cfg-updatedb() { sudo $EDITORCLI /etc/updatedb.conf ;}
 cfg-vifmrc() { $EDITORCLI ~/.config/vifm/vifmrc ;}
 cfg-vimrc() { $EDITORCLI ~/.vimrc ;}
@@ -227,37 +184,66 @@ rld-zshrc() { source ~/.zshrc ;}
 #------------------------------------------------------
 # DESC: alias for mainly for existing commands
 
-alias bc='bc -q -l'					# dont show opening msg, use math library
+alias bc='bc -q -l'                 # dont show opening msg, use math library
 # alias cal='cal -3 | grep --color -EC6 "\b$(date +%e | sed "s/ //g")"' # show calendar for 3 months
 # alias cal='cal | grep --before-context 6 --after-context 6 --color -e " $(date +%e)" -e "^$(date +%e)"' # show calendar for 3 months
 alias cal='cal -3m | grep -B6 -A6 --color -e " $(date +%e)" -e "^$(date +%e)"' # show calendar for 3 months
-alias cp='cp -aiv'					# cp prompt confirmation
-alias df='df -hT --total'				# human readable, print filetype, and total
-alias du='du -d1 -h'					# max depth, human readable
-#alias emacs='emacs -nw'					# cli mode
+alias cp='cp -aiv'                  # cp prompt confirmation
+alias df='df -hT --total'               # human readable, print filetype, and total
+alias du='du -d1 -h'                    # max depth, human readable
 alias feh='feh --auto-zoom --scale-down -g 1360x768 -B white'
-alias free='free -h'					# human readable
-alias info='info --vi-keys'				# GNU info act like man command
+alias free='free -h'                    # human readable
+alias info='info --vi-keys'             # GNU info act like man command
 alias ln='ln -iv'
 alias lsblk='lsblk -o "KNAME,HOTPLUG,SIZE,FSTYPE,TYPE,LABEL,MOUNTPOINT,UUID,MODEL,SERIAL"'
-alias mkdir='mkdir -p -v'				# create if not exist, verbose
+alias mkdir='mkdir -p -v'               # create if not exist, verbose
 alias mocp='padsp mocp'                                 # moc player working with pulseaudio
-alias mount='mount | column -t'				# align in column
-alias nano='nano -c -$'					# word wrapping
-#alias periscope='periscope -l en'			# get english subtitles
-alias pdfgrep='pdfgrep -in'				# ignorecase, page number
+alias mount='mount | column -t'             # align in column
+alias nano='nano -c -$'                 # word wrapping
+#alias periscope='periscope -l en'          # get english subtitles
+alias pdfgrep='pdfgrep -in'             # ignorecase, page number
 alias qcp='qcp -f do'                                   # renameutils bulk copy (destination column only)
 alias qmv='qmv -f do'                                   # renameutils bulk rename (destination column only)
-alias rmdir='rmdir -v'			                # rm empty directory only
-#alias sr='sr -browser=$BROWSERCLI'			# open in cli browser
-#alias surfraw='surfraw -browser=$BROWSER'		# open in gui browser
-alias w3m='w3m -num'					# w3m web browser with line number
-alias wget='wget -N -c'					# continues/resumes
+alias rmdir='rmdir -v'                          # rm empty directory only
+#alias sr='sr -browser=$BROWSERCLI'         # open in cli browser
+#alias surfraw='surfraw -browser=$BROWSER'      # open in gui browser
+alias w3m='w3m -num'                    # w3m web browser with line number
+alias wget='wget -N -c --hsts-file ~/.config/wget/wget-hsts'                    # continues/resumes
 #alias youtube-viewer='youtube-viewer -C -f -4 --results=6'  # color, fullscreen, 480p, number of results
 alias visudo='sudo EDITOR="$EDITOR" visudo'
 
-alias derez='rm -Iv'			                # rm interactive, prompt once only
-alias uhaul='mv -iv --'					# mv prompt confirmation
+alias derez='rm -Iv'                            # rm interactive, prompt once only
+alias uhaul='mv -iv --'                 # mv prompt confirmation
+
+### ls replacement with exa written in rust
+
+alias ls='exa --icons --group-directories-first'
+alias ll='exa -l --icons --group-directories-first'
+alias la='ll -aa -s changed --icons --group-directories-first'
+
+# general use
+
+## alias ls='exa'                                                          # ls
+## alias l='exa -lbF --git'                                                # list, size, type, git
+## alias ll='exa -lbGF --git'                                             # long list
+## alias llm='exa -lbGd --git --sort=modified'                            # long list, modified date sort
+## alias la='exa -lbhHigUmuSa --time-style=long-iso --git --color-scale'  # all list
+## alias lx='exa -lbhHigUmuSa@ --time-style=long-iso --git --color-scale' # all + extended list
+
+# specialty views
+
+##alias lS='exa -1'                                                              # one column, just names
+
+alias lt='exa --tree --level=2'                                         # tree
+
+
+
+###
+
+### fzf
+
+alias f='fzf --preview "bat --color \"always\" {}"'
+
 
 # color for common commands
 # tutorial video: http://www.youtube.com/watch?v=RbVCzxnKJL4
@@ -273,6 +259,9 @@ alias uhaul='mv -iv --'					# mv prompt confirmation
 
 ## }}}
 
+
+
+#######################################################
 #-------- Alias (Good List) {{{
 #------------------------------------------------------
 # DESC: custom alias
@@ -286,7 +275,11 @@ alias ......="cd ../../../../.."
 alias neocrux='neofetch --ascii --ascii_distro crux_small'
 alias neowin='neofetch --ascii --ascii_distro windows'
 alias disks='echo "╓───── m o u n t . p o i n t s"; echo "╙────────────────────────────────────── ─ ─ "; lsblk -a; echo ""; echo "╓───── d i s k . u s a g e"; echo "╙────────────────────────────────────── ─ ─ "; df -h;'
-#alias pip-upgradepkg='pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip3 install -U --user'
+
+alias runalison='cd ~/.local/bin/Alison_Desktop && ./start-alison && clear && echo "Alison Desktop is running" && cd ~' 
+alias killalison='cd ~/.local/bin/Alison_Desktop && ./stop-alison && clear && echo "Alison Desktop stopped" && cd ~'
+
+alias fzfb='fzf --preview "bat --color \"always\" {}"'
 
 #alias weatherm='curl wttr.in/mendoza'
 #alias weather='curl http://wttr.in/$LOCATION'
@@ -299,7 +292,10 @@ alias disks='echo "╓───── m o u n t . p o i n t s"; echo "╙──�
 #alias wttr-help='curl wttr.in/:help'
 
 # wttr() { curl -H "Accept-Language: ${LANG%_*}" wttr.in/"${1:-Orange}" ;}
-# }}}
+
+
+## }}}
+
 
 ######
 ### Single Wallpapers
@@ -324,12 +320,12 @@ alias wall-skull='feh --bg-fill ~/Pictures/just-another-skull.jpg'
 #-------- Clipboard and Upload {{{
 #------------------------------------------------------
 # DEMO: http://www.youtube.com/watch?v=fKP0FLp3uW0 (xclip)
-# 	https://www.youtube.com/watch?v=Ww7Sl4d8F8A (pastebinit)
+#   https://www.youtube.com/watch?v=Ww7Sl4d8F8A (pastebinit)
 # DESC: copy/paste for linux machines (Mac style)
 
-alias pbcopy='xclip -selection clipboard'	# copy to clipboard, ctrl+c, ctrl+shift+c
-alias pbpaste='xclip -selection clipboard -o'	# paste from clipboard, ctrl+v, ctrl+shitt+v
-alias pbselect='xclip -selection primary -o'	# paste from highlight, middle click, shift+insert
+alias pbcopy='xclip -selection clipboard'   # copy to clipboard, ctrl+c, ctrl+shift+c
+alias pbpaste='xclip -selection clipboard -o'   # paste from clipboard, ctrl+v, ctrl+shitt+v
+alias pbselect='xclip -selection primary -o'    # paste from highlight, middle click, shift+insert
 alias pbnoformatting='xclip -selection clipboard -o | xclip -selection clipboard'
 
 
@@ -348,10 +344,10 @@ alias pbuploadixio="cat "$1" | curl -F 'f:1=<-' ix.io | pbcopy && echo 'URL has 
 #-------- Functions (Oneliner) {{{
 #------------------------------------------------------
 
-cpbak() { cp $1{,.bak} ;}		          # create backup copy
+cpbak() { cp $1{,.bak} ;}                 # create backup copy
 down4me() { curl -s "http://downforeveryoneorjustme.com/$1" | sed '/just you/!d;s/<[^>]*>//g' ;}   # check if a website is down
 killall-zombies() { kill -HUP $(ps -A -ostat,ppid | grep -e '[zZ]'| awk '{ print $2 }') ;}  # kill zombie process
-mkdircd() { mkdir -p -v $1; cd $1 ;}	          # create folder then cd into it
+mkdircd() { mkdir -p -v $1; cd $1 ;}              # create folder then cd into it
 nohup-command() { nohup "$@" >/dev/null 2>&1& }   # background a process w/o error msg filling screen
 open() { xdg-open "$@" > /dev/null 2>&1 ;}        # open with default GUI program
 # view markdown as manpages
@@ -369,873 +365,11 @@ function :h { vim +":h $1" +'wincmd o' +'nnoremap q :q!<CR>' ;}
 # display one random command from commandlinefu.com
 cmdfu-random() { echo -e "`curl -sL https://www.commandlinefu.com/commands/random/json|sed -re 's/.*,"command":"(.*)","summary":"([^"]+).*/\\x1b[1;32m\2\\n\\n\\x1b[1;33m\1\\x1b[0m/g'`\n" ;}
 
-# }}}
-#-------- Functions (Good List) {{{
-#------------------------------------------------------
-# DESC: custom functions
+webm2mp4() {for i in *.webm; do ffmpeg -i "$i" -vf "crop=trunc(iw/2)*2:trunc(ih/2)*2" -c:v libx264 -preset slow -crf 22 -c:a copy "${i%.*}.mp4"; done ;}
 
-update-grub() { sudo grub-mkconfig -o /boot/grub/grub.cfg ;}
-grub-update() { sudo grub-mkconfig -o /boot/grub/grub.cfg ;}
-grub-list() {
-  RED='\033[0;31m'
-  sudo grep "menuentry '" /boot/grub/grub.cfg | less -N
-  echo -e "${RED} REMINDER: GRUB number starts at zero not one"
-}
-
-# DESC: color the manpages
-# DEMO: http://www.youtube.com/watch?v=9BFaLAa428k
-# LINK: https://wiki.archlinux.org/index.php/Man_page#Colored_man_pages
-#mancolor() {
-#  env LESS_TERMCAP_mb=$'\E[01;31m' \
-#  LESS_TERMCAP_md=$'\E[01;31m' \
-#  LESS_TERMCAP_me=$'\E[0m' \
-#  LESS_TERMCAP_se=$'\E[0m' \
-#  LESS_TERMCAP_so=$'\E[01;44;33m' \
-#  LESS_TERMCAP_ue=$'\E[0m' \
-#  LESS_TERMCAP_us=$'\E[01;32m' \
-#  man "$@"
-#}
-
-# list and grep with file permission
-lsg() {
-  keyword=$(echo "$@" |  sed 's/ /.*/g')
-  ls -hlA --color=yes \
-  | awk '{k=0;for(i=0;i<=8;i++)k+=((substr($1,i+2,1)~/[rwx]/)*2^(8-i));if(k)printf(" %0o ",k);print}' \
-  | grep -iE $keyword
-}
-
-# ls recent items at bottom with green TODAY yellow YESTERDAY substituted with file permission also
-# https://www.reddit.com/r/archlinux/comments/41s1w4/what_is_your_favorite_one_liner_to_use/cz50y1m
-# http://askubuntu.com/a/152005
-lst() {
-  ls -vAFqh --color=yes -got --time-style=long-iso "$@" \
-  | sed "s/$(date +%Y-%m-%d)/\x1b[32m     TODAY\x1b[m/;s/$(date +'%Y-%m-%d' -d yesterday)/\x1b[33m YESTERDAY\x1b[m/" \
-  | awk '{k=0;for(i=0;i<=8;i++)k+=((substr($1,i+2,1)~/[rwx]/)*2^(8-i));if(k)printf(" %0o ",k);print}' | tac
-}
-
-lsl() {
-  ls -hl --color=yes "$@" \
-  | awk '{k=0;for(i=0;i<=8;i++)k+=((substr($1,i+2,1)~/[rwx]/)*2^(8-i));if(k)printf(" %0o ",k);print}'
-}
-
-# DESC: cli calculator (Ctrl+D to exit)
-# DEMO: http://www.youtube.com/watch?v=JkyodHenTuc
-# LINK: http://docs.python.org/library/math.html
-calc() {
-  if which python2 &>/dev/null; then
-    python2 -ic "from __future__ import division; from math import *; from random import *"
-  elif which python3 &>/dev/null; then
-    python3 -ic "from math import *; import cmath"
-  elif which bc &>/dev/null; then
-    bc -q -l
-  else
-    echo "Requires python2, python3 or bc for calculator features"
-  fi
-}
-
-
-# http://www.webupd8.org/2016/08/easily-share-files-from-command-line.html
-transfer() {
-  if [ $# -lt 1 ]; then
-    echo -e "Easy file sharing from the command line https://transfer.sh"
-    echo -e "Usage:   $0 <filename>"
-    echo -e "Example: $0 file.zip file2.txt file3.jpg"
-    return 1
-  fi
-  myArray=( "$@" )
-  for arg in "${myArray[@]}"; do
-    tmpfile=$( mktemp -t transferXXX )
-    if tty -s; then
-      basefile=$(basename "$arg" | sed -e 's/[^a-zA-Z0-9._-]/-/g')
-      curl --progress-bar --upload-file "$arg" "https://transfer.sh/$basefile" >> $tmpfile
-      else curl --progress-bar --upload-file "-" "https://transfer.sh/$arg" >> $tmpfile
-    fi
-    cat $tmpfile
-    rm -f $tmpfile
-  done
-}
-
-# searches for manual locally or online
-manned() {
-  for arg in "$@"; do man $arg 2> /dev/null \
-  || $arg -H 2> /dev/null || $arg -h 2> /dev/null \
-  || $arg --help-all 2> /dev/null || $arg --help 2> /dev/null \
-  || help $arg 2> /dev/null \
-  || $BROWSERCLI "http://manned.org/browse/search?q=$@" 2> /dev/null \
-  || $BROWSER "http://manned.org/browse/search?q=$@" 2> /dev/null \
-  || open "http://manned.org/browse/search?q=$@" 2> /dev/null \
-  || xdg-open "http://manned.org/browse/search?q=$@"
-  done
-}
-
-# search commandlinefu.com
-cmdfu() { 
-	curl "https://www.commandlinefu.com/commands/matching/$(echo "$@" \ | sed 's/ /-/g')/$(echo -n $@ | base64)/plaintext" | sed "s/\(^#.*\)/\x1b[32m\1\x1b[0m/g" | less -R ;
-}
-
-#cmdfu() { curl "http://www.commandlinefu.com/commands/matching/$@/$(echo -n $@ | openssl base64)/plaintext"; }
-
-#cmdfu(){ 
-#	curl "https://www.commandlinefu.com/commands/matching/$@/$(echo -n $@ | openssl base64)/plaintext" --silent | sed "s/\(^#.*\)/\x1b[32m\1\x1b[0m/g" | less -R 
-#}
 
 # }}}
 
-#-------- System Information {{{
-#------------------------------------------------------
-m-sound() { arecord -L && arecord -l && cat /proc/asound/pcm ;} #List audio capture card/mic
-#m-distro() { uname -a && lsb_release -a ;}
-m-connectip() {
-  echo "--------------- Connected Devices -----------------"
-    nmap -sn $(netstat -rn | awk 'FNR == 3 {print $2}')/24
-  echo "---------------------------------------------------"
-}
-
-# uses ip or ifconfig, good on older or newer system
-m-ip() {
-  echo "--------------- Network Information ---------------"
-  echo "router ip:" $(netstat -rn | awk 'FNR == 3 {print $2}')
-  # newer system like archlinux
-  ip addr | awk '/global/ {print $1,$2}' | cut -d\/ -f1
-  ip addr | awk '/global/ {print $3,$4}'
-  ip addr | awk '/ether/ {print $1,$2}'
-  ip addr | awk '/scope link/ {print $1,$2}' | cut -d\/ -f1
-  # older system like debian
-  ifconfig | awk '/inet addr/ {print $1,$2}' | awk -F: '{print $1,$2}'
-  ifconfig | awk '/Bcast/ {print $3}' | awk -F: '{print $1,$2}'
-  ifconfig | awk '/inet addr/ {print $4}' | awk -F: '{print $1,$2}'
-  ifconfig | awk '/HWaddr/ {print $4,$5}'
-  ifconfig | awk '/Scope:Link/ {print $1,$3}' | cut -d\/ -f1
-  # echo External IP $(curl -s http://checkip.dyndns.org/ | grep -o "[[:digit:].]\+")
-  # echo External IP: $(curl -s http://ipaddr.io/)
-  # echo External IP: $(curl -s https://icanhazip.com/)
-  # echo External IP: $(curl -s https://ifconfig.co/)
-  # echo External IP: $(curl -s http://pasteip.me/api/cli/ && echo)
-  echo external ip: $(curl -s http://ipecho.net/plain)
-  echo "---------------------------------------------------"
-}
-#}}}
-
-#-------- Gotbletu Universal Package Manager {{{
-#------------------------------------------------------
-# DEMO: https://www.youtube.com/watch?v=N8CZhlIssdk
-# DESC: auto detect package manager and loads proper alias for it
-
-# legends# {{{
-# https://wiki.archlinux.org/index.php/Pacman_Rosetta
-# http://old-en.opensuse.org/Software_Management_Command_Line_Comparison
-# https://bbs.archlinux.org/viewtopic.php?pid=1281605#p1281605
-# Arch			-- pacman, yaourt
-# Debian/Ubuntu		-- apt-get(apt), aptitude, dpkg
-# Gentoo		-- eclean, emerge, equery, layman
-# OpenSuse		-- zypper
-# Red Hat/Fedora	-- package-cleanup, rpm, yum
-# Suse			-- rug
-# Not finish, only tested on Debian, Arch, Fedora so far
-
-# cleanold; removes certain packages that can no longer be downloaded
-# cleanall; remove all local cached packages
-# list; show the content of an installed package
-# localinstall; install package manually such as deb, rpm files downloaded
-# own; find a command a package belongs to; ex: pkm-own convert
-# purge; uninstall package and purge configuration files (not in /home)
-# query; search for an already installed package
-# refresh; update repository list
-# upgrade; install the newest version from the repositories
-# hold/unhold; stop/allow a package from being update
-#
-# missing
-# emerge: autoclean, purge, list, query
-# rug: pkm-info, clean, autoremove, autoclean, purge, list, query
-# zypper: pkm-info, autoremove, autoclean, purge, list, query
-# yum: autoclean, purge
-# }}}
-
-find_pkm() { for i;do which "$i" >/dev/null && { echo "$i"; return 0;};done;return 1; }
-export PKMGR=$(find_pkm yaourt pacaur pacman aptitude apt-get yum zypper emerge)
-
-# {{{ apt-get
-if [ "$PKMGR" = "apt-get" ]; then
-  pkm-cleanallall() { sudo apt-get clean ;}
-  pkm-cleanallold() { sudo apt-get autoclean ;}
-  pkm-dependsreverse() { apt-cache rdepends "$@" ;}
-  pkm-download() { wget $(apt-get --print-uris -y install "$@" | grep ^\'| cut -d\' -f2) ;}
-  pkm-extract() { ar vx "$@" | tar -zxvf data.tar.gz ;}
-  # same as; echo "pkgname hold" | dpkg --set-selections
-  pkm-hold() { sudo apt-mark hold "$@" ;}
-  pkm-hold-status() { dpkg --get-selections | awk "/${@:-hold}/" ;}
-  pkm-info() { apt-cache show "$@" ;}
-  pkm-install() { sudo apt-get install --no-install-recommends "$@" ;}
-  pkm-list() { dpkg -L "$@" ;}
-  pkm-listcache() { ls -1 /var/cache/apt/archives "$@" && echo "pwd: /var/cache/apt/archives" ;}
-  pkm-localinstall() { sudo dpkg -i "$@" ;}
-  pkm-own() { dpkg -S $(which "$@") ;}
-  pkm-pkgsearch() { apt-file search "$@" ;}
-  pkm-purge() { sudo apt-get purge "$@" ;}
-  pkm-query() { dpkg --get-selections | grep "$@" ;}
-  pkm-refresh() { sudo apt-get update ;}
-  pkm-remove() { sudo apt-get remove "$@" ;}
-  pkm-remove-orphans() { sudo apt-get autoclean ;}
-  pkm-search() { apt-cache search "$@" ;}
-  pkm-unhold() { sudo apt-mark unhold "$@" ;}
-  pkm-upgrade() { sudo apt-get update && sudo apt-get upgrade ;}
-  # PPA on ubuntu base distro (not compatible with debian)
-  ppa-add() { sudo add-apt-repository $@ ;}
-  ppa-del() { sudo add-apt-repository -r $@ ;}
-  ppa-key() { sudo apt-key add $@ ;}
-  ppa-list() { ls /etc/apt/sources.list.d ;}
-  ppa-purge() { sudo ppa-purge $@ ;}
-  # auto get missing gpg keys from launchpad
-  ppa-autokey() { sudo apt-get update 2> /tmp/keymissing; \
-    for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); \
-    do echo -e "\nProcessing key: $key"; gpg --keyserver pool.sks-keyservers.net \
-    --recv $key && gpg --export --armor $key | sudo apt-key add -; done ;}
-    # these are extra servers, just replace it if one is down
-    # keyserver.ubuntu.com
-    # pool.sks-keyservers.net
-    # subkeys.pgp.net
-    # pgp.mit.edu
-    # keys.nayr.net
-    # keys.gnupg.net
-    # wwwkeys.en.pgp.net #(replace with your country code fr, en, de,etc)
-# }}}
-# {{{ aptitude
-elif [ "$PKMGR" = "aptitude" ]; then
-  pkm-cleanallall() { sudo aptitude clean ;}
-  pkm-cleanallold() { sudo aptitude autoclean ;}
-  pkm-dependsreverse() { aptitude why "$@" ;}
-  pkm-download() { aptitude download "$@" ;} # need a better 1; deb w/ depends
-  pkm-extract() { ar vx "$@" | tar -zxvf data.tar.gz ;}
-  pkm-hold() { echo "$1 hold" | sudo dpkg --set-selections && dpkg --get-selections | awk "/$1/ && /hold/" ;}
-  pkm-hold-status() { dpkg --get-selections | awk "/${@:-hold}/" ;}
-  pkm-info() { aptitude show "$@" ;}
-  pkm-install() { sudo aptitude install --without-recommends "$@" ;}
-  pkm-list() { dpkg -L "$@" ;}
-  pkm-listcache() { ls -1 /var/cache/apt/archives "$@" && echo "pwd: /var/cache/apt/archives" ;}
-  pkm-localinstall() { sudo dpkg -i "$@" ;}
-  pkm-own() { dpkg -S $(which "$@") ;}
-  pkm-pkgsearch() { apt-file search "$@" ;}
-  pkm-purge() { sudo aptitude purge "$@" ;}
-  pkm-query() { dpkg --get-selections | grep "$@" ;}
-  pkm-refresh() { sudo aptitude update ;}
-  pkm-remove() { sudo aptitude remove "$@" ;}
-  pkm-remove-orphans() { sudo aptitude autoclean ;}
-  pkm-search() { aptitude search "$*" ;}
-    # fix  maybe with keyword $@ | sed / / ~d/
-  pkm-search-description() { aptitude search ~d"$1"~d"$2"~d"$3"~d"$4"~d"$5"~d"$6"~d"$7" ;}
-  pkm-unhold() { echo "$1 install" | sudo dpkg --set-selections && dpkg --get-selections | awk "/$1/ && /install/" ;}
-  pkm-upgrade() { sudo aptitude update && sudo aptitude upgrade ;}
-  # PPA on ubuntu base distro (not compatible with debian)
-  ppa-add() { sudo add-apt-repository $@ ;}
-  ppa-del() { sudo add-apt-repository -r $@ ;}
-  ppa-key() { sudo apt-key add $@ ;}
-  ppa-list() { ls /etc/apt/sources.list.d ;}
-  ppa-purge() { sudo ppa-purge $@ ;}
-  ppa-autokey() { sudo apt-get update 2> /tmp/keymissing; \
-    for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); \
-    do echo -e "\nProcessing key: $key"; gpg --keyserver pool.sks-keyservers.net \
-    --recv $key && gpg --export --armor $key | sudo apt-key add -; done ;}
-# }}}
-# {{{ emerge
-elif [ "$PKMGR" = "emerge" ]; then
-  pkm-remove-orphans() { sudo emerge --depclean ;}
-  pkm-cleanall() { sudo eclean distfiles ;}
-  pkm-info() { emerge -S "$@" ;}
-  pkm-install() { sudo emerge "$@" ;}
-  pkm-pkgsearch() { equery belongs "$@" ;}
-  pkm-refresh() { sudo layman -f ;}
-  pkm-remove() { sudo emerge -C "$@" ;}
-  pkm-search() { emerge -S "$@" ;}
-  pkm-upgrade() { sudo emerge -u world ;}
-# }}}
-# {{{ pacaur
-elif [ "$PKMGR" = "pacaur" ]; then
-  pkm-build() { tar xvzf "$1" && cd "${1%%.tar.gz}" && makepkg -csi ;}
-  pkm-cleanall() { pacaur -Sc ;}
-  pkm-cleanold() { pacaur -Scc ;}
-  if type -p downgrade > /dev/null; then
-    # require: https://aur.archlinux.org/packages/downgrade/
-    pkm-downgrade() { downgrade "$@" ;}
-  fi
-  pkm-download() { sudo pacman -Sw "$@" ;} # need better shit to dl from aur also
-  pkm-info() { for arg in "$@"; do
-    pacaur -Qi $arg 2> /dev/null \
-    || pacaur -Si $arg; done ;}
-  pkm-install() { pacaur --noconfirm -S "$@" ;}
-  # https://wiki.archlinux.org/index.php/Pacman-key#Resetting_all_the_keys
-  pkm-key() { sudo pacman-key --init \
-    && sudo pacman-key --populate archlinux \
-    && sudo pacman-key --refresh-keys ;}
-  pkm-list() { pacaur -Qql "$@" ;}
-  pkm-listinstalled() { pacaur -Qe ;}
-  pkm-listcache() { ls -1 /var/cache/pacman/pkg "$@" && echo "pwd: /var/cache/pacman/pkg" ;}
-  pkm-localinstall() { sudo pacman --noconfirm -U "$@" ;}
-  pkm-own() { pacman -Qo "$@" ;}
-  pkm-pkgsearch() { pkgfile -s "$@" ;}
-  pkm-purge() { pacaur -R "$@" ;}
-  pkm-query() { pacman -Qqs "$@" ;}
-  pkm-query-detail() { pacaur -Qs "$@" ;}
-  pkm-refresh() { pacaur -Syy ;}
-  pkm-remove() { pacaur -Rcs "$@" ;}
-  pkm-remove-nodepends() { pacaur -Rdd "$@" ;}
-  pkm-remove-orphans() { pacaur -Rs $(pacman -Qqtd) ;}
-  pkm-search() { pacaur -Qs "$@" && pacaur -s "$@" ;}
-  pkm-search-local() { pacaur -Qs "$@" ;}
-  pkm-upgrade() { pacaur -Syu ;}	# upgrade everything except aur package
-  pkm-upgrade-aur() { pacaur --noconfirm -Sbua ;} # only upgrade aur package
-  pkm-list-upgraded() { cat /var/log/pacman.log | grep -i upgraded ;}
-# }}}
-# {{{ pacman
-elif [ "$PKMGR" = "pacman" ]; then
-  pkm-build() { tar xvzf "$1" && cd "${1%%.tar.gz}" && makepkg -csi ;}
-  pkm-cleanall() { sudo pacman -Sc ;}
-  pkm-cleanold() { sudo pacman -Scc ;}
-  if type -p downgrade > /dev/null; then
-  # require: https://aur.archlinux.org/packages/downgrade/
-    pkm-downgrade() { downgrade "$@" ;}
-  fi
-  pkm-download() { sudo pacman -Sw "$@" ;}
-  pkm-info() { for arg in "$@"; do
-    pacman -Qi $arg 2> /dev/null \
-    || pacman -Si $arg; done ;}
-  pkm-install() { sudo pacman -S "$@" ;}
-  pkm-key() { sudo pacman-key --init \
-    && sudo pacman-key --populate archlinux \
-    && sudo pacman-key --refresh-keys ;}
-  pkm-list() { pacman -Qql "$@" ;}
-  pkm-listinstalled() { pacman -Qe ;}
-  pkm-listcache() { ls -1 /var/cache/pacman/pkg "$@" && echo "pwd: /var/cache/pacman/pkg" ;}
-  pkm-localinstall() { sudo pacman --noconfirm -U "$@" ;}
-  pkm-own() { pacman -Qo "$@" ;}
-  pkm-pkgsearch() { pkgfile -s "$@" ;}
-  pkm-purge() { sudo pacman -R "$@" ;}
-  pkm-query() { pacman -Qqs "$@" ;}
-  pkm-query-detail() { pacman -Qs "$@" ;}
-  pkm-refresh() { sudo pacman -Syy ;}
-  pkm-remove() { sudo pacman -Rcs "$@" ;}
-  pkm-remove-nodepends() { sudo pacman -Rdd "$@" ;}
-  pkm-remove-orphans() { sudo pacman -Rs $(pacman -Qqtd) ;}
-  pkm-search() { pacman -Ss "$@" ;}
-  pkm-search-local() { pacman -Qs "$@" ;}
-  pkm-upgrade() { sudo pacman -Syu ;}
-  pkm-list-upgraded() { cat /var/log/pacman.log | grep -i upgraded ;}
-# }}}
-# {{{ rug
-elif [ "$PKMGR" = "rug" ]; then
-  pkm-install() { sudo rug install "$@" ;}
-  pkm-refresh() { sudo rug refresh ;}
-  pkm-remove() { sudo rug remove "$@" ;}
-  pkm-search() { rug search "$@" ;}
-  pkm-upgrade() { sudo rug update ;}
-# }}}
-# {{{ yaourt
-elif [ "$PKMGR" = "yaourt" ]; then
-  pkm-build() { tar xvzf "$1" && cd "${1%%.tar.gz}" && makepkg -csi ;}
-  pkm-cleanall() { yaourt -Sc ;}
-  pkm-cleanold() { yaourt -Scc ;}
-  if type -p downgrade > /dev/null; then
-  # require: https://aur.archlinux.org/packages/downgrade/
-    pkm-downgrade() { downgrade "$@" ;}
-  fi
-  pkm-download() { sudo pacman -Sw "$@" ;} # need better shit to dl from aur also
-  pkm-info() { for arg in "$@"; do
-    yaourt -Qi $arg 2> /dev/null \
-    || yaourt -Si $arg; done ;}
-  pkm-install() { yaourt --noconfirm -S "$@" ;}
-  # https://wiki.archlinux.org/index.php/Pacman-key#Resetting_all_the_keys
-  pkm-key() { sudo pacman-key --init \
-    && sudo pacman-key --populate archlinux \
-    && sudo pacman-key --refresh-keys ;}
-  pkm-list() { yaourt -Qql "$@" ;}
-  pkm-listinstalled() { yaourt -Qe ;}
-  pkm-listcache() { ls -1 /var/cache/pacman/pkg "$@" && echo "pwd: /var/cache/pacman/pkg" ;}
-  pkm-localinstall() { sudo pacman --noconfirm -U "$@" ;}
-  pkm-own() { pacman -Qo "$@" ;}
-  pkm-pkgsearch() { pkgfile -s "$@" ;}
-  pkm-purge() { yaourt -R "$@" ;}
-  pkm-query() { pacman -Qqs "$@" ;}
-  pkm-query-detail() { yaourt -Qs "$@" ;}
-  pkm-refresh() { yaourt -Syy ;}
-  pkm-remove() { yaourt -Rcs "$@" ;}
-  pkm-remove-nodepends() { yaourt -Rdd "$@" ;}
-  pkm-remove-orphans() { yaourt -Rs $(pacman -Qqtd) ;}
-  pkm-search() { yaourt --noconfirm "$@" ;}
-  pkm-search-local() { yaourt -Qs "$@" ;}
-  pkm-upgrade() { yaourt -Syu ;}	# upgrade everything except aur package
-  pkm-upgrade-aur() { yaourt --noconfirm -Sbua ;} # only upgrade aur package
-  pkm-list-upgraded() { cat /var/log/pacman.log | grep -i upgraded ;}
-# }}}
-# {{{ yum
-elif [ "$PKMGR" = "yum" ]; then
-  pkm-cleanall() { sudo yum clean ;}
-  pkm-depends() { sudo yum deplist "$@" ;}
-  pkm-dependsreverse() { sudo yum resolvedep "$@" ;}
-  pkm-info() { for arg in "$@"; do
-    rpm -qi $arg 2> /dev/null || yum info $arg; done ;}
-  pkm-install() { sudo yum install "$@" ;}
-  pkm-list() { for arg in "$@"; do
-    rpm -ql $arg 2> /dev/null || repoquery -ql --plugins $arg; done ;}
-  pkm-localinstall() { sudo yum localinstall "$@" ;}
-  pkm-own() { rpm -qf $(which "$@") ;}
-  pkm-pkgsearch() { yum whatprovides "$@" ;}
-  pkm-query() { rpm -q "$@" ;}
-  pkm-refresh() { sudo yum clean expire-cache && sudo yum check-update ;}
-  pkm-remove() { sudo yum remove "$@" ;}
-  pkm-remove-orphans() { sudo package-cleanup --leaves ;}
-  pkm-search() { yum search "$@" ;}
-  pkm-upgrade() { sudo yum update ;}
-# }}}
-# {{{ zypper
-elif [ "$PKMGR" = "zypper" ]; then
-  pkm-cleanall() { sudo zypper clean ;}
-  pkm-install() { sudo zypper install "$@" ;}
-  pkm-pkgsearch() { zypper what-provides "$@" ;}
-  pkm-refresh() { sudo zypper refresh ;}
-  pkm-remove() { sudo zypper remove "$@" ;}
-  pkm-search() { zypper search "$@" ;}
-  pkm-upgrade() { sudo zypper update ;}
-fi
-# }}}
-
-# {{{ ------ My shitty functions ---------
-# ----- colors and stuff------------------
-function colortest-gradients2
-{
-    echo -e '\033[m'
-    for i in {0..7}; do
-        for f in {0..7}; do
-            echo -en "\033[$((f+30))m██▓▒░"
-        done
-        echo -e '\033[m'
-    done
-    echo -e '\033[m'
-}
-
-function colortest-vbars
-{
-    clear
-    
-    local _term_width=$(tput cols)
-    local _term_height=$(tput lines)
-    local _bar_count=8
-    local _bar_width=$(expr $_term_width / $_bar_count)
-    
-    local l="1"
-    local b="0"
-    local s="0"
-    
-    while [[ "$l" -lt $_term_height ]]; do
-        b="0"
-        while [[ "$b" -lt $_bar_count ]]; do
-            s="0"
-            while [[ "$s" -lt $_bar_width ]]; do
-                echo -en "\033[3"$b"m█"
-                s=$(expr $s + 1)
-            done
-            b=$(expr $b + 1)
-        done
-        echo
-        l=$(expr $l + 1)
-    done
-}
-
-function whodemon
-{
-    # Finally usefull.
-    demons=(
-    "Who is this anal aficionado?"
-    "Who is this anus ignoramus?"
-    "Who is this baby batter bladder?"
-    "Who is this baby batter bringer?"
-    "Who is this ball butter nutter?"
-    "Who is this ballbiting ballerina?"
-    "Who is this ballsack knapsack?"
-    "Who is this baloney poney behemoth?"
-    "Who is this beef curtain hurtin?"
-    "Who is this benis burglar?"
-    "Who is this boner benefactor?"
-    "Who is this boner condoner?"
-    "Who is this boner toner?"
-    "Who is this butt hut?"
-    "Who is this chin chin bin?"
-    "Who is this chode road?"
-    "Who is this cock captain?"
-    "Who is this cock clairvoyant?"
-    "Who is this cock commandant?"
-    "Who is this cock cream captivator?"
-    "Who is this cock dock?"
-    "Who is this cock khan?"
-    "Who is this cock pocket?"
-    "Who is this cock sock?"
-    "Who is this cock stock?"
-    "Who is this column culminator?"
-    "Who is this cum caresser?"
-    "Who is this cum chum?"
-    "Who is this cum connoisseur?"
-    "Who is this cum drum?"
-    "Who is this cum plum?"
-    "Who is this cummander?"
-    "Who is this cunny bunny?"
-    "Who is this cunt colonel?"
-    "Who is this cunt runt?"
-    "Who is this dick dastard?"
-    "Who is this dick duchess?"
-    "Who is this dick juice masseuse?"
-    "Who is this dick tick?"
-    "Who is this ding dong dungeon?"
-    "Who is this dong deity?"
-    "Who is this dong dominator?"
-    "Who is this dongle mongle?"
-    "Who is this ejaculate advocate?"
-    "Who is this ejaculate empress?"
-    "Who is this erection confection?"
-    "Who is this erection ejection?"
-    "Who is this fluid druid?"
-    "Who is this foreskin fornicator?"
-    "Who is this frenulum fractionizer?"
-    "Who is this glans fans?"
-    "Who is this glans gladiator?"
-    "Who is this jism prism?"
-    "Who is this jism prison?"
-    "Who is this jizz genie?"
-    "Who is this jizz jezebel?"
-    "Who is this jizz jockey?"
-    "Who is this jizz wiz?"
-    "Who is this knackers knight?"
-    "Who is this lewd lieutenant?"
-    "Who is this lovegoo lass?"
-    "Who is this male repoductive organ gorgan?"
-    "Who is this man milk mephistopheles?"
-    "Who is this man muscle steam shovel?"
-    "Who is this mattress actress?"
-    "Who is this mayonnaise maiden?"
-    "Who is this meat major?"
-    "Who is this middle leg major?"
-    "Who is this nut slut?"
-    "Who is this orifice officer?"
-    "Who is this pecker prodigy?"
-    "Who is this penile perpetrator?"
-    "Who is this penile private?"
-    "Who is this penis machinist?"
-    "Who is this phallus chalice?"
-    "Who is this phallus phalanx?"
-    "Who is this pillar pimper?"
-    "Who is this pocket rocket ground control?"
-    "Who is this pole populator?"
-    "Who is this pole privateer?"
-    "Who is this prick chick?"
-    "Who is this prick pirate?"
-    "Who is this prostate apostate?"
-    "Who is this prostate magistrate?"
-    "Who is this rear admiral?"
-    "Who is this salami tsunami?"
-    "Who is this sausage sergeant?"
-    "Who is this schlong sentinel?"
-    "Who is this schlong sorcerrer?"
-    "Who is this scrotum sorceress?"
-    "Who is this scrotum totem?"
-    "Who is this seed steed?"
-    "Who is this semen demon?"
-    "Who is this semen sommelier?"
-    "Who is this seminal fluid druid?"
-    "Who is this seminal sentinel?"
-    "Who is this shaft shaft?"
-    "Who is this shaft specialist?"
-    "Who is this skeet treat?"
-    "Who is this smega smuggler?"
-    "Who is this smegma enigma?"
-    "Who is this smegma savant?"
-    "Who is this smegma smuggler?"
-    "Who is this smut sergeant?"
-    "Who is this sodomy sentinel?"
-    "Who is this sperm specialist?"
-    "Who is this sperm summoner?"
-    "Who is this sperm worm?"
-    "Who is this spooge scrooge?"
-    "Who is this spunk monk?"
-    "Who is this spunk trunk?"
-    "Who is this stiffy stimulator?"
-    "Who is this stiffy sultan?"
-    "Who is this testicle tamer?"
-    "Who is this testicle vestibule?"
-    "Who is this testicular temptress?"
-    "Who is this the semen demon?"
-    "Who is this wang waxer?"
-    "Who is this wang wizard?"
-    "Who is this wang wrangler?"
-    "Who is this weenie genie?"
-    "Who is this weiner witch?"
-    "Who is this wiener cleaner?"
-    "Who is this wiener witch?"
-    "Who is this willy ghillie?"
-    "Who is this willy wrap?"
-    )
-   
-    echo ${demons[$RANDOM % ${#demons[@]} ]}
-}
-
-colortest-skull () 
-{ 
-echo -e "
-\033[31m███████████████████████████
-\033[32m███████▀▀▀░░░░░░░▀▀▀███████
-\033[33m████▀░░░░░░░░░░░░░░░░░▀████
-\033[34m███│░░░░░░░░░░░░░░░░░░░│███
-\033[35m██▌│░░░░░░░░░░░░░░░░░░░│▐██
-\033[36m██░└┐░░░░░░░░░░░░░░░░░┌┘░██
-\033[37m██░░└┐░░░░░░░░░░░░░░░┌┘░░██
-\033[31m██░░┌┘▄▄▄▄▄░░░░░▄▄▄▄▄└┐░░██
-\033[32m██▌░│██████▌░░░▐██████│░▐██
-\033[33m███░│▐███▀▀░░▄░░▀▀███▌│░███
-\033[34m██▀─┘░░░░░░░▐█▌░░░░░░░└─▀██
-\033[35m██▄░░░▄▄▄▓░░▀█▀░░▓▄▄▄░░░▄██
-\033[36m████▄─┘██▌░░░░░░░▐██└─▄████
-\033[37m█████░░▐█─┬┬┬┬┬┬┬─█▌░░█████
-\033[31m████▌░░░▀┬┼┼┼┼┼┼┼┬▀░░░▐████
-\033[32m█████▄░░░└┴┴┴┴┴┴┴┘░░░▄█████
-\033[33m███████▄░░░░░░░░░░░▄███████
-\033[34m██████████▄▄▄▄▄▄▄██████████
-\033[35m█████████ H O L A █████████
-\033[36m███████████████████████████
-"
-}
-
-function this-is-bait  
-{ 
-echo -e "
-\033[35m██████████████████████████████████████
-\033[35m█░░░█░█░█░█░░███░█░░███░░▀█▀░▀█░█░░░██
-\033[35m██░██░▀░█░█░▀███░█░▀███░▀▄█░▀░█░██░███
-\033[35m██░██░▄░█░█▄░███░█▄░███░▄▀█░▄░█░██░███
-\033[35m██░██░█░█░█░░███░█░░███░░▄█░█░█░██░█░█
-\033[35m██████████████████████████████████████
-\033[35m███████▀▀░░░▄███████████▀▀▀▀░░░░░░░▀▀▀
-\033[35m█████▀░░░░▄██████▀▀▀░░░░░▄▄▄▄█████▄▄▄▄
-\033[35m███▀░░▄█▄████▀▀░░░▄▄▄█████████████████
-\033[35m███░░█████▀▀░░▄▄██████████████▀▀▀▀▀▀▀░
-\033[35m███▄░░░▀▀░░▄▄████████▀▀▀▀░░░░░░░░░░░░░
-\033[35m██████▄▄▄▄██████▀▀░░░░░░░▄▄░░░░░░░░░░░
-\033[35m██████████████████▄▄▄░░░▀██▀░░░░░░░░░░
-\033[35m████████████████▀▀▀▀▀▀▀░░░░░░░░░░░░░░░
-"
-}
-
-function colortest-blocks  
-{ 
-echo -e "
-for i in {0..7}; do echo -en "\e[0;3${i}m⣿⣿⣿⣿\e[0m"; done; echo
-for i in {0..7}; do echo -en "\e[0;3${i}m⣿⣿⣿⣿\e[0m"; done; echo
-for i in {0..7}; do echo -en "\e[1;3${i}m⣿⣿⣿⣿\e[0m"; done; echo
-"
-}
-
-function weather()
-{
-    s=-37
-    if [ -z $2 ]; then
-        s=-7
-    fi
-    w=`curl --silent http://wttr.in/$1 | head $s`
-    echo "${w}"
-}
-
-# don know what the fuck it does
-#ldu() { command du -ahLd 1 2> /dev/null | sort -rh | head -n 20 ; }
-# {{{ systemctl list services running/not running
-rc(){
-	systemctl list-unit-files --type=service |\
-	sed 's/.service//g' |\
-	sed '/static/d' |\
-	sed '/indirect/d' |\
-	sed '/systemd/d' |\
-	sed '/dbus-org/d' |\
-	sed '/canberra/d'|\
-	sed '/wpa_supplicant/d' |\
-	sed '/netctl/d' |\
-	sed '/rfkill/d' |\
-	sed '/krb5/d' |\
-	tail -n+2 |\
-	head -n -2 |\
-	sed 's/\(^.*enabled.*$\)/[x] \1/' |\
-	sed 's/enabled//g' |\
-	sed 's/\(^.*disabled.*$\)/[ ] \1/' |\
-	sed 's/disabled//g' |\
-	sed 's/[ \t]*$//' |\
-	while read line; do
-			if [[ $line == *'[x]'* ]]; then
-				printf "\033[0;32m$line\n"
-			else
-				printf "\033[1;30m$line\n"
-			fi
-	done
-}
-# }}}
-# }}}
-
-####################
-##### GRAPHICS #####
-####################
-
-#-------- Image Resizer & Rotate {{{
-#------------------------------------------------------
-# Resizing Pictures to different resolutions
-
-image-resizer() {
-  if [ $# -lt 2 ]; then
-    echo -e "resize pictures to another resolution"
-    echo -e "\nUsage:   $0 <size:32x32|96x96|128x128|640x480|800x600|1024x768|1280x720|1280x960|1920x1080> <image>"
-    echo -e "\nExample: $0 800x600 pic1.png pic2.png pic3.png"
-    echo -e "           $0 640x480 *.jpg"
-    return 1
-  fi
-  IMAGE_SIZE="$1"
-  myArray=( "$@" )
-  for arg in "${myArray[@]:1}"; do
-    convert "$arg" -resize "$IMAGE_SIZE" "${arg%.*}"_"$IMAGE_SIZE"_resized."${arg##*.}"
-  done
-}
-
-image-rotate() {
-  if [ $# -lt 2 ]; then
-    echo -e "rotate pictures"
-    echo -e "\nUsage:   $0 <90|180|270> <image>"
-    echo -e "\nExample: $0 90 pic1.png pic2.png pic3.png"
-    echo -e "           $0 180 *.jpg"
-    return 1
-  fi
-  IMAGE_DEGREE="$1"
-  myArray=( "$@" )
-  for arg in "${myArray[@]:1}"; do
-    convert "$arg" -rotate "$IMAGE_DEGREE" "${arg%.*}"_"$IMAGE_DEGREE"_rotated."${arg##*.}"
-  done
-}
-
-# }}}
-
-####################
-##### DOWNLOADS ####
-####################
-
-#-------- Aria2c WebUI {{{
-#------------------------------------------------------
-# downloader for torrents, magnet links, http, ftp, metalinks
-# tutorial video: https://www.youtube.com/watch?v=LCr_0zFcbaM
-alias magnet-to-torrent="aria2c -q --bt-metadata-only --bt-save-metadata"
-aria2c-quit() {
-   killall aria2c
-   kill $(ps -ef | grep '[h]ttp.server' | awk '{print $2}')
-   #kill $(ps -ef | grep '[S]impleHTTPServer' | awk '{print $2}')
-}
-
-aria2c-webui() {
-    # download location
-    DIR_DL=~/Downloads
-
-    # run as daemon
-    aria2c --enable-rpc --rpc-listen-all -D -d "$DIR_DL"
-
-
-    # use python simplehttpserver to host the webui
-    # this avoids download the index.html file on each computer
-    # https://github.com/ziahamza/webui-aria2
-
-    # path to the webui index.html
-    DIR_WEBUI=~/.scripts/webui-aria2/
-
-    # webui-aria2c uses port 6800 so we use 6801 for python_simple_http_server
-    PORT=6801
-    cd "$DIR_WEBUI"
-    nohup python3 -m http.server "$PORT" >/dev/null 2>&1&
-
-    # for older distro
-    # nohup python2 -m SimpleHTTPServer "$PORT" >/dev/null 2>&1&
-
-    echo "connect via http://localhost:$PORT or http://ip_address_of_server:$PORT"
-}
-
-# }}}
-
-#-------- Webcam {{{
-#------------------------------------------------------
-# DEMO: https://www.youtube.com/watch?v=oYTE3docGLA
-# DESC: using external player to display webcam
-
-# mplayer to display webcam
-# hit 's' to take screenshot, will save in current folder
-# hit 'S' to take series of screenshot, will save in current folder
-# hit 'f' to toggle fullscreen
-# hit 'T' to toggle stay-on-top
-# hit 'q' or 'Esc' to quit
-# https://wiki.archlinux.org/index.php/Webcam_Setup#MPlayer
-webcam-list() { v4l2-ctl --list-formats-ext && v4l2-ctl --list-devices ;}
-webcam-mplayer() { mplayer tv:// -tv driver=v4l2:width=640:height=360:device=/dev/video0 -fps 30 -vf screenshot -ontop -geometry "99%:95%" ;}
-webcam-mplayer-noborder() { mplayer tv:// -tv driver=v4l2:width=640:height=360:device=/dev/video0 -fps 30 -vf screenshot -geometry "98%:98%" -ontop -noborder ;}
-webcam-mplayer-screenshot() { mplayer tv:// -tv driver=v4l2:width=1920:height=1080:device=/dev/video0 -fps 30 -vf screenshot -ontop ;}
-
-# DESC: use webcam to scan for barcode/qrcode
-zbarcam-v4l() {
-  # barcode/qrcode reader using webcam
-  # this is for webcam that was not supported by default
-  # https://fitzcarraldoblog.wordpress.com/2012/10/05/installing-and-using-zbar-in-linux-to-scan-bar-codes-with-your-webcam/
-  # requires: v4l-utils
-  LD_PRELOAD=/usr/lib/libv4l/v4l1compat.so zbarcam /dev/video0
-}
-# }}}
-
-#-------- Detox Filename Cleanup {{{
-#------------------------------------------------------
-# DESC: cleanup filename to different styles
-
-# eg. FOO BAR LinuX.TAR.GZ --> foo_bar_linux.tar.gz
-detox-unix() {
-  myArray=( "$@" )
-  for arg in "${myArray[@]}"; do
-    filter_name=$(echo "$arg" | sed 's/%20/ /g' | sed 's/ /_/g' | tr '[:upper:]' '[:lower:]')
-    mv "$arg" "$filter_name"
-  done
-}
-
-# eg. FOO BAR LinuX.TAR.GZ --> Foo Bar Linux.tar.gz
-detox-human() {
-  myArray=( "$@" )
-  for arg in "${myArray[@]}"; do
-    filter_name=$(echo "$arg" | sed 's/%20/ /g' | sed 's/_/ /g' | tr '[:upper:]' '[:lower:]' | sed 's/\b\([[:alpha:]]\)\([[:alpha:]]*\)\b/\u\1\L\2/g' | sed -e "s/'\(.\)/'\l\1/g" | sed -e "s/\.\(.\)/\.\l\1/g" )
-    mv "$arg" "$filter_name"
-  done
-}
-
-# eg. FOO-BAR-LinuX.TAR.GZ --> Foo Bar Linux.tar.gz
-detox-human-dash() {
-  myArray=( "$@" )
-  for arg in "${myArray[@]}"; do
-    filter_name=$(echo "$arg" | sed 's/%20/ /g' | sed 's/_/ /g' | sed 's/-/ /g' | tr '[:upper:]' '[:lower:]' | sed 's/\b\([[:alpha:]]\)\([[:alpha:]]*\)\b/\u\1\L\2/g' | sed -e "s/'\(.\)/'\l\1/g" | sed -e "s/\.\(.\)/\.\l\1/g" )
-    mv "$arg" "$filter_name"
-  done
-}
-
-detox-video() {
-  if [ $# -lt 1 ]; then
-    echo -e "clean video filename then add [duration,filesize,resolution]"
-    echo -e "Usage: $0 <filename>"
-    echo -e "\nExample:\n$0 file.mp4"
-    echo -e "$0 file1.mp4 file2.mp4 file3.mp4"
-    echo -e "$0 *.mp4"
-    return 1
-  fi
-  myArray=( "$@" )
-  for arg in "${myArray[@]}"; do
-    # check if file is a valid video before continuing
-    get_mimetype=$(file --mime-type -b "$arg" | cut -d '/' -f1)
-    if [ "$get_mimetype"  = "video" ]; then
-      duration=$(ffmpeg -i "$arg" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,// | cut -d '.' -f1 | awk -F: '{print $1"h"$2"m"$3"s"}')
-      filesize=$(du -h "$arg" | awk '{print $1}')
-      resolution=$(ffprobe -v error -of flat=s=_ -select_streams v:0 -show_entries stream=height "$arg" | cut -d '=' -f2)
-      mv "$arg" "${arg%.*} [${duration},${filesize},${resolution}p].${arg##*.}"
-    fi
-  done
-}
-
-# }}}
 
 ####################
 ##### CAMERAS #####
@@ -1243,10 +377,11 @@ detox-video() {
 
 alias showme_cam01="nohup mpv rtsp://admin:admin1234admin@192.168.1.165:554/Channels/101 </dev/null >/dev/null 2>&1 &"
 alias showme_cam02="nohup mpv rtsp://admin:camaritas2018@192.168.1.164:554/Channels/101 </dev/null >/dev/null 2>&1 &"
-alias colegio_cam01='nohup mpv "rtsp://admin:888888@192.168.1.108:554/cam/realmonitor?channel=01&subtype=0" </dev/null >/dev/null 2>&1 &'
-alias colegio_cam02='nohup mpv "rtsp://admin:888888@192.168.1.108:554/cam/realmonitor?channel=02&subtype=0" </dev/null >/dev/null 2>&1 &'
-alias colegio_cam07='nohup mpv "rtsp://admin:888888@192.168.1.108:554/cam/realmonitor?channel=07&subtype=0" </dev/null >/dev/null 2>&1 &'
-alias colegio_cam10='nohup mpv "rtsp://admin:888888@192.168.1.108:554/cam/realmonitor?channel=10&subtype=0" </dev/null >/dev/null 2>&1 &'
+alias colegio_cam01='nohup mpv "rtsp://admin:888888@192.168.3.30:554/cam/realmonitor?channel=01&subtype=0" </dev/null >/dev/null 2>&1 &'
+alias colegio_cam02='nohup mpv "rtsp://admin:888888@192.168.3.30:554/cam/realmonitor?channel=02&subtype=0" </dev/null >/dev/null 2>&1 &'
+alias colegio_cam07='nohup mpv "rtsp://admin:888888@192.168.3.30:554/cam/realmonitor?channel=07&subtype=0" </dev/null >/dev/null 2>&1 &'
+alias colegio_cam10='nohup mpv "rtsp://admin:888888@192.168.3.30:554/cam/realmonitor?channel=10&subtype=0" </dev/null >/dev/null 2>&1 &'
+alias colegio_cam11='nohup mpv "rtsp://admin:888888@192.168.3.30:554/cam/realmonitor?channel=11&subtype=0" </dev/null >/dev/null 2>&1 &'
 
 # }}}
 
@@ -1267,38 +402,10 @@ alias lifx-off="lifx -0"
 #####  RANDOM  #####
 ####################
 
-alias subl='subl3'
-alias teststartup2='echo "This is running: systemd-analyze blame | head -n15"; systemd-analyze blame | head -n15'
-alias teststartup='systemd-analyze'
+#alias subl='subl3'
 
+se() { du -a ~/bin/* ~/.scripts/* ~/.scripts/tools/* ~/.config/i3/myblocks/* ~/.config/i3/blocks/* | awk '{print $2}' | fzf | xargs  -r subl ;}
 
-
-# }}}
-
-
-
-####################
-#####  LOLZ    #####
-####################
-
-
-alias wtf='dmesg'
-alias onoz='cat /var/log/errors.log'
-alias rtfm='man'
-alias visible='echo'
-alias invisible='cat'
-alias moar='more'
-alias icanhas='mkdir'
-alias donotwant='rm'
-alias dowant='cp'
-alias gtfo='mv'
-alias hai='cd'
-alias plz='pwd'
-alias inur='locate'
-alias nomz='ps aux | less'
-alias nomnom='killall'
-alias cya='reboot'
-alias kthxbai='halt'
 
 
 # }}}
@@ -1312,3 +419,22 @@ alias kthxbai='halt'
 #------------------------------------------------------
 # DESC: download/stream media from many online sites
 #youtube-dl-stream() { youtube-dl -o - "$1" | $PLAYER - ;}
+
+
+###############################
+##### DOT FILE MANAGEMENT #####
+###############################
+
+
+alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
+#alias dotpush= '/usr/bin/git --git-dir=$HOME/.deskdots/ --work-tree=$HOME push origin master'
+
+
+
+###############################
+##### extra aliases       #####
+###############################
+
+alias btcprice='curl -s https://rate.sx/BTC'
+alias ethprice='curl -s https://rate.sx/ETH'
+alias zrxprice='curl -s https://rate.sx/ZRX'
