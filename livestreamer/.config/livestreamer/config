@@ -1,9 +1,0 @@
-# Player options
-player=mpv --cache 2048
-player-no-close
-
-# Authenticate with Twitch
-twitch-oauth-token=zafim3v6xq75ehkr5c4v4bn7nihpbt
-
-# simulate Twitch web client
-http-header=Client-ID=jzkbprff40iqj646a697cyrvl0zt2m6
