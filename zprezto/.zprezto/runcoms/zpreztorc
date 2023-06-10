@@ -41,10 +41,11 @@ zstyle ':prezto:load' pmodule \
   'autosuggestions' \
   'syntax-highlighting' \
   'history-substring-search' \
-  'thefuck' \
   'contrib-prompt' \
   'fzf' \
   'prompt'
+
+# 'thefuck' \  before contrib-prompt
 
 #
 # Autosuggestions
