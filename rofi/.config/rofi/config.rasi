@@ -1,0 +1,37 @@
+configuration {
+	modi:                           "combi,drun,run,window,emoji,ssh";
+	icon-theme:						"Arc-X-P";
+	display-combi:                  "";
+    display-drun:   				"";
+    display-run:                    "";
+    display-window:                 "";
+    display-emoji:                  "";
+    display-ssh:                    "";
+    drun-display-format:            "{name}";
+	width:                          50;
+	lines:                          4;
+	hide-scrollbar:			        true;
+	font:                           "PragmataPro 12";
+	bw:                             0;
+	padding:                        0;
+	show-icons:                     true;
+	drun-match-fields:              "name,generic,exec,categories";
+	combi-modi:                     "drun,run,window";
+	matching:                       "normal";
+	line-margin:                    0;
+	line-padding:                   6;
+	separator-style:                "none";
+	hide-scrollbar:                 true;
+	theme:                          "nord.rasi";
+	color-normal:                   "argb:BF1f222d, #a6d1fa, argb:BF383c4a, #7780a1, #d1d4e0";
+	color-urgent:                   "argb:BF1f222d, #dc322f, argb:BF383c4a, #dc322f, #d1d4e0";
+	color-active:                   "argb:BF1f222d, #268bd2, argb:BF383c4a, #268bd2, #d1d4e0";
+	color-window:                   "argb:BF1f222d, #1f222d, #000000";
+}
+
+
+
+element-icon {
+    size:                           28px;
+    border:                         0px;
+}
