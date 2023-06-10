@@ -3,7 +3,7 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
-set $editor subl3
+set $editor subl
 
 #Color Variables - Original Arc Theme
 set $base00 #101218
@@ -337,14 +337,18 @@ bindsym $mod+Shift+0 move container to workspace $workspace10
 
 
 # Assign workspaces -----------------------------------------------------------------------------------------------------------
-assign [class="Sublime_text"] $workspace4
-assign [class="Subl3"] $workspace4
+#assign [class="Sublime_text"] $workspace4
+#assign [class="Subl3"] $workspace4
 assign [class="Subl"] $workspace4
+assign [class="subl"] $workspace4
 assign [class="Chromium"] $workspace1
 assign [class="chromium"] $workspace1
+assign [class="Google-chrome"] $workspace1
+assign [class="google-chrome"] $workspace1
 assign [class="Firefox"] $workspace5
 # Xfce Related
 assign [class="Nautilus"] $workspace3
+assign [class="Nemo"] $workspace3
 assign [class="Thunar"] $workspace3
 assign [class="Xfce4-terminal"] $workspace2
 assign [class="libreoffice-writer"] $workspace6
@@ -476,7 +480,11 @@ bar {
 #bindsym XF86AudioRaiseVolume exec --no-startup-id /usr/bin/pactl set-sink-volume 0 -- '+5%'
 
 # Mute volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle && pkill -RTMIN+10 i3blocks # mute sound
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle && pkill -RTMIN+10 i3blocks # mute sound 
+
+# Mute Mic
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute 1 toggle
+
 
 # Old non working bindings in thinkpad
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% && pkill -RTMIN+10 i3blocks 
@@ -508,12 +516,12 @@ for_window [class="(?i)gsimplecal"] floating enable, move position mouse, move d
 
 for_window [class="Pavucontrol"] floating enable, border none
 for_window [class="Sublime_text"] border none
-for_window [class="Subl3"] border none
+for_window [class="Subl"] border none
 for_window [class="Files"] border none
 for_window [class="Firefox"] border none
 for_window [class="gnome-power-statistics"] floating enable, border none
 for_window [class="Switchboard"] floating enable, border none
-for_window [class="file_progress"] floatin enable, border none
+for_window [class="file_progress"] floatin enable, border normal
 for_window [class="feh"] floating enable, border none
 for_window [class="(?i)nm-connection-editor"] floating enable, border none
 # XFCE specific
@@ -529,8 +537,12 @@ for_window [class="Steam"] floating enable, border normal
 for_window [class="mpv"] floating enable, border none
 for_window [class="Virt-manager"] floating stacked
 for_window [class="Nautilus"] floating enable, border none
+for_window [class="Nemo"] floating enable, border none
+for_window [class="(?i)nemo-preview-start"] floating enable, border pixel 4, move absolute position center
 for_window [class="Chromium"] border none
 for_window [class="chromium"] border none
+for_window [class="Chrome"] border none
+for_window [class="chrome"] border none
 for_window [class="^discord$"] border none
 for_window [class="zathura"] border none
 #for_window [class="^Chrome$" title=" - Chromium$"] border none
@@ -584,7 +596,7 @@ exec --no-startup-id feh --bg-fill "$(find /usr/share/backgrounds/ -type f |sort
 #optional command only dropbox start -i yo ucan also check dropbox status with dropbox status
 #exec --no-startup-id dropbox start -i
 #exec --no-startup-id /bin/bash -c "sleep 30 && dropbox stop && env DBUS_SESSION_BUS_ADDRESS="" dropbox start -i"
-exec --no-startup-id "dropbox stop && dbus-launch dropbox start -i"
+#exec --no-startup-id "dropbox stop && dbus-launch dropbox start -i"
 
 #network tray applet nm-applet
 exec --no-startup-id "nm-applet --sm-disable &"
@@ -592,6 +604,9 @@ exec --no-startup-id "nm-applet --sm-disable &"
 #bluetooth tray applet blueman-applet
 exec --no-startup-id blueman-applet
 #exec --no-startup-id 
+
+#megasync client
+exec --no-startup-id megasync
 
 #Synaptic config, disable edge scrolling
 exec --no-startup-id "synclient VertEdgeScroll=0"
@@ -604,6 +619,10 @@ exec --no-startup-id xrdb -load .Xresources
 
 #XFCE power-manager
 exec --no-startup-id xfce4-power-manager
+
+#XFCE notifications
+exec --no-startup-id /usr/lib/xfce4/notifyd/xfce4-notifyd
+#exec --no-startup-id systemctl --user start xfce4-notifyd
 
 #XFCE Notify daemon
 #exec --no-startup-id kill xfce4-notifyd

@@ -1,16 +1,12 @@
 #!/usr/bin/bash
 
 #PACKAGES=$(pacman -Qu | wc -l)
+#counts lines and ignores lines with [ignored] packages
+PACKAGES=$(checkupdates | grep -v -c ignored)
 #PACKAGES=4
-#Packages count exludes any pkg on pacman.conf that is ignored
-AUR=$(yay -Qua | wc -l)
-OFFICIAL=$(checkupdates | wc -l)
-PACKAGES=$(( AUR + OFFICIAL ))
-
-#PACKAGES=$(checkupdates | grep -v -c ignored)
 URGENT_VALUE=10
-FULLICON=
-SHORTICON=
+FULLICON=✓
+SHORTICON=☑
 OKCOLOR=#A8FF00
 WARNCOLOR=#FFAE00
 URGENTCOLOR=#FF0000
@@ -29,7 +25,6 @@ fi
 #---------i3blocks actions-----------------------------------------------
 
 case $BLOCK_BUTTON in
-	3) notify-send " $PACKAGES 📦 upgradable packages" " $AUR  from AUR
- $OFFICIAL  from repos" ;; # middle click
-	2) pamac-manager ;; # right click - opens pamac-updater
+	2) pamac-manager ;; # middle click
+	3) pamac-updater ;; # right click - opens pamac-updater
 esac
