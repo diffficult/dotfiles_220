@@ -4,19 +4,21 @@ Current dotfiles on my x220 laptop
 
 ### Info
 
-wm: i3-gaps-git
+wm: i3-wm
 
-bar: i3bar w/ i3blocks-gaps-git
+bar: i3bar w/ i3blocks
 
-shell: zsh
+shell: zsh w/ zprezto
 
-editor: sublime3
+editor: sublime4 & code
 
 terminal: xfce4-terminal+urxvt
 
-music player: ncmpcpp / cava
+music player: ncmpcpp
 
-compositor: compton
+compositor: picom
+
+stow-all will restore all configs to target home directory
 
 ### Scrots
 ![scrot1](scrot1.jpg)
