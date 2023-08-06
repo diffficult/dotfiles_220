@@ -15,7 +15,7 @@ source /usr/share/doc/pkgfile/command-not-found.bash
 shopt -s autocd
 
 
-BROWSER=/usr/bin/chromium
+BROWSER=/usr/bin/google-chrome
 EDITOR=/usr/bin/nano
 
 #climate completion

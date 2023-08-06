@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+read -r X Y W H G ID < <(slop -f "%x %y %w %h %g %i" -b 1 -t 0 -q)
+let "W = W / 6 - 2"
+let "H = H / 12 - 1"
+g=${W}x${H}+${X}+${Y}
+i3-msg exec 'urxvt -g $g -name drawn-urxvt'

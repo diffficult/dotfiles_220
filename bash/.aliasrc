@@ -218,8 +218,10 @@ alias uhaul='mv -iv --'                 # mv prompt confirmation
 ### ls replacement with exa written in rust
 
 alias ls='exa --icons --group-directories-first'
+alias l='ls -a -s changed'
 alias ll='exa -l --icons --group-directories-first'
-alias la='ll -aa -s changed --icons --group-directories-first'
+alias la='ll -a -s changed'
+
 
 # general use
 
@@ -234,7 +236,7 @@ alias la='ll -aa -s changed --icons --group-directories-first'
 
 ##alias lS='exa -1'                                                              # one column, just names
 
-alias lt='exa --tree --level=2'                                         # tree
+alias lt='exa --icons --tree --level=2'                                         # tree
 
 
 
@@ -280,6 +282,8 @@ alias runalison='cd ~/.local/bin/Alison_Desktop && ./start-alison && clear && ec
 alias killalison='cd ~/.local/bin/Alison_Desktop && ./stop-alison && clear && echo "Alison Desktop stopped" && cd ~'
 
 alias fzfb='fzf --preview "bat --color \"always\" {}"'
+
+alias cleanup='paccache -ruk0 && yes | yay -Scc'
 
 #alias weatherm='curl wttr.in/mendoza'
 #alias weather='curl http://wttr.in/$LOCATION'
@@ -375,13 +379,15 @@ webm2mp4() {for i in *.webm; do ffmpeg -i "$i" -vf "crop=trunc(iw/2)*2:trunc(ih/
 ##### CAMERAS #####
 ####################
 
-alias showme_cam01="nohup mpv rtsp://admin:admin1234admin@192.168.1.165:554/Channels/101 </dev/null >/dev/null 2>&1 &"
+alias showme_cam01="nohup mpv rtsp://admin:admin1234admin@192.168.2.21:554/Channels/101 </dev/null >/dev/null 2>&1 &"
 alias showme_cam02="nohup mpv rtsp://admin:camaritas2018@192.168.1.164:554/Channels/101 </dev/null >/dev/null 2>&1 &"
-alias colegio_cam01='nohup mpv "rtsp://admin:888888@192.168.3.30:554/cam/realmonitor?channel=01&subtype=0" </dev/null >/dev/null 2>&1 &'
-alias colegio_cam02='nohup mpv "rtsp://admin:888888@192.168.3.30:554/cam/realmonitor?channel=02&subtype=0" </dev/null >/dev/null 2>&1 &'
-alias colegio_cam07='nohup mpv "rtsp://admin:888888@192.168.3.30:554/cam/realmonitor?channel=07&subtype=0" </dev/null >/dev/null 2>&1 &'
-alias colegio_cam10='nohup mpv "rtsp://admin:888888@192.168.3.30:554/cam/realmonitor?channel=10&subtype=0" </dev/null >/dev/null 2>&1 &'
-alias colegio_cam11='nohup mpv "rtsp://admin:888888@192.168.3.30:554/cam/realmonitor?channel=11&subtype=0" </dev/null >/dev/null 2>&1 &'
+alias colegio_cam01='nohup mpv --geometry=48%+2+24 --video-aspect-override=16:9 "rtsp://admin:888888@192.168.3.30:554/cam/realmonitor?channel=01&subtype=0" </dev/null >/dev/null 2>&1 &'
+alias colegio_cam02='nohup mpv --geometry=48%+2+394 --video-aspect-override=16:9 "rtsp://admin:888888@192.168.3.30:554/cam/realmonitor?channel=02&subtype=0" </dev/null >/dev/null 2>&1 &'
+alias colegio_cam06='nohup mpv --geometry=48%+683+24 --video-aspect-override=16:9 "rtsp://admin:888888@192.168.3.30:554/cam/realmonitor?channel=06&subtype=0" </dev/null >/dev/null 2>&1 &'
+alias colegio_cam10='nohup mpv --geometry=50%x50% --video-aspect-override=16:9 "rtsp://admin:888888@192.168.3.30:554/cam/realmonitor?channel=10&subtype=0" </dev/null >/dev/null 2>&1 &'
+alias colegio_cam12='nohup mpv --geometry=48%+683+394 --video-aspect-override=16:9 "rtsp://admin:888888@192.168.3.30:554/cam/realmonitor?channel=12&subtype=0" </dev/null >/dev/null 2>&1 &'
+
+alias colegio_4cams="colegio_cam01 && colegio_cam02 && colegio_cam12 && colegio_cam06"
 
 # }}}
 
@@ -438,3 +444,5 @@ alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
 alias btcprice='curl -s https://rate.sx/BTC'
 alias ethprice='curl -s https://rate.sx/ETH'
 alias zrxprice='curl -s https://rate.sx/ZRX'
+
+alias miclightoff='echo 0 | sudo tee /sys/class/leds/platform\:\:micmute/brightness'

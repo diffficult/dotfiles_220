@@ -1,0 +1,12 @@
+rofi.combi-modi:            drun,window,ssh,cheat:cht
+rofi.font:          	    PragmataPro 12
+rofi.show-icons:            true
+rofi.lines:                 4
+rofi.line-padding:          6
+rofi.matching:              fuzzy
+rofi.bw:                    0
+rofi.padding:               0
+rofi.separator-style:       none
+rofi.hide-scrollbar:        true
+rofi.line-margin:           0
+rofi.theme: 		    nord.rasi

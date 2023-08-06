@@ -17,8 +17,8 @@ if [ -n "$BASH_VERSION" ]; then
 fi
 
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
 fi
 
 
@@ -46,4 +46,10 @@ fi
 
 #export PATH
 
-export BROWSER=/usr/bin/chromium
+
+#export BROWSER=/usr/bin/
+
+
+# Set keyboard to US-INTL with accents and deadkey
+
+setxkbmap -layout us -variant intl -option deadkeys
