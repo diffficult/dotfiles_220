@@ -2,10 +2,10 @@
 
 set -e
 
-PROGRAMS=(autostart globaltime i3 mpd nano ranger xfce4 bash gtk-2.0 gtk-3.0 mpdnotify sublime3 zsh compton livestreamer mps-youtube ncmpcpp tmux htop mpv neofetch xdefaults)
+PROGRAMS=(xfce4 ncmpcpp neofetch zprezto mpdnotify gtk-3.0 gtk-2.0 mpv mpd i3 fonts ranger htop zathura feh dunst calcurse picom rofi local_bin bash vim botp nano x11 tmux)
 
 for program in ${PROGRAMS[@]}; do
-  stow $program
+  stow -t /home/poole/ --no-folding --verbose $program
   echo "Configuring $program"
 done
 
