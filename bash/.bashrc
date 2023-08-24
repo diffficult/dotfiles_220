@@ -22,3 +22,6 @@ EDITOR=/usr/bin/nano
 source /etc/bash_completion.d/climate_completion
 
 source /home/poole/.config/broot/launcher/bash/br
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
