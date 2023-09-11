@@ -25,7 +25,7 @@ fi
 # Variables
 #
 
-export XDG_CONFIG_HOME="/home/rx/.config"
+export XDG_CONFIG_HOME="/home/poole/.config"
 
 #export EDITOR=/usr/bin/nano
 export QT_QPA_PLATFORMTHEME="qt5ct"
@@ -55,12 +55,6 @@ export GTK_THEME=Arc-Dark
 #    PATH="$d:$PATH"
 #  fi
 #done
-
-#export PATH
-
-
-#export BROWSER=/usr/bin/
-
 
 # Set keyboard to US-INTL with accents and deadkey
 
