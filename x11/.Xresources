@@ -92,43 +92,45 @@ URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
 ! Pointer
 URxvt*pointerBlank:         true
 
+
+!! original colors
 ! special
-*.foreground:   #b3b8c4
-*.background:   #20242c
-*.cursorColor:  #b3b8c4
-
-! black
-*.color0:       #213146
-*.color8:       #505354
-
-! red
-*.color1:       #f91930
-*.color9:       #ff1b6d
-
-! green
-*.color2:       #32f51c
-*.color10:      #93ea00
-
-! yellow
-*.color3:       #f4fd22
-*.color11:      #ff6600
-
-! blue
-*.color4:       #2757d6
-*.color12:      #3f78ff
-
-! magenta
-*.color5:       #8c54fe
-*.color13:      #9e6ffe
-
-! cyan
-*.color6:       #38c8b5
-*.color14:      #23cfd5
-
-! white
-*.color7:       #ccccc6
-*.color15:      #f8f8f2
-
+!! *.foreground:   #b3b8c4
+!! *.background:   #20242c
+!! *.cursorColor:  #b3b8c4
+!! 
+!! ! black
+!! *.color0:       #213146
+!! *.color8:       #505354
+!! 
+!! ! red
+!! *.color1:       #f91930
+!! *.color9:       #ff1b6d
+!! 
+!! ! green
+!! *.color2:       #32f51c
+!! *.color10:      #93ea00
+!! 
+!! ! yellow
+!! *.color3:       #f4fd22
+!! *.color11:      #ff6600
+!! 
+!! ! blue
+!! *.color4:       #2757d6
+!! *.color12:      #3f78ff
+!! 
+!! ! magenta
+!! *.color5:       #8c54fe
+!! *.color13:      #9e6ffe
+!! 
+!! ! cyan
+!! *.color6:       #38c8b5
+!! *.color14:      #23cfd5
+!! 
+!! ! white
+!! *.color7:       #ccccc6
+!! *.color15:      #f8f8f2
+!! 
 
 ! TABS COLOURS
 ! URxvt.color0  : #979797
@@ -137,11 +139,12 @@ URxvt*pointerBlank:         true
 
 !! Transparency (0-255):
 
-*.alpha: 230
+*.alpha: 0.92;
 
 !! Set a default font and font size for st below:
 
-*.font: scientifica-8;
+!*.font: scientifica-8;
+*.font: JetBrainsMono NF-9;
 
 ! ------------------------------------------------------------------------------
 ! ROFI Color theme
