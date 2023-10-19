@@ -273,7 +273,9 @@ bindsym $mod+z exec --no-startup-id ~/.config/i3/scripts/draw_area3
 
 # Set workspaces --------------------------------------------------------------------------------------------------------------
 set $workspace1 "1: "
+#set $workspace1 "1: 󰊯"
 set $workspace2 "2: "
+#set $workspace2 "2: "
 set $workspace3 "3: "
 set $workspace4 "4: "
 set $workspace5 "5: "
@@ -427,7 +429,7 @@ bar {
         tray_padding 0
         strip_workspace_numbers yes
         #mode dock
-        font pango: yuki, FontAwesome 8
+        font pango: tewi, FontAwesome 8
 #        font pango: yuki, siji 8
         #tray_output primary
         position top
