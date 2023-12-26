@@ -533,6 +533,7 @@ for_window [class="Chromium"] border none
 for_window [class="chromium"] border none
 for_window [class="Chrome"] border none
 for_window [class="chrome"] border none
+for_window [class="google-chrome"] border none
 for_window [class="^discord$"] border none
 for_window [class="zathura"] border none
 #for_window [class="^Chrome$" title=" - Chromium$"] border none
