@@ -1,0 +1,118 @@
+#!/bin/bash
+# PipeWire-based volume module for i3blocks with speaker icons and dunst notifications
+
+# Volume thresholds
+LOW_THRESH=33
+HIGH_THRESH=66
+STEP=5
+
+# Icons
+ICON_MUTED=''
+ICON_LOW=''
+ICON_MED=''
+ICON_HIGH=''
+
+# Colors
+COLOR_MUTED='#FF0000'
+COLOR_NORMAL='#7780a1'
+
+# Get volume percentage from default sink
+get_volume() {
+    pactl get-sink-volume @DEFAULT_SINK@ | grep -o '[0-9]*%' | head -1 | tr -d '%'
+}
+
+# Get mute status from default sink
+get_mute() {
+    pactl get-sink-mute @DEFAULT_SINK@ | grep -o 'yes\|no'
+}
+
+# Set volume
+set_volume() {
+    local change=$1
+    pactl set-sink-volume @DEFAULT_SINK@ "${change}"
+    pkill -RTMIN+10 i3blocks
+    notify_volume
+}
+
+# Toggle mute
+toggle_mute() {
+    local current_mute=$(get_mute)
+    if [[ "$current_mute" == "yes" ]]; then
+        pactl set-sink-mute @DEFAULT_SINK@ 0
+    else
+        pactl set-sink-mute @DEFAULT_SINK@ 1
+    fi
+    pkill -RTMIN+10 i3blocks
+    notify_volume
+}
+
+# Get appropriate icon based on volume level
+get_icon() {
+    local volume=$1
+    local muted=$2
+    
+    if [[ "$muted" == "yes" ]] || [[ "$volume" -eq 0 ]]; then
+        echo "$ICON_MUTED"
+    elif [[ "$volume" -le "$LOW_THRESH" ]]; then
+        echo "$ICON_LOW"
+    elif [[ "$volume" -le "$HIGH_THRESH" ]]; then
+        echo "$ICON_MED"
+    else
+        echo "$ICON_HIGH"
+    fi
+}
+
+# Get color based on mute status
+get_color() {
+    local muted=$1
+    if [[ "$muted" == "yes" ]]; then
+        echo "$COLOR_MUTED"
+    else
+        echo "$COLOR_NORMAL"
+    fi
+}
+
+# Get appropriate icon path for dunst notification
+get_notification_icon() {
+    local volume=$1
+    local muted=$2
+    
+    if [[ "$muted" == "yes" ]] || [[ "$volume" -eq 0 ]]; then
+        echo "/usr/share/icons/AdwaitaLegacy/24x24/legacy/audio-volume-muted.png"
+    elif [[ "$volume" -le "$LOW_THRESH" ]]; then
+        echo "/usr/share/icons/AdwaitaLegacy/24x24/legacy/audio-volume-low.png"
+    elif [[ "$volume" -le "$HIGH_THRESH" ]]; then
+        echo "/usr/share/icons/AdwaitaLegacy/24x24/legacy/audio-volume-medium.png"
+    else
+        echo "/usr/share/icons/AdwaitaLegacy/24x24/legacy/audio-volume-high.png"
+    fi
+}
+
+# Show dunst notification with progress bar
+notify_volume() {
+    local volume=$(get_volume)
+    local muted=$(get_mute)
+    local icon=$(get_icon "$volume" "$muted")
+    local notif_icon=$(get_notification_icon "$volume" "$muted")
+    
+    # Use dunstify with progress bar (-h int:value:) and icon (-i)
+    dunstify -u low -i "$notif_icon" -h string:x-dunst-stack-tag:i3volume -h int:value:$volume "Volume" "$icon  $volume%"
+}
+
+# Handle mouse clicks and scrolling
+case $BLOCK_BUTTON in
+    1|2|3) toggle_mute ;;
+    4) set_volume "+${STEP}%" ;;     # scroll up
+    5) set_volume "-${STEP}%" ;;     # scroll down
+esac
+
+# Main output
+volume=$(get_volume)
+muted=$(get_mute)
+icon=$(get_icon "$volume" "$muted")
+color=$(get_color "$muted")
+
+# Output in i3blocks format
+echo "$icon  $volume%"
+echo "$icon  $volume%"
+echo "$color"

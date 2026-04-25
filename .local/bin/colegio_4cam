@@ -1,0 +1,11 @@
+#!/bin/bash
+
+
+nohup mpv --geometry=48%+2+14 --video-aspect-override=16:9 "rtsp://admin:888888@192.168.3.30:554/cam/realmonitor?channel=01&subtype=0" </dev/null >/dev/null 2>&1 &
+sleep 2;
+nohup mpv --geometry=48%+2+384 --video-aspect-override=16:9 "rtsp://admin:888888@192.168.3.30:554/cam/realmonitor?channel=02&subtype=0" </dev/null >/dev/null 2>&1 &
+sleep 2;
+nohup mpv --geometry=48%+683+14 --video-aspect-override=16:9 "rtsp://admin:888888@192.168.3.30:554/cam/realmonitor?channel=07&subtype=0" </dev/null >/dev/null 2>&1 &
+sleep 2;
+nohup mpv --geometry=48%+683+384 --video-aspect-override=16:9 "rtsp://admin:888888@192.168.3.30:554/cam/realmonitor?channel=11&subtype=0" </dev/null >/dev/null 2>&1 &
+sleep 2;

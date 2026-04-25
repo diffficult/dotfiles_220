@@ -1,0 +1,10 @@
+[Scheme]
+Name=x220color
+ColorCursor=#F2D5CF
+ColorCursorForeground=#232634
+ColorCursorUseDefault=FALSE
+ColorCursor=#b3b3b8b8c4c4
+ColorForeground=#b3b3b8b8c4c4
+ColorBackground=#202024242c2c
+ColorPalette=rgb(33,49,70);rgb(249,25,48);rgb(50,245,28);rgb(244,253,34);rgb(4,138,199);rgb(140,84,254);rgb(56,200,181);rgb(204,204,198);rgb(80,83,84);rgb(255,27,109);rgb(147,234,0);rgb(255,102,0);rgb(72,116,255);rgb(158,111,254);rgb(35,207,213);rgb(248,248,242)
+

@@ -1,0 +1,167 @@
+#!/bin/bash
+# Bluetooth module for i3blocks with bluetui integration
+
+# Colors
+COLOR_ACTIVE='#C9CCDB'    # Same as date/time module
+COLOR_INACTIVE='#7780A1'  # Same as default/disk module
+
+# Icons (Nerd Font)
+ICON_ON='󰂯'
+ICON_OFF='󰂲'
+
+# Get Bluetooth power status
+get_power_status() {
+    bluetoothctl show 2>/dev/null | grep -q "Powered: yes" && echo "on" || echo "off"
+}
+
+# Get connected device count
+get_connected_count() {
+    bluetoothctl devices Connected 2>/dev/null | wc -l
+}
+
+# Get first connected device name (for display)
+get_connected_device() {
+    bluetoothctl devices Connected 2>/dev/null | head -1 | cut -d' ' -f3-
+}
+
+# Get human-friendly name for a device
+get_device_name() {
+    local mac=$1
+    [[ -z "$mac" ]] && return
+    bluetoothctl info "$mac" 2>/dev/null | awk -F': ' '/Name/ {print $2; exit}'
+}
+
+# Notification helpers
+send_notification() {
+    local title="i3blocks-bluetooth"
+    local body=$1
+    local urgency=${2:-normal}
+    if command -v dunstify >/dev/null 2>&1; then
+        dunstify -a "$title" -u "$urgency" "$title" "$body"
+    else
+        notify-send "$title" "$body"
+    fi
+}
+
+notify_power_state() {
+    local state=$1
+    if [[ "$state" == "on" ]]; then
+        send_notification "Bluetooth powered on"
+    else
+        send_notification "Bluetooth powered off" low
+    fi
+}
+
+notify_device_action() {
+    local action=$1
+    local device=$2
+    if [[ -n "$device" ]]; then
+        send_notification "$action $device"
+    else
+        send_notification "$action device"
+    fi
+}
+
+# Check if rfkill is available
+has_rfkill() {
+    command -v rfkill >/dev/null 2>&1
+}
+
+# Block the hardware radio so the LED follows power state
+block_rfkill() {
+    if has_rfkill; then
+        rfkill block bluetooth >/dev/null 2>&1
+    fi
+}
+
+# Allow the radio again
+unblock_rfkill() {
+    if has_rfkill; then
+        rfkill unblock bluetooth >/dev/null 2>&1
+    fi
+}
+
+# Toggle Bluetooth power
+toggle_power() {
+    local status=$(get_power_status)
+    local new_state
+    if [[ "$status" == "on" ]]; then
+        bluetoothctl power off >/dev/null 2>&1
+        block_rfkill
+        new_state="off"
+    else
+        unblock_rfkill
+        bluetoothctl power on >/dev/null 2>&1
+        new_state="on"
+    fi
+    notify_power_state "$new_state"
+    # Refresh i3blocks
+    pkill -RTMIN+11 i3blocks 2>/dev/null || true
+}
+
+# Open bluetui for management
+open_manager() {
+    # Use a terminal to launch bluetui
+    st -n bluetui-terminal -g 90x24 -e bluetui &
+}
+
+# Cycle through connected devices (scroll up/down)
+cycle_device() {
+    local direction=$1  # "next" or "prev"
+    local devices=($(bluetoothctl devices Paired 2>/dev/null | awk '{print $2}'))
+    
+    if [[ ${#devices[@]} -eq 0 ]]; then
+        return
+    fi
+    
+    # For simplicity, just connect to first available paired device
+    # or disconnect if already connected
+    local connected=$(bluetoothctl devices Connected 2>/dev/null | head -1 | awk '{print $2}')
+    local connected_name=$(get_device_name "$connected")
+    
+    if [[ -n "$connected" ]]; then
+        bluetoothctl disconnect "$connected" >/dev/null 2>&1
+        notify_device_action "Disconnected from" "$connected_name"
+    else
+        # Connect to first paired device
+        local target="${devices[0]}"
+        local target_name=$(get_device_name "$target")
+        bluetoothctl connect "$target" >/dev/null 2>&1
+        notify_device_action "Connected to" "$target_name"
+    fi
+    
+    pkill -RTMIN+11 i3blocks 2>/dev/null || true
+}
+
+# Handle mouse clicks
+case $BLOCK_BUTTON in
+    1) toggle_power ;;           # Left click: toggle power
+    3) open_manager ;;           # Right click: open bluetui
+    4) cycle_device "next" ;;    # Scroll up: cycle/connect
+    5) cycle_device "prev" ;;    # Scroll down: disconnect
+esac
+
+# Main output
+power_status=$(get_power_status)
+
+if [[ "$power_status" == "on" ]]; then
+    connected_count=$(get_connected_count)
+    device_name=$(get_connected_device)
+    
+    if [[ $connected_count -gt 0 ]]; then
+        # Show icon with count and device name (truncated)
+        if [[ ${#device_name} -gt 12 ]]; then
+            device_name="${device_name:0:12}…"
+        fi
+        echo "$ICON_ON $connected_count ${device_name}"
+        echo "$ICON_ON $connected_count"
+    else
+        echo "$ICON_ON"
+        echo "$ICON_ON"
+    fi
+    echo "$COLOR_ACTIVE"
+else
+    echo "$ICON_OFF"
+    echo "$ICON_OFF"
+    echo "$COLOR_INACTIVE"
+fi

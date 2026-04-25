@@ -1,0 +1,22 @@
+#!/bin/bash
+# Simple window title blocklet for i3blocks
+# Prefers xtitle if available, falls back to xdotool
+
+MAX_LENGTH="${1:-45}"
+
+if command -v xtitle >/dev/null 2>&1; then
+    title=$(xtitle)
+else
+    title=$(xdotool getactivewindow getwindowname 2>/dev/null || echo "")
+fi
+
+if [ -n "$title" ]; then
+    if [ "${#title}" -gt "$MAX_LENGTH" ]; then
+        title="${title:0:$MAX_LENGTH}…"
+    fi
+    echo "$title"
+    echo "$title"
+else
+    echo ""
+    echo ""
+fi
