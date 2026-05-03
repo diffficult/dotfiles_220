@@ -35,6 +35,14 @@ exec --no-startup-id "nm-applet --sm-disable &"
 exec --no-startup-id blueman-applet
 exec --no-startup-id rfkill block bluetooth
 
+# Bluetooth i3blocks D-Bus monitor and delayed initial refresh
+exec --no-startup-id ~/.config/i3/bin/bluetooth-dbus-monitor.sh
+exec --no-startup-id /bin/bash -c "sleep 5 && pkill -RTMIN+12 i3blocks"
+
+# Window title monitor and delayed initial refresh
+exec --no-startup-id ~/.config/i3/bin/window-title-monitor.sh
+exec --no-startup-id /bin/bash -c "sleep 3 && pkill -RTMIN+11 i3blocks"
+
 # Megasync client
 exec --no-startup-id megasync
 

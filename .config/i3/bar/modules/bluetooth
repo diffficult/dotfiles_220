@@ -96,7 +96,7 @@ toggle_power() {
     fi
     notify_power_state "$new_state"
     # Refresh i3blocks
-    pkill -RTMIN+11 i3blocks 2>/dev/null || true
+    pkill -RTMIN+12 i3blocks 2>/dev/null || true
 }
 
 # Open bluetui for management
@@ -130,7 +130,7 @@ cycle_device() {
         notify_device_action "Connected to" "$target_name"
     fi
     
-    pkill -RTMIN+11 i3blocks 2>/dev/null || true
+    pkill -RTMIN+12 i3blocks 2>/dev/null || true
 }
 
 # Handle mouse clicks
