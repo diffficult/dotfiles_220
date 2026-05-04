@@ -3,3 +3,4 @@ file:///home/poole/Dropbox Dropbox
 smb://10.0.10.6/pi4nas/ nas@home
 smb://192.168.3.5/pi4colegio/ pi4@colegio
 file:///home/poole/Mega Mega
+smb://10.0.10.11/media2/ media2 on 10.0.10.11
