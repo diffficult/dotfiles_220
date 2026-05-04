@@ -107,8 +107,8 @@ display_packages() {
         echo ' <span foreground="'$WARNCOLOR'">'"$packages"'</span>' # full-text
         echo ' <span foreground="'$WARNCOLOR'">'"$packages"'</span>' # short-text
     elif [[ $packages -eq 0 ]]; then
-        echo ' <span foreground="'$OKCOLOR'"></span>' #full-text
-        echo ' <span foreground="'$OKCOLOR'"></span>' #short-text
+        echo ' <span foreground="'$OKCOLOR'"> </span>' #full-text
+        echo ' <span foreground="'$OKCOLOR'"> </span>' #short-text
     fi
 }
 
