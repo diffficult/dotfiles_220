@@ -1,0 +1,53 @@
+#
+# Executes commands at login pre-zshrc.
+#
+# Authors:
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#
+
+#
+# Editors / pager
+#
+
+# Interactive shells override EDITOR via ~/.aliasrc (nvim preferred).
+export EDITOR="${EDITOR:-nvim}"
+export VISUAL="${VISUAL:-$EDITOR}"
+export PAGER='less'
+
+#
+# Language
+#
+
+if [[ -z "$LANG" ]]; then
+  export LANG='en_US.UTF-8'
+fi
+
+#
+# Paths
+#
+
+typeset -gU cdpath fpath mailpath path
+
+path=(
+  $HOME/.local/bin
+  $HOME/.local/bin/scripts
+  $HOME/.cargo/bin
+  $HOME/.local/share/npm_global/bin
+  $HOME/.config/npm
+  $HOME/.opencode/bin
+  /usr/local/{bin,sbin}
+  $path
+)
+
+# Drop path entries whose directories do not exist.
+path=(${^path}(N-/))
+
+#
+# Less
+#
+
+export LESS='-F -g -i -M -R -S -w -X -z-4'
+
+if (( $#commands[(i)lesspipe(|.sh)] )); then
+  export LESSOPEN="| /usr/bin/env $commands[(i)lesspipe(|.sh)] %s 2>&-"
+fi

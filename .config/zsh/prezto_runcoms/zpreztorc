@@ -1,0 +1,103 @@
+#
+# Sets Prezto options.
+#
+# Authors:
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#
+
+#
+# General
+#
+
+# Color output (auto set to 'no' on dumb terminals).
+zstyle ':prezto:*:*' color 'yes'
+
+# Extra module dirs (both required — a second zstyle replaces the first).
+zstyle ':prezto:load' pmodule-dirs \
+  $HOME/.zprezto/contrib \
+  $HOME/.config/zsh/modules
+zstyle ':prezto:load' pmodule-allow-overrides 'yes'
+
+# Prezto modules (order matters).
+zstyle ':prezto:load' pmodule \
+  'environment' \
+  'terminal' \
+  'editor' \
+  'rsync' \
+  'history' \
+  'directory' \
+  'spectrum' \
+  'utility' \
+  'ssh' \
+  'git' \
+  'completion' \
+  'command-not-found' \
+  'syntax-highlighting' \
+  'history-substring-search' \
+  'autosuggestions' \
+  'contrib-prompt' \
+  'fzf' \
+  'fzf-alias' \
+  'zoxide' \
+  'prompt'
+
+#
+# Autosuggestions
+#
+
+zstyle ':prezto:module:autosuggestions' color 'yes'
+
+#
+# Editor
+#
+
+zstyle ':prezto:module:editor' key-bindings 'emacs'
+
+#
+# History Substring Search
+#
+
+zstyle ':prezto:module:history-substring-search:color' found 'fg=green'
+zstyle ':prezto:module:history-substring-search:color' not-found 'fg=red'
+
+#
+# Prompt
+#
+
+zstyle ':prezto:module:prompt' theme 'pure'
+
+# Pure: show git stash status
+zstyle :prompt:pure:git:stash show yes
+
+# Multicolor ❯❯❯; error state uses prompt:error color for all three
+PURE_PROMPT_SYMBOL='%(?.%F{red}❯%F{yellow}❯%F{green}.%F{$prompt_pure_colors[prompt:error]}❯%F{$prompt_pure_colors[prompt:error]}❯%F{$prompt_pure_colors[prompt:error]})❯%f'
+
+zstyle :prompt:pure:prompt:error color red
+
+#
+# SSH
+#
+
+zstyle ':prezto:module:ssh:load' identities 'id_rsa' 'home' 'work' 'raccoonesque' 'gitlab'
+
+#
+# Syntax Highlighting
+#
+
+# 'line' highlighter is relatively expensive; main+brackets is enough day-to-day
+zstyle ':prezto:module:syntax-highlighting' highlighters \
+  'main' \
+  'brackets'
+
+#
+# Terminal
+#
+
+zstyle ':prezto:module:terminal' auto-title 'yes'
+
+#
+# fzf (contrib) — height/tmux; colors come from zshrc (Tokyo Night)
+#
+
+zstyle ':prezto:module:fzf' height '30%'
+zstyle ':prezto:module:fzf' tmux 'yes'

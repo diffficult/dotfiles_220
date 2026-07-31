@@ -1,0 +1,259 @@
+# General shell functions
+
+#-------- GRUB {{{
+
+update-grub() { sudo grub-mkconfig -o /boot/grub/grub.cfg; }
+grub-update() { update-grub; }
+
+grub-list() {
+  sudo grep "menuentry '" /boot/grub/grub.cfg | less -N
+  print -P "%F{red}REMINDER: GRUB numbers start at 0%f"
+}
+
+# }}}
+
+#-------- Listing helpers (real /usr/bin/ls, not eza) {{{
+
+lsg() {
+  local keyword
+  keyword=$(printf '%s' "$*" | sed 's/ /.*/g')
+  /usr/bin/ls -hlA --color=yes \
+    | awk '{k=0;for(i=0;i<=8;i++)k+=((substr($1,i+2,1)~/[rwx]/)*2^(8-i));if(k)printf(" %0o ",k);print}' \
+    | grep -iE -- "$keyword"
+}
+
+lst() {
+  /usr/bin/ls -vAFqh --color=yes -got --time-style=long-iso "$@" \
+    | sed "s/$(date +%Y-%m-%d)/\x1b[32m     TODAY\x1b[m/;s/$(date +'%Y-%m-%d' -d yesterday)/\x1b[33m YESTERDAY\x1b[m/" \
+    | awk '{k=0;for(i=0;i<=8;i++)k+=((substr($1,i+2,1)~/[rwx]/)*2^(8-i));if(k)printf(" %0o ",k);print}' \
+    | tac
+}
+
+lsl() {
+  /usr/bin/ls -hl --color=yes "$@" \
+    | awk '{k=0;for(i=0;i<=8;i++)k+=((substr($1,i+2,1)~/[rwx]/)*2^(8-i));if(k)printf(" %0o ",k);print}'
+}
+
+# }}}
+
+#-------- Calc / docs / search {{{
+
+calc() {
+  if command -v python3 >/dev/null 2>&1; then
+    python3 -ic 'from math import *; import cmath'
+  elif command -v bc >/dev/null 2>&1; then
+    bc -q -l
+  else
+    echo "Need python3 or bc" >&2
+    return 1
+  fi
+}
+
+manned() {
+  local arg
+  for arg in "$@"; do
+    man "$arg" 2>/dev/null \
+      || "$arg" -h 2>/dev/null \
+      || "$arg" --help 2>/dev/null \
+      || help "$arg" 2>/dev/null \
+      || xdg-open "https://manned.org/browse/search?q=${arg}" 2>/dev/null
+  done
+}
+
+cmdfu() {
+  local q enc
+  q="$*"
+  enc=$(printf '%s' "$q" | base64 -w0 2>/dev/null || printf '%s' "$q" | base64)
+  curl -sL "https://www.commandlinefu.com/commands/matching/${q// /-}/${enc}/plaintext" \
+    | sed 's/\(^#.*\)/\x1b[32m\1\x1b[0m/g' \
+    | less -R
+}
+
+# }}}
+
+#-------- System info {{{
+
+m-sound() {
+  arecord -L
+  arecord -l
+  cat /proc/asound/pcm
+}
+
+m-ip() {
+  echo "--------------- Network Information ---------------"
+  if command -v ip >/dev/null 2>&1; then
+    echo "default route:"
+    ip -4 route show default 2>/dev/null
+    echo
+    ip -br addr
+    echo
+    ip -br link
+  fi
+  echo "external ip: $(curl -s --max-time 3 http://ipecho.net/plain 2>/dev/null)"
+  echo "---------------------------------------------------"
+}
+
+# }}}
+
+#-------- Images (ImageMagick) {{{
+
+image-resizer() {
+  if [ $# -lt 2 ]; then
+    echo "Usage: image-resizer <WxH> <image>..."
+    return 1
+  fi
+  local size="$1" arg
+  shift
+  for arg in "$@"; do
+    convert "$arg" -resize "$size" "${arg%.*}_${size}_resized.${arg##*.}"
+  done
+}
+
+image-rotate() {
+  if [ $# -lt 2 ]; then
+    echo "Usage: image-rotate <90|180|270> <image>..."
+    return 1
+  fi
+  local deg="$1" arg
+  shift
+  for arg in "$@"; do
+    convert "$arg" -rotate "$deg" "${arg%.*}_${deg}_rotated.${arg##*.}"
+  done
+}
+
+# }}}
+
+#-------- Webcam (mpv + v4l2) {{{
+
+webcam-list() {
+  v4l2-ctl --list-formats-ext
+  v4l2-ctl --list-devices
+}
+
+webcam() {
+  local dev="${1:-/dev/video0}"
+  mpv "av://v4l2:${dev}" --profile=low-latency --untimed --no-resume-playback
+}
+
+# }}}
+
+#-------- Filename cleanup {{{
+
+# FOO BAR LinuX.TAR.GZ → foo_bar_linux.tar.gz
+detox-unix() {
+  local arg filter_name
+  for arg in "$@"; do
+    filter_name=$(printf '%s' "$arg" | sed 's/%20/ /g; s/ /_/g' | tr '[:upper:]' '[:lower:]')
+    mv -- "$arg" "$filter_name"
+  done
+}
+
+# FOO BAR LinuX.tar.gz → FOO_BAR_LINUX.tar.gz (extension lowercased kept simple)
+detox-unixCAP() {
+  local arg base ext filter_name
+  for arg in "$@"; do
+    base=${arg%.*}
+    ext=${arg##*.}
+    if [ "$base" = "$arg" ]; then
+      filter_name=$(printf '%s' "$arg" | sed 's/%20/ /g; s/ /_/g' | tr '[:lower:]' '[:upper:]')
+    else
+      filter_name=$(printf '%s' "$base" | sed 's/%20/ /g; s/ /_/g' | tr '[:lower:]' '[:upper:]')
+      filter_name="${filter_name}.$(printf '%s' "$ext" | tr '[:upper:]' '[:lower:]')"
+    fi
+    mv -- "$arg" "$filter_name"
+  done
+}
+
+# FOO BAR LinuX → Foo Bar Linux (bash/zsh title-ish)
+detox-human() {
+  local arg filter_name
+  for arg in "$@"; do
+    filter_name=$(printf '%s' "$arg" | sed 's/%20/ /g; s/_/ /g' | tr '[:upper:]' '[:lower:]')
+    # capitalize words (zsh/bash)
+    filter_name=$(printf '%s' "$filter_name" | sed -E 's/(^| )([a-z])/\1\u\2/g')
+    mv -- "$arg" "$filter_name"
+  done
+}
+
+detox-human-dash() {
+  local arg filter_name
+  for arg in "$@"; do
+    filter_name=$(printf '%s' "$arg" | sed 's/%20/ /g; s/_/ /g; s/-/ /g' | tr '[:upper:]' '[:lower:]')
+    filter_name=$(printf '%s' "$filter_name" | sed -E 's/(^| )([a-z])/\1\u\2/g')
+    mv -- "$arg" "$filter_name"
+  done
+}
+
+detox-video() {
+  if [ $# -lt 1 ]; then
+    echo "Usage: detox-video <video>..."
+    return 1
+  fi
+  local arg duration filesize resolution mime
+  for arg in "$@"; do
+    mime=$(file --mime-type -b "$arg" | cut -d/ -f1)
+    [ "$mime" = "video" ] || continue
+    duration=$(ffprobe -v error -show_entries format=duration -of default=nk=1:nw=1 "$arg" 2>/dev/null \
+      | awk '{printf "%dh%02dm%02ds", $1/3600, ($1%3600)/60, $1%60}')
+    filesize=$(du -h "$arg" | awk '{print $1}')
+    resolution=$(ffprobe -v error -select_streams v:0 -show_entries stream=height -of csv=p=0 "$arg" 2>/dev/null)
+    mv -- "$arg" "${arg%.*} [${duration},${filesize},${resolution}p].${arg##*.}"
+  done
+}
+
+# }}}
+
+#-------- Misc utilities {{{
+
+view_csv_pretty() {
+  if [ -z "$1" ]; then
+    echo "Usage: view_csv_pretty <file.csv>"
+    return 1
+  fi
+  column -s, -t <"$1" | less -F -S -X -K
+}
+
+recently_modified() {
+  local recent_file
+  recent_file=$(/usr/bin/ls -t 2>/dev/null | head -n1)
+  if [ -n "$recent_file" ]; then
+    echo "Most recently modified: $recent_file"
+  else
+    echo "No files here" >&2
+    return 1
+  fi
+}
+
+compress_files() {
+  if [ $# -lt 2 ]; then
+    echo "Usage: compress_files <archive.zip> <file>..."
+    return 1
+  fi
+  zip -r "$1" "${@:2}"
+}
+
+search_text_in_files() {
+  if [ $# -lt 2 ]; then
+    echo "Usage: search_text_in_files <directory> <term>"
+    return 1
+  fi
+  grep -rnw "$1" -e "$2"
+}
+
+process_with_most_memory() {
+  ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem | head
+}
+
+list_open_ports() {
+  ss -tuln
+}
+
+find_listening_ports() {
+  if [ -z "$1" ]; then
+    echo "Usage: find_listening_ports <pattern>"
+    return 1
+  fi
+  ss -tulnp | grep -- "$1"
+}
+
+# }}}

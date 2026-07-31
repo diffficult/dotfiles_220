@@ -1,0 +1,207 @@
+# Personal functions
+
+#-------- VPN (NetworkManager / wireguard) {{{
+
+vpn-on() { nmcli con up "$1"; }
+
+vpn-off() {
+  local active_vpn
+  active_vpn=$(nmcli -t -f NAME,TYPE con show --active | awk -F: '$2 ~ /wireguard|vpn/ {print $1; exit}')
+  if [[ -n $active_vpn ]]; then
+    nmcli con down "$active_vpn"
+    echo "VPN : $active_vpn down"
+  else
+    echo "No active VPN connection found."
+  fi
+}
+
+# }}}
+
+#-------- Weather {{{
+
+weather() {
+  local lines=-37
+  [[ -n $2 ]] || lines=-7
+  curl --silent --max-time 8 "http://wttr.in/${1}" | head "$lines"
+}
+
+# }}}
+
+#-------- systemctl service checklist {{{
+
+rc() {
+  systemctl list-unit-files --type=service \
+    | sed 's/.service//g' \
+    | sed '/static/d;/indirect/d;/systemd/d;/dbus-org/d;/canberra/d;/wpa_supplicant/d;/netctl/d;/rfkill/d;/krb5/d' \
+    | tail -n+2 \
+    | head -n -2 \
+    | sed 's/\(^.*enabled.*$\)/[x] \1/; s/enabled//g' \
+    | sed 's/\(^.*disabled.*$\)/[ ] \1/; s/disabled//g' \
+    | sed 's/[ \t]*$//' \
+    | while IFS= read -r line; do
+        if [[ $line == *'[x]'* ]]; then
+          printf '\033[0;32m%s\n' "$line"
+        else
+          printf '\033[1;30m%s\n' "$line"
+        fi
+      done
+}
+
+# }}}
+
+#-------- Touchpad driver toggle {{{
+
+touchpad-driver() {
+  local xconf_dir="/etc/X11/xorg.conf.d"
+  local synaptics_conf="30-synaptics-touchpad.conf"
+  local libinput_conf="40-libinput-touchpad.conf"
+
+  case "$1" in
+    synaptics|syn)
+      echo "[+] Switching to synaptics driver..."
+      sudo rm -f "$xconf_dir/$libinput_conf" 2>/dev/null
+      sudo tee "$xconf_dir/$synaptics_conf" >/dev/null <<'EOF'
+Section "InputClass"
+    Identifier "Synaptics TouchPad"
+    Driver "synaptics"
+    MatchIsTouchpad "on"
+    MatchDevicePath "/dev/input/event*"
+    Option "VertScrollDelta" "150"
+    Option "HorizScrollDelta" "150"
+    Option "VertTwoFingerScroll" "on"
+    Option "HorizTwoFingerScroll" "on"
+    Option "CoastingSpeed" "0"
+    Option "PalmDetect" "on"
+EndSection
+EOF
+      echo "[✓] Synaptics configured. Log out and back in to apply."
+      ;;
+    libinput|lib)
+      echo "[+] Switching to libinput driver..."
+      sudo rm -f "$xconf_dir/$synaptics_conf" 2>/dev/null
+      sudo tee "$xconf_dir/$libinput_conf" >/dev/null <<'EOF'
+Section "InputClass"
+    Identifier "libinput touchpad catchall"
+    Driver "libinput"
+    MatchIsTouchpad "on"
+    MatchDevicePath "/dev/input/event*"
+    Option "ScrollMethod" "twofinger"
+    Option "NaturalScrolling" "false"
+    Option "AccelSpeed" "0"
+    Option "Tapping" "on"
+    Option "DisableWhileTyping" "on"
+EndSection
+EOF
+      echo "[✓] Libinput configured. Log out and back in to apply."
+      ;;
+    status|st)
+      if [ -f "$xconf_dir/$synaptics_conf" ]; then
+        echo "[i] Current driver: synaptics ($xconf_dir/$synaptics_conf)"
+      elif [ -f "$xconf_dir/$libinput_conf" ]; then
+        echo "[i] Current driver: libinput ($xconf_dir/$libinput_conf)"
+      else
+        echo "[i] No custom touchpad config (system default, likely libinput)"
+      fi
+      ;;
+    *)
+      echo "Usage: touchpad-driver <synaptics|libinput|status>"
+      return 1
+      ;;
+  esac
+}
+
+# }}}
+
+#-------- Color / fun {{{
+
+whodemon() {
+  local f="$HOME/.config/functions/data/whodemon.txt"
+  if [[ ! -f $f ]]; then
+    echo "whodemon data missing: $f" >&2
+    return 1
+  fi
+  shuf -n1 -- "$f"
+}
+
+colortest-gradients2() {
+  echo -e '\033[m'
+  local i f
+  for i in {0..7}; do
+    for f in {0..7}; do
+      echo -en "\033[$((f + 30))m██▓▒░"
+    done
+    echo -e '\033[m'
+  done
+  echo -e '\033[m'
+}
+
+colortest-vbars() {
+  clear
+  local _term_width _term_height _bar_count _bar_width l b s
+  _term_width=$(tput cols)
+  _term_height=$(tput lines)
+  _bar_count=8
+  _bar_width=$((_term_width / _bar_count))
+  l=1
+  while [[ $l -lt $_term_height ]]; do
+    b=0
+    while [[ $b -lt $_bar_count ]]; do
+      s=0
+      while [[ $s -lt $_bar_width ]]; do
+        echo -en "\033[3${b}m█"
+        s=$((s + 1))
+      done
+      b=$((b + 1))
+    done
+    echo
+    l=$((l + 1))
+  done
+}
+
+colortest-skull() {
+  echo -e "
+\033[31m███████████████████████████
+\033[32m███████▀▀▀░░░░░░░▀▀▀███████
+\033[33m████▀░░░░░░░░░░░░░░░░░▀████
+\033[34m███│░░░░░░░░░░░░░░░░░░░│███
+\033[35m██▌│░░░░░░░░░░░░░░░░░░░│▐██
+\033[36m██░└┐░░░░░░░░░░░░░░░░░┌┘░██
+\033[37m██░░└┐░░░░░░░░░░░░░░░┌┘░░██
+\033[31m██░░┌┘▄▄▄▄▄░░░░░▄▄▄▄▄└┐░░██
+\033[32m██▌░│██████▌░░░▐██████│░▐██
+\033[33m███░│▐███▀▀░░▄░░▀▀███▌│░███
+\033[34m██▀─┘░░░░░░░▐█▌░░░░░░░└─▀██
+\033[35m██▄░░░▄▄▄▓░░▀█▀░░▓▄▄▄░░░▄██
+\033[36m████▄─┘██▌░░░░░░░▐██└─▄████
+\033[37m█████░░▐█─┬┬┬┬┬┬┬─█▌░░█████
+\033[31m████▌░░░▀┬┼┼┼┼┼┼┼┬▀░░░▐████
+\033[32m█████▄░░░└┴┴┴┴┴┴┴┘░░░▄█████
+\033[33m███████▄░░░░░░░░░░░▄███████
+\033[34m██████████▄▄▄▄▄▄▄██████████
+\033[35m█████████ H O L A █████████
+\033[36m███████████████████████████
+"
+}
+
+this-is-bait() {
+  echo -e "
+\033[35m██████████████████████████████████████
+\033[35m█░░░█░█░█░█░░███░█░░███░░▀█▀░▀█░█░░░██
+\033[35m██░██░▀░█░█░▀███░█░▀███░▀▄█░▀░█░██░███
+\033[35m██░██░▄░█░█▄░███░█▄░███░▄▀█░▄░█░██░███
+\033[35m██░██░█░█░█░░███░█░░███░░▄█░█░█░██░█░█
+\033[35m██████████████████████████████████████
+"
+}
+
+colortest-blocks() {
+  local i
+  for i in {0..7}; do echo -en "\e[0;3${i}m⣿⣿⣿⣿\e[0m"; done
+  echo
+  for i in {0..7}; do echo -en "\e[0;3${i}m⣿⣿⣿⣿\e[0m"; done
+  echo
+  for i in {0..7}; do echo -en "\e[1;3${i}m⣿⣿⣿⣿\e[0m"; done
+  echo
+}
+
+# }}}

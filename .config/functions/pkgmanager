@@ -1,0 +1,81 @@
+# Arch package-manager helpers (yay > paru > pacman)
+
+find_pkm() {
+  for i; do
+    command -v "$i" >/dev/null 2>&1 && { echo "$i"; return 0; }
+  done
+  return 1
+}
+
+export PKMGR
+PKMGR=$(find_pkm yay paru pacman)
+
+# shared pacman-side helpers
+pkm-key() {
+  sudo pacman-key --init \
+    && sudo pacman-key --populate archlinux \
+    && sudo pacman-key --refresh-keys
+}
+pkm-listcache() { ls -1 /var/cache/pacman/pkg "$@" && echo "pwd: /var/cache/pacman/pkg"; }
+pkm-localinstall() { sudo pacman --noconfirm -U "$@"; }
+pkm-own() { pacman -Qo "$@"; }
+pkm-pkgsearch() { command -v pkgfile >/dev/null && pkgfile -s "$@" || pacman -F "$@"; }
+pkm-query() { pacman -Qqs "$@"; }
+pkm-list-upgraded() { grep -i upgraded /var/log/pacman.log; }
+pkm-download() { sudo pacman -Sw "$@"; }
+pkm-build() { tar xvzf "$1" && cd "${1%%.tar.gz}" && makepkg -csi; }
+
+if [ "$PKMGR" = "yay" ]; then
+  pkm-cleanall() { yay -Sc; }
+  pkm-cleanold() { yay -Scc; }
+  pkm-info() { for arg in "$@"; do yay -Qi "$arg" 2>/dev/null || yay -Si "$arg"; done; }
+  pkm-install() { yay -S "$@"; }
+  pkm-list() { yay -Qql "$@"; }
+  pkm-listinstalled() { yay -Qe; }
+  pkm-purge() { yay -Rns "$@"; }
+  pkm-query-detail() { yay -Qs "$@"; }
+  pkm-refresh() { yay -Syy; }
+  pkm-remove() { yay -Rcs "$@"; }
+  pkm-remove-nodepends() { yay -Rdd "$@"; }
+  pkm-remove-orphans() { yay -Yc; }
+  pkm-search() { yay "$@"; }
+  pkm-search-local() { yay -Qs "$@"; }
+  pkm-upgrade() { yay -Syu; }
+elif [ "$PKMGR" = "paru" ]; then
+  pkm-cleanall() { paru -Sc; }
+  pkm-cleanold() { paru -Scc; }
+  pkm-info() { for arg in "$@"; do paru -Qi "$arg" 2>/dev/null || paru -Si "$arg"; done; }
+  pkm-install() { paru -S "$@"; }
+  pkm-list() { paru -Qql "$@"; }
+  pkm-listinstalled() { paru -Qe; }
+  pkm-purge() { paru -Rns "$@"; }
+  pkm-query-detail() { paru -Qs "$@"; }
+  pkm-refresh() { paru -Syy; }
+  pkm-remove() { paru -Rcs "$@"; }
+  pkm-remove-nodepends() { paru -Rdd "$@"; }
+  pkm-remove-orphans() { paru -Rns $(pacman -Qqtd); }
+  pkm-search() { paru "$@"; }
+  pkm-search-local() { paru -Qs "$@"; }
+  pkm-upgrade() { paru -Syu; }
+else
+  # plain pacman
+  pkm-cleanall() { sudo pacman -Sc; }
+  pkm-cleanold() { sudo pacman -Scc; }
+  pkm-info() { for arg in "$@"; do pacman -Qi "$arg" 2>/dev/null || pacman -Si "$arg"; done; }
+  pkm-install() { sudo pacman -S "$@"; }
+  pkm-list() { pacman -Qql "$@"; }
+  pkm-listinstalled() { pacman -Qe; }
+  pkm-purge() { sudo pacman -Rns "$@"; }
+  pkm-query-detail() { pacman -Qs "$@"; }
+  pkm-refresh() { sudo pacman -Syy; }
+  pkm-remove() { sudo pacman -Rcs "$@"; }
+  pkm-remove-nodepends() { sudo pacman -Rdd "$@"; }
+  pkm-remove-orphans() { sudo pacman -Rns $(pacman -Qqtd); }
+  pkm-search() { pacman -Ss "$@"; }
+  pkm-search-local() { pacman -Qs "$@"; }
+  pkm-upgrade() { sudo pacman -Syu; }
+fi
+
+if command -v downgrade >/dev/null 2>&1; then
+  pkm-downgrade() { downgrade "$@"; }
+fi
