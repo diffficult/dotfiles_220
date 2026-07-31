@@ -117,8 +117,8 @@ display_packages() {
 ################################################################################
 
 run_update() {
-    # Switch to workspace 2, open st terminal, run update, close when done
-    i3-msg 'workspace 2; exec st -c "floating_update" -g 100x30 -e bash -c "echo '\''Starting system update...'\''; yay -Syu --noconfirm; echo '\'''\''; echo '\''Update completed! Press Enter to close...'\''; read"'
+    # Interactive update in floating st — review packages, confirm each step
+    i3-msg 'workspace 2; exec st -c "floating_update" -g 100x30 -e bash -lc "echo \"System update (interactive)\"; echo; yay -Syu; echo; echo \"Done. Press Enter to close...\"; read"'
 }
 
 ################################################################################

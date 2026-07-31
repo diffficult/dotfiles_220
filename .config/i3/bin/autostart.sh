@@ -1,41 +1,60 @@
 #!/usr/bin/env bash
+# i3 session autostart — daemons, tray apps, input, monitors
 
-## Copyright (C) 2020-2022 Aditya Shakya <adi1090x@gmail.com>
-## Everyone is permitted to copy and distribute copies of this file under GNU-GPL3
-## Autostart Programs
+export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:$PATH"
+I3BIN="$HOME/.config/i3/bin"
 
-# Kill already running process
-# _ps=(picom dunst ksuperkey mpd xfce-polkit xfce4-power-manager)
-# for _prs in "${_ps[@]}"; do
-# 	if [[ `pidof ${_prs}` ]]; then
-# 		killall -9 ${_prs}
-# 	fi
-# done
-
-# Fix cursor
+# Cursor
 xsetroot -cursor_name left_ptr
 
-# Polkit agent
-#/usr/lib/xfce-polkit/xfce-polkit &
+# Xresources
+[[ -f "$HOME/.Xresources" ]] && xrdb -load "$HOME/.Xresources"
 
-# Enable power management
+# Keyboard: US international (dead keys in variant); Ctrl+Alt+Bksp kills X
+setxkbmap -layout us -variant intl -option terminate:ctrl_alt_bksp
+
+# Touchpad: libinput via /etc/X11/xorg.conf.d/30-touchpad.conf (natural scroll, tap)
+
+# Notifications + compositor + power
+"$I3BIN/i3dunst.sh"
+"$I3BIN/i3picom.sh"
 xfce4-power-manager &
 
-# Enable Super Keys For Menu
-#ksuperkey -e 'Super_L=Alt_L|F1' &
-#ksuperkey -e 'Super_R=Alt_L|F1' &
+# Low-battery warn / critical / suspend guard
+"$I3BIN/battery-guard.sh" &
 
-# Restore wallpaper
-#hsetroot -root -cover ~/.config/i3/wallpapers/default.png
+# PolicyKit (pamac and elevated apps)
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 
-# Lauch notification daemon
-~/.config/i3/bin/i3dunst.sh
+# Session bus env for keyring / portals
+dbus-update-activation-environment --all
+/usr/bin/gnome-keyring-daemon --start --components=secrets,pkcs11,ssh,gpg
 
-# Lauch polybar
-#~/.config/i3/bin/i3bar.sh
+# Wallpaper
+feh --bg-fill "$(find /usr/share/backgrounds/ -type f 2>/dev/null | sort -R | tail -1)" &
 
-# Lauch compositor
-~/.config/i3/bin/i3picom.sh
+# Tray / applets
+nm-applet --sm-disable &
+blueman-applet &
+rfkill block bluetooth
+redshift-gtk &
+megasync &
 
-# Start mpd
-#exec mpd &
+# i3blocks signal helpers
+"$I3BIN/bluetooth-dbus-monitor.sh" &
+"$I3BIN/window-title-monitor.sh" &
+(sleep 5 && pkill -RTMIN+12 i3blocks) &
+(sleep 3 && pkill -RTMIN+11 i3blocks) &
+
+# Idle lock (before sleep / on screensaver)
+if command -v xss-lock >/dev/null 2>&1; then
+	xss-lock --transfer-sleep-lock -- "$I3BIN/lock.sh" -p -f "Iosevka Nerd Font Mono" &
+fi
+
+# Touchpad gestures (user must be in `input` group — re-login after usermod)
+if command -v systemctl >/dev/null 2>&1 \
+	&& systemctl --user cat libinput-gestures.service >/dev/null 2>&1; then
+	systemctl --user start libinput-gestures.service 2>/dev/null || true
+elif command -v libinput-gestures >/dev/null 2>&1; then
+	libinput-gestures &
+fi

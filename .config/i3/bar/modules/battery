@@ -3,19 +3,11 @@
 # Copyright 2014 Pierre Mavro <deimos@deimos.fr>
 # Copyright 2014 Vivien Didelot <vivien@didelot.org>
 #
-# Licensed under the terms of the GNU GPL v3, or any later version.
-#
-# This script is meant to use with i3blocks. It parses the output of the "acpi"
-# command (often provided by a package of the same name) to read the status of
-# the battery, and eventually its remaining time (to full charge or discharge).
-#
-# The color will gradually change for a percentage below 85%, and the urgency
-# (exit code 33) is set if there is less that 5% remaining.
+# Battery block for i3blocks — click opens power settings / powermenu
 
 use strict;
 use warnings;
 use utf8;
-#use open ':std', ':encoding(UTF-8)';
 
 my $acpi;
 my $status;
@@ -23,19 +15,30 @@ my $percent;
 my $full_text;
 my $short_text;
 my $bat_number = $ENV{BLOCK_INSTANCE} || 0;
+my $button = $ENV{BLOCK_BUTTON} // '';
 
-#my $FA_LIGHTNING = "\uf0e7";
-#my $FA_PLUG = "\uf1e6";
-#FA_LIGHTNING = "<span font='FontAwesome'>\uf0e7</span>"
-#my $FA_PLUG = "<span font='FontAwesome'>\uf1e6</span>"
+if ($button eq '1') {
+	# left: xfce power settings if available
+	if (system('command -v xfce4-power-manager-settings >/dev/null 2>&1') == 0) {
+		system('xfce4-power-manager-settings >/dev/null 2>&1 &');
+	} else {
+		system("$ENV{HOME}/.config/i3/bin/powermenu.sh >/dev/null 2>&1 &");
+	}
+} elsif ($button eq '3') {
+	# right: power menu
+	system("$ENV{HOME}/.config/i3/bin/powermenu.sh >/dev/null 2>&1 &");
+} elsif ($button eq '2') {
+	# middle: detailed acpi notify
+	my $detail = `acpi -b 2>/dev/null`;
+	chomp $detail;
+	system('dunstify', '-u', 'low', '-h', 'string:x-dunst-stack-tag:battery',
+		'Battery', $detail || 'n/a');
+}
 
-
-# read the first line of the "acpi" command output
 open (ACPI, "acpi -b | grep 'Battery $bat_number' |") or die;
 $acpi = <ACPI>;
 close(ACPI);
 
-# fail on unexpected output
 if ($acpi !~ /: (\w+), (\d+)%/) {
 	die "$acpi\n";
 }
@@ -46,22 +49,19 @@ $full_text = "$percent%";
 
 if ($status eq 'Discharging') {
 	if ($percent < 10) {
-    	$full_text = ' ' . $full_text;
+		$full_text = ' ' . $full_text;
 	} elsif ($percent < 25) {
-    	$full_text = ' ' . $full_text;
+		$full_text = ' ' . $full_text;
 	} elsif ($percent <= 50) {
-    	$full_text = ' ' . $full_text;
+		$full_text = ' ' . $full_text;
 	} elsif ($percent <= 75) {
-    	$full_text = ' ' . $full_text;
+		$full_text = ' ' . $full_text;
 	} elsif ($percent < 100) {
-    	$full_text = ' ' . $full_text;
+		$full_text = ' ' . $full_text;
 	}
-
 } elsif ($status eq 'Charging') {
-#	$full_text = $FA_PLUG . $full_text;
-    $full_text = '  ' . $full_text;
+	$full_text = '  ' . $full_text;
 }
-
 
 $short_text = $full_text;
 
@@ -69,14 +69,11 @@ if ($acpi =~ /(\d\d:\d\d):/) {
 	$full_text .= " ($1)";
 }
 
-# print text
 use open ":std", ":encoding(UTF-8)";
 print "$full_text\n";
 print "$short_text\n";
 
-# consider color and urgent flag only on discharge
 if ($status eq 'Discharging') {
-
 	if ($percent < 20) {
 		print "#FF0000\n";
 	} elsif ($percent < 40) {
@@ -87,7 +84,7 @@ if ($status eq 'Discharging') {
 		print "#A8FF00\n";
 	}
 
-	if ($percent < 5) {
+	if ($percent <= 10) {
 		exit(33);
 	}
 }

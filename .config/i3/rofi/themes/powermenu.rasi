@@ -1,0 +1,63 @@
+/* Arc-ish powermenu — matches i3 base01/base03/base06 */
+* {
+    background-color: transparent;
+    text-color:       #d1d4e0;
+    font:             "Iosevka Nerd Font Mono 14";
+}
+
+window {
+    location:      center;
+    anchor:        center;
+    width:         22em;
+    border:        2px;
+    border-radius: 6px;
+    border-color:  #7780a1;
+    background-color: #1f222d;
+    padding:       0.6em;
+}
+
+mainbox {
+    children: [ inputbar, listview ];
+    spacing:  0.5em;
+}
+
+inputbar {
+    children:         [ prompt ];
+    background-color: #252936;
+    border-radius:    4px;
+    padding:          0.6em 0.8em;
+}
+
+prompt {
+    text-color: #ffffff;
+    font:       "Iosevka Nerd Font Mono Bold 14";
+}
+
+listview {
+    lines:            6;
+    columns:          1;
+    fixed-height:     true;
+    scrollbar:        false;
+    spacing:          0.25em;
+    background-color: transparent;
+}
+
+element {
+    padding:          0.55em 0.8em;
+    border-radius:    4px;
+    background-color: transparent;
+    text-color:       #d1d4e0;
+}
+
+element selected {
+    background-color: #252936;
+    text-color:       #ffffff;
+    border:           0 0 0 3px;
+    border-color:     #FF1B6D;
+}
+
+element-text {
+    background-color: inherit;
+    text-color:       inherit;
+    vertical-align:   0.5;
+}

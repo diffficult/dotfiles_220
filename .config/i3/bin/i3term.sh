@@ -1,18 +1,20 @@
 #!/usr/bin/env bash
+# Launch kitty with float / fullscreen variants for i3
 
-## Copyright (C) 2020-2022 Aditya Shakya <adi1090x@gmail.com>
-## Everyone is permitted to copy and distribute copies of this file under GNU-GPL3
-
-## launch alacritty with i3wm config
-
-CONFIG="$HOME/.config/alacritty/alacritty.yml"
-
-if [ "$1" == "--float" ]; then
-	alacritty --class 'alacritty-float,alacritty-float' --config-file "$CONFIG"
-elif [ "$1" == "--full" ]; then
-	alacritty --class 'Fullscreen,Fullscreen' --config-file "$CONFIG" \
-			  -o window.startup_mode=fullscreen window.padding.x=30 window.padding.y=30 \
-			  window.opacity=0.95 font.size=14
+if [ "$1" = "--float" ]; then
+	kitty --class kitty-float \
+		-o background_opacity=0.80 \
+		-o remember_window_size=no \
+		-o initial_window_width=100c \
+		-o initial_window_height=28c
+elif [ "$1" = "--full" ]; then
+	kitty --class kitty-full \
+		-o remember_window_size=no \
+		-o initial_window_width=100c \
+		-o initial_window_height=30c \
+		-o window_padding_width=30 \
+		-o background_opacity=0.92 \
+		-o font_size=14
 else
-	alacritty --config-file "$CONFIG"
+	kitty
 fi

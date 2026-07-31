@@ -39,14 +39,17 @@ notify_user() {
 ## 	pulsemixer --max-volume 100 --change-volume +5 && get_icon && notify_user
 ## }
 inc_volume() {
-  pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -RTMIN+10 i3blocks && get_icon && notify_user
+  local vol
+  vol=$(get_volume)
+  if [[ "$vol" -ge 100 ]]; then
+    pactl set-sink-volume @DEFAULT_SINK@ 100%
+  else
+    pactl set-sink-volume @DEFAULT_SINK@ +5%
+  fi
+  pkill -RTMIN+10 i3blocks
+  get_icon && notify_user
 }
 
-# Decrease Volume
-## dec_volume() {
-## 	[[ `pulsemixer --get-mute` == 1 ]] && pulsemixer --unmute
-## 	pulsemixer --max-volume 100 --change-volume -5 && get_icon && notify_user
-## }
 dec_volume() {
   pactl set-sink-volume @DEFAULT_SINK@ -5% && pkill -RTMIN+10 i3blocks && get_icon && notify_user
 }
